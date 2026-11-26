@@ -94,7 +94,7 @@ Section "!${PRODUCT_NAME}" SEC01
   SetOverwrite try
   File "${BUILD_DIR}\${EXE_NAME}"
   File "${BUILD_DIR}\${CLI_NAME}"
-  File "${BUILD_DIR}\..\lib\${DLL_NAME}"
+  File "${BUILD_DIR}\${DLL_NAME}"
   File "${BUILD_DIR}\${ENGINE_NAME}"
   File "..\images\strata.ico"
 

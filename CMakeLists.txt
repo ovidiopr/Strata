@@ -149,6 +149,7 @@ if (STRATA_BUILD_SHARED)
             PUBLIC_HEADER ${PROJECT_SOURCE_DIR}/api/strata_api.h)
     install(TARGETS libstrata
             LIBRARY DESTINATION lib
+            RUNTIME DESTINATION bin
             PUBLIC_HEADER DESTINATION include/strata)
 
     # Small C driver used by the test suite to exercise the ABI exactly the
