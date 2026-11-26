@@ -9,6 +9,11 @@ project(Strata VERSION 1.0.0)
 # to build a batch mode only executable
 #
 option(WITH_GEANT4_UIVIS "Build Strata with Geant4 UI and Vis drivers" ON)
+
+# Qt 6.8 links AGL, which recent macOS SDKs no longer have
+if (APPLE)
+    set(WrapOpenGL_AGL "-framework OpenGL" CACHE STRING "")
+endif ()
 if (WITH_GEANT4_UIVIS)
     find_package(Geant4 REQUIRED ui_all vis_all)
 else ()
