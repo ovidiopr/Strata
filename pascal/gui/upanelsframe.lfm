@@ -375,7 +375,7 @@ object PanelsFrame: TPanelsFrame
             Top = 60
             Width = 75
             BorderSpacing.Around = 6
-            Caption = 'Beam radius'
+            Caption = 'Beam size'
             ParentColor = False
           end
           object seBeamRadius: TSciEdit
