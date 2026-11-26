@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="1" transverseSizeUnit="cm">
+    <layer unit="nm" index="0" material="SiliconNitride" thickness="500"/>
+    <layer unit="um" index="1" material="Borosilicate" thickness="20"/>
+  </geometry>
+  <materials>
+    <material name="Borosilicate" density="2.23" composition="massFractions" densityUnit="g/cm3">
+      <constituent kind="material" name="G4_SILICON_DIOXIDE" amount="0.81"/>
+      <constituent kind="material" name="G4_BORON_OXIDE" amount="0.13"/>
+      <constituent kind="material" name="G4_SODIUM_MONOXIDE" amount="0.04"/>
+      <constituent kind="material" name="G4_ALUMINUM_OXIDE" amount="0.02"/>
+    </material>
+    <material name="SiliconNitride" density="3.17" composition="atoms" densityUnit="g/cm3">
+      <constituent kind="element" name="Si" amount="3"/>
+      <constituent kind="element" name="N" amount="4"/>
+    </material>
+    <material name="Steel304" density="7.9" composition="massFractions" densityUnit="g/cm3">
+      <constituent kind="element" name="Fe" amount="0.7"/>
+      <constituent kind="element" name="Cr" amount="0.19"/>
+      <constituent kind="element" name="Ni" amount="0.09"/>
+      <constituent kind="element" name="Mn" amount="0.02"/>
+    </material>
+  </materials>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="20260116" seed2="1" engine="ranecu" seeding="fixed"/>
+  <tracking cut="10" cutUnit="nm" killSecondaries="0"/>
+  <beam angle="0" energy="1" events="200" radius="0" particle="proton" energyUnit="MeV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="standardNR"/>
+  <spectra/>
+  <commands stage="preinit">/strata/material/list
+</commands>
+  <commands stage="run">/strata/material/print SiliconNitride
+</commands>
+  <output folder="" fileName="strata"/>
+</strata-configuration>

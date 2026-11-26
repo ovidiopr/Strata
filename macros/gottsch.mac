@@ -1,0 +1,36 @@
+#
+# macro file for Strata.cc
+#
+# 158.6 MeV protons, transmitted through 0.2160 g/cm2 Al
+# B. Gottschalk et al., Nucl. Instrum. Methods B 74 (1993) 467-490
+# https://doi.org/10.1016/0168-583X(93)95944-Z
+#
+# proj. angle distr. exp(-0.5*(th/th0)**2) th0 = 3.534 +- 0.491 mrad
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 1 cm
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 0.8 mm
+/strata/geometry/layerMaterial 0 Aluminium
+#
+/run/setCut 1 mm
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle proton
+/gun/energy 158.6 MeV
+#
+/analysis/setFileName gottsch
+/analysis/h1/set 22 100 0.0 0.6 deg #space angle
+/analysis/h1/set 23 100 -0.6 +0.6 deg #projected angle
+#
+/analysis/h1/setAscii 22
+/analysis/h1/setAscii 23
+#
+/strata/stack/killSecondaries
+#
+/run/beamOn 100000

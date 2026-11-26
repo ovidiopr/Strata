@@ -1,0 +1,2857 @@
+object PanelsFrame: TPanelsFrame
+  Left = 0
+  Height = 613
+  Top = 0
+  Width = 1040
+  ClientHeight = 613
+  ClientWidth = 1040
+  LCLVersion = '4.8.0.0'
+  TabOrder = 0
+  DesignLeft = 300
+  DesignTop = 33
+  object pcMain: TPageControl
+    Left = 0
+    Height = 613
+    Top = 0
+    Width = 1040
+    ActivePage = tabGeometry
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    OnChange = pcMainChange
+    object tabGeometry: TTabSheet
+      Caption = 'Geometry'
+      ClientHeight = 579
+      ClientWidth = 1030
+      object gbVoxels: TGroupBox
+        Left = 453
+        Height = 579
+        Top = 0
+        Width = 577
+        Align = alClient
+        Anchors = [akLeft, akRight, akBottom]
+        Caption = 'Test volumes for the dose (boxes scored inside the target)'
+        ClientHeight = 552
+        ClientWidth = 567
+        TabOrder = 1
+        object lblVoxelCount: TLabel
+          AnchorSideLeft.Control = gbVoxels
+          AnchorSideTop.Control = seVoxelCount
+          AnchorSideTop.Side = asrCenter
+          Left = 0
+          Height = 16
+          Top = 8
+          Width = 118
+          Caption = 'Number of volumes'
+          ParentColor = False
+        end
+        object seVoxelCount: TSpinEdit
+          AnchorSideLeft.Control = lblVoxelCount
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = gbVoxels
+          Left = 124
+          Height = 20
+          Top = 6
+          Width = 80
+          BorderSpacing.Around = 6
+          MaxValue = 100
+          TabOrder = 0
+          OnChange = seVoxelCountChange
+        end
+        object lblVoxelHint: TLabel
+          AnchorSideLeft.Control = seVoxelCount
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = seVoxelCount
+          AnchorSideTop.Side = asrCenter
+          Left = 210
+          Height = 16
+          Top = 8
+          Width = 649
+          BorderSpacing.Around = 6
+          Caption = 'Position = centre of the box in the target frame (the beam enters at -X/2); each box must fit inside one layer'
+          ParentColor = False
+        end
+        object sgVoxelDefs: TStringGrid
+          AnchorSideLeft.Control = gbVoxels
+          AnchorSideTop.Control = seVoxelCount
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = gbVoxels
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = gbVoxels
+          AnchorSideBottom.Side = asrBottom
+          Left = 0
+          Height = 520
+          Top = 32
+          Width = 567
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Top = 6
+          ColCount = 7
+          FixedCols = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goSmoothScroll]
+          RowCount = 1
+          TabOrder = 1
+          OnSelectEditor = sgVoxelDefsSelectEditor
+        end
+      end
+      object pnlGeometry: TPanel
+        Left = 0
+        Height = 579
+        Top = 0
+        Width = 448
+        Align = alLeft
+        BevelOuter = bvNone
+        ClientHeight = 579
+        ClientWidth = 448
+        TabOrder = 0
+        object gbLayers: TGroupBox
+          Left = 0
+          Height = 459
+          Top = 120
+          Width = 448
+          Align = alClient
+          Caption = 'Layers (beam enters at layer 0)'
+          ClientHeight = 432
+          ClientWidth = 438
+          TabOrder = 1
+          object sgLayers: TStringGrid
+            AnchorSideLeft.Control = gbLayers
+            AnchorSideTop.Control = seLayerCount
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbLayers
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Control = gbLayers
+            AnchorSideBottom.Side = asrBottom
+            Left = 0
+            Height = 409
+            Top = 23
+            Width = 438
+            Anchors = [akTop, akLeft, akRight, akBottom]
+            BorderSpacing.Top = 3
+            ColCount = 4
+            FixedCols = 0
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goSmoothScroll]
+            RowCount = 2
+            TabOrder = 1
+            OnButtonClick = sgLayersButtonClick
+            OnSelectEditor = sgLayersSelectEditor
+          end
+          object lblLayerCount: TLabel
+            AnchorSideLeft.Control = gbLayers
+            AnchorSideTop.Control = seLayerCount
+            AnchorSideTop.Side = asrCenter
+            Left = 0
+            Height = 16
+            Top = 2
+            Width = 103
+            Caption = 'Number of layers'
+            ParentColor = False
+          end
+          object seLayerCount: TSpinEdit
+            AnchorSideLeft.Control = lblLayerCount
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbLayers
+            AnchorSideRight.Side = asrBottom
+            Left = 111
+            Height = 20
+            Top = 0
+            Width = 80
+            BorderSpacing.Left = 8
+            MaxValue = 100
+            MinValue = 1
+            TabOrder = 0
+            Value = 1
+            OnChange = seLayerCountChange
+          end
+        end
+        object gbTarget: TGroupBox
+          Left = 0
+          Height = 120
+          Top = 0
+          Width = 448
+          Align = alTop
+          AutoSize = True
+          Caption = 'World and target'
+          ClientHeight = 93
+          ClientWidth = 438
+          TabOrder = 0
+          object lblWorldMaterial: TLabel
+            AnchorSideLeft.Control = gbTarget
+            AnchorSideTop.Control = btnWorldMaterial
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 11
+            Width = 88
+            BorderSpacing.Around = 6
+            Caption = 'World material'
+            ParentColor = False
+          end
+          object lblSizeYZ: TLabel
+            AnchorSideLeft.Control = gbTarget
+            AnchorSideTop.Control = btnApplyGeometry
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 41
+            Width = 94
+            BorderSpacing.Around = 6
+            Caption = 'Transverse size'
+            ParentColor = False
+          end
+          object btnApplyGeometry: TSpeedButton
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbTarget
+            AnchorSideRight.Side = asrBottom
+            Left = 326
+            Height = 26
+            Top = 36
+            Width = 106
+            Action = actApplyGeometry
+            Anchors = [akTop, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 12
+          end
+          object seSizeYZ: TSciEdit
+            AnchorSideLeft.Control = lblSizeYZ
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnApplyGeometry
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = btnApplyGeometry
+            Left = 106
+            Height = 21
+            Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
+            Top = 39
+            Width = 214
+            Text = '20.000 um'
+            UnitFamily = ufLength
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 0
+          end
+          object lblTemperature: TLabel
+            AnchorSideLeft.Control = gbTarget
+            AnchorSideTop.Control = seTemperature
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 68
+            Width = 77
+            BorderSpacing.Around = 6
+            Caption = 'Temperature'
+            ParentColor = False
+          end
+          object seTemperature: TSciEdit
+            AnchorSideLeft.Control = lblTemperature
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seSizeYZ
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = btnApplyGeometry
+            AnchorSideRight.Side = asrBottom
+            Left = 89
+            Height = 21
+            Hint = 'Temperature [K] (Equivalents: °C, °F, °R)'
+            Top = 66
+            Width = 337
+            Text = '293.15 K'
+            UnitFamily = ufTemperature
+            Options = [seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 1
+          end
+          object edWorldMaterial: TLabel
+            AnchorSideLeft.Control = lblWorldMaterial
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnWorldMaterial
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = btnWorldMaterial
+            Left = 100
+            Height = 16
+            Top = 11
+            Width = 226
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = False
+            BorderSpacing.Around = 6
+            Caption = 'G4_Galactic'
+          end
+          object btnWorldMaterial: TSpeedButton
+            AnchorSideTop.Control = gbTarget
+            AnchorSideRight.Control = gbTarget
+            AnchorSideRight.Side = asrBottom
+            Left = 332
+            Height = 26
+            Top = 6
+            Width = 100
+            Action = actSelectMaterial
+            Anchors = [akTop, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 34
+          end
+        end
+      end
+      object spltGeometry: TSplitter
+        Left = 448
+        Height = 579
+        Top = 0
+        Width = 5
+      end
+    end
+    object tabBeamPhysics: TTabSheet
+      Caption = 'Beam/Physics'
+      ClientHeight = 579
+      ClientWidth = 1030
+      object pnlBeam: TPanel
+        Left = 0
+        Height = 579
+        Top = 0
+        Width = 515
+        Align = alLeft
+        BevelOuter = bvNone
+        ClientHeight = 579
+        ClientWidth = 515
+        TabOrder = 0
+        object gbBeam: TGroupBox
+          Left = 0
+          Height = 190
+          Top = 0
+          Width = 515
+          Align = alTop
+          AutoSize = True
+          Caption = 'Primary generator'
+          ClientHeight = 163
+          ClientWidth = 505
+          TabOrder = 0
+          object lblParticle: TLabel
+            AnchorSideLeft.Control = gbBeam
+            AnchorSideTop.Control = cbParticle
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 7
+            Width = 46
+            BorderSpacing.Around = 6
+            Caption = 'Particle'
+            ParentColor = False
+          end
+          object cbParticle: TComboBox
+            AnchorSideLeft.Control = lblParticle
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbBeam
+            AnchorSideRight.Control = btnApplyBeam
+            Left = 58
+            Height = 19
+            Top = 6
+            Width = 353
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ItemHeight = 18
+            Style = csDropDownList
+            TabOrder = 0
+            OnChange = cbParticleChange
+          end
+          object lblEnergy: TLabel
+            AnchorSideLeft.Control = gbBeam
+            AnchorSideTop.Control = seEnergy
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 33
+            Width = 42
+            BorderSpacing.Around = 6
+            Caption = 'Energy'
+            ParentColor = False
+          end
+          object lblBeamRadius: TLabel
+            AnchorSideLeft.Control = gbBeam
+            AnchorSideTop.Control = seBeamRadius
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 60
+            Width = 75
+            BorderSpacing.Around = 6
+            Caption = 'Beam radius'
+            ParentColor = False
+          end
+          object seBeamRadius: TSciEdit
+            AnchorSideLeft.Control = lblBeamRadius
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seEnergy
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbBeam
+            AnchorSideRight.Side = asrBottom
+            Left = 87
+            Height = 21
+            Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
+            Top = 58
+            Width = 412
+            Text = '0.0000 m'
+            UnitFamily = ufLength
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 2
+          end
+          object lblBeamAngle: TLabel
+            AnchorSideLeft.Control = gbBeam
+            AnchorSideTop.Control = seBeamAngle
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 87
+            Width = 71
+            BorderSpacing.Around = 6
+            Caption = 'Beam angle'
+            ParentColor = False
+          end
+          object seBeamAngle: TSciEdit
+            AnchorSideLeft.Control = lblBeamAngle
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seBeamRadius
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbBeam
+            AnchorSideRight.Side = asrBottom
+            Left = 83
+            Height = 21
+            Hint = 'Angle [rad] (Equivalents: deg, °)'
+            Top = 85
+            Width = 416
+            Text = '0.0000 deg'
+            UnitFamily = ufAngle
+            Options = [seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 3
+          end
+          object lblIon: TLabel
+            AnchorSideLeft.Control = gbBeam
+            AnchorSideTop.Control = btnSelectIon
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 117
+            Width = 107
+            BorderSpacing.Around = 6
+            Caption = 'Ion  Z / A / charge'
+            ParentColor = False
+          end
+          object lblIonHint: TLabel
+            AnchorSideTop.Control = pnlIon
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = pnlIon
+            AnchorSideRight.Side = asrBottom
+            Left = 262
+            Height = 16
+            Top = 141
+            Width = 150
+            Anchors = [akTop, akRight]
+            BorderSpacing.Top = 6
+            BorderSpacing.Bottom = 6
+            Caption = 'charge -1 = bare nucleus'
+            ParentColor = False
+          end
+          object btnApplyBeam: TSpeedButton
+            AnchorSideTop.Control = cbParticle
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = gbBeam
+            AnchorSideRight.Side = asrBottom
+            Left = 417
+            Height = 26
+            Top = 2
+            Width = 82
+            Action = actApplyBeam
+            Anchors = [akTop, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 13
+          end
+          object seEnergy: TSciEdit
+            AnchorSideLeft.Control = lblEnergy
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbParticle
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbBeam
+            AnchorSideRight.Side = asrBottom
+            Left = 54
+            Height = 21
+            Hint = 'Energy [J] (Equivalents: N*m, W*s, kg*m^2/s^2, eV, Wh)'
+            Top = 31
+            Width = 445
+            Text = '1.0000000 MeV'
+            UnitFamily = ufEnergy
+            SignificantDigits = 8
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 1
+          end
+          object btnSelectIon: TSpeedButton
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seBeamAngle
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbBeam
+            AnchorSideRight.Side = asrBottom
+            Left = 418
+            Height = 26
+            Top = 112
+            Width = 81
+            Action = actSelectIon
+            Anchors = [akTop, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 28
+          end
+          object pnlIon: TPanel
+            AnchorSideLeft.Control = lblIon
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnSelectIon
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = btnSelectIon
+            Left = 119
+            Height = 20
+            Top = 115
+            Width = 293
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            BevelOuter = bvNone
+            ChildSizing.HorizontalSpacing = 3
+            ChildSizing.EnlargeHorizontal = crsSameSize
+            ChildSizing.ShrinkHorizontal = crsSameSize
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 3
+            ClientHeight = 20
+            ClientWidth = 293
+            TabOrder = 4
+            object seIonZ: TSpinEdit
+              Left = 0
+              Height = 20
+              Top = 0
+              Width = 96
+              MaxValue = 118
+              MinValue = 1
+              TabOrder = 0
+              Value = 14
+            end
+            object seIonA: TSpinEdit
+              Left = 99
+              Height = 20
+              Top = 0
+              Width = 95
+              MaxValue = 300
+              MinValue = 1
+              TabOrder = 1
+              Value = 28
+            end
+            object seIonQ: TSpinEdit
+              Left = 197
+              Height = 20
+              Top = 0
+              Width = 96
+              MaxValue = 118
+              MinValue = -1
+              TabOrder = 2
+              Value = -1
+            end
+          end
+        end
+        object gbField: TGroupBox
+          Left = 0
+          Height = 112
+          Top = 190
+          Width = 515
+          Align = alTop
+          AutoSize = True
+          Caption = 'Magnetic field'
+          ClientHeight = 85
+          ClientWidth = 505
+          TabOrder = 1
+          object lblFieldB: TLabel
+            AnchorSideLeft.Control = gbField
+            AnchorSideTop.Control = pnlBField
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 2
+            Width = 56
+            BorderSpacing.Around = 6
+            Caption = 'B (x, y, z)'
+            ParentColor = False
+          end
+          object lblFieldMinStep: TLabel
+            AnchorSideLeft.Control = gbField
+            AnchorSideTop.Control = seFieldMinStep
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 28
+            Width = 85
+            BorderSpacing.Around = 6
+            Caption = 'Minimum step'
+            ParentColor = False
+          end
+          object seFieldMinStep: TSciEdit
+            AnchorSideLeft.Control = lblFieldMinStep
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbFieldStepper
+            AnchorSideTop.Side = asrCenter
+            Left = 97
+            Height = 21
+            Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
+            Top = 26
+            Width = 106
+            Text = '1.0000 mm'
+            UnitFamily = ufLength
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            BorderSpacing.Around = 6
+            TabOrder = 1
+          end
+          object lblFieldStepper: TLabel
+            AnchorSideLeft.Control = seFieldMinStep
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbFieldStepper
+            AnchorSideTop.Side = asrCenter
+            Left = 209
+            Height = 16
+            Top = 28
+            Width = 48
+            BorderSpacing.Around = 6
+            Caption = 'Stepper'
+            ParentColor = False
+          end
+          object cbFieldStepper: TComboBox
+            AnchorSideLeft.Control = lblFieldStepper
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = pnlBField
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbField
+            AnchorSideRight.Side = asrBottom
+            Left = 263
+            Height = 19
+            Hint = 'Integrator for the equation of motion'
+            Top = 27
+            Width = 236
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ItemHeight = 15
+            Style = csDropDownList
+            TabOrder = 2
+          end
+          object btnFieldApply: TSpeedButton
+            AnchorSideTop.Control = seFieldMinStep
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbField
+            AnchorSideRight.Side = asrBottom
+            Left = 425
+            Height = 26
+            Top = 53
+            Width = 74
+            Action = actApplyField
+            Anchors = [akTop, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 30
+          end
+          object lblFieldHint: TLabel
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnFieldApply
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = btnFieldApply
+            Left = 126
+            Height = 16
+            Top = 58
+            Width = 293
+            Anchors = [akTop, akRight]
+            BorderSpacing.Around = 6
+            Caption = 'Only after Initialise, and it applies to the next run'
+            ParentColor = False
+          end
+          object pnlBField: TPanel
+            AnchorSideLeft.Control = lblFieldB
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbField
+            AnchorSideRight.Control = gbField
+            AnchorSideRight.Side = asrBottom
+            Left = 68
+            Height = 21
+            Top = 0
+            Width = 437
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = True
+            BevelOuter = bvNone
+            ChildSizing.EnlargeHorizontal = crsSameSize
+            ChildSizing.ShrinkHorizontal = crsSameSize
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 3
+            ClientHeight = 21
+            ClientWidth = 437
+            TabOrder = 0
+            object seFieldBx: TSciEdit
+              Left = 6
+              Height = 21
+              Hint = 'Magnetic Field [T] (Equivalents: Wb/m^2, G)'
+              Top = 0
+              Width = 138
+              Text = '0.0000 T'
+              UnitFamily = ufMagneticField
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              OnValueChanged = FieldValueChange
+              BorderSpacing.Left = 6
+              BorderSpacing.Right = 6
+              TabOrder = 0
+            end
+            object seFieldBy: TSciEdit
+              Left = 150
+              Height = 21
+              Hint = 'Magnetic Field [T] (Equivalents: Wb/m^2, G)'
+              Top = 0
+              Width = 137
+              Text = '0.0000 T'
+              UnitFamily = ufMagneticField
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              OnValueChanged = FieldValueChange
+              BorderSpacing.Left = 6
+              BorderSpacing.Right = 6
+              TabOrder = 1
+            end
+            object seFieldBz: TSciEdit
+              AnchorSideRight.Side = asrBottom
+              Left = 293
+              Height = 21
+              Hint = 'Magnetic Field [T] (Equivalents: Wb/m^2, G)'
+              Top = 0
+              Width = 138
+              Text = '0.0000 T'
+              UnitFamily = ufMagneticField
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              OnValueChanged = FieldValueChange
+              BorderSpacing.Left = 6
+              BorderSpacing.Right = 6
+              TabOrder = 2
+            end
+          end
+        end
+        object gbEField: TGroupBox
+          Left = 0
+          Height = 112
+          Top = 302
+          Width = 515
+          Align = alTop
+          AutoSize = True
+          Caption = 'Electric field'
+          ClientHeight = 85
+          ClientWidth = 505
+          TabOrder = 2
+          object lblEFieldE: TLabel
+            AnchorSideLeft.Control = gbEField
+            AnchorSideTop.Control = pnlEField
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 2
+            Width = 55
+            BorderSpacing.Around = 6
+            Caption = 'E (x, y, z)'
+            ParentColor = False
+          end
+          object lblEFieldMinStep: TLabel
+            AnchorSideLeft.Control = gbEField
+            AnchorSideTop.Control = seEFieldMinStep
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 28
+            Width = 85
+            BorderSpacing.Around = 6
+            Caption = 'Minimum step'
+            ParentColor = False
+          end
+          object seEFieldMinStep: TSciEdit
+            AnchorSideLeft.Control = lblEFieldMinStep
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbEFieldStepper
+            AnchorSideTop.Side = asrCenter
+            Left = 97
+            Height = 21
+            Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
+            Top = 26
+            Width = 106
+            Text = '1.0000 mm'
+            UnitFamily = ufLength
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            BorderSpacing.Around = 6
+            TabOrder = 1
+          end
+          object lblEFieldStepper: TLabel
+            AnchorSideLeft.Control = seEFieldMinStep
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbEFieldStepper
+            AnchorSideTop.Side = asrCenter
+            Left = 209
+            Height = 16
+            Top = 28
+            Width = 48
+            BorderSpacing.Around = 6
+            Caption = 'Stepper'
+            ParentColor = False
+          end
+          object cbEFieldStepper: TComboBox
+            AnchorSideLeft.Control = lblEFieldStepper
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = pnlEField
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbEField
+            AnchorSideRight.Side = asrBottom
+            Left = 263
+            Height = 19
+            Hint = 'Integrator for the equation of motion'
+            Top = 27
+            Width = 236
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ItemHeight = 15
+            Style = csDropDownList
+            TabOrder = 2
+          end
+          object btnEFieldApply: TSpeedButton
+            AnchorSideTop.Control = seEFieldMinStep
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbEField
+            AnchorSideRight.Side = asrBottom
+            Left = 425
+            Height = 26
+            Top = 53
+            Width = 74
+            Action = actApplyEField
+            Anchors = [akTop, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 31
+          end
+          object lblEFieldHint: TLabel
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnEFieldApply
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = btnEFieldApply
+            Left = 126
+            Height = 16
+            Top = 58
+            Width = 293
+            Anchors = [akTop, akRight]
+            BorderSpacing.Around = 6
+            Caption = 'Only after Initialise, and it applies to the next run'
+            ParentColor = False
+          end
+          object pnlEField: TPanel
+            AnchorSideLeft.Control = lblEFieldE
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbEField
+            AnchorSideRight.Control = gbEField
+            AnchorSideRight.Side = asrBottom
+            Left = 67
+            Height = 21
+            Top = 0
+            Width = 438
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = True
+            BevelOuter = bvNone
+            ChildSizing.EnlargeHorizontal = crsSameSize
+            ChildSizing.ShrinkHorizontal = crsSameSize
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 3
+            ClientHeight = 21
+            ClientWidth = 438
+            TabOrder = 0
+            object seEFieldEx: TSciEdit
+              Left = 6
+              Height = 21
+              Top = 0
+              Width = 138
+              Text = '0.0000 kV/m'
+              UnitFamily = ufCustom
+              CustomUnits = 'V/m'
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              OnValueChanged = FieldValueChange
+              BorderSpacing.Left = 6
+              BorderSpacing.Right = 6
+              ParentFont = False
+              TabOrder = 0
+            end
+            object seEFieldEy: TSciEdit
+              AnchorSideLeft.Side = asrBottom
+              Left = 150
+              Height = 21
+              Top = 0
+              Width = 138
+              Text = '0.0000 kV/m'
+              UnitFamily = ufCustom
+              CustomUnits = 'V/m'
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              OnValueChanged = FieldValueChange
+              BorderSpacing.Left = 6
+              BorderSpacing.Right = 6
+              ParentFont = False
+              TabOrder = 1
+            end
+            object seEFieldEz: TSciEdit
+              AnchorSideLeft.Side = asrBottom
+              AnchorSideRight.Side = asrBottom
+              Left = 294
+              Height = 21
+              Top = 0
+              Width = 138
+              Text = '0.0000 kV/m'
+              UnitFamily = ufCustom
+              CustomUnits = 'V/m'
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              OnValueChanged = FieldValueChange
+              BorderSpacing.Left = 6
+              BorderSpacing.Right = 6
+              ParentFont = False
+              TabOrder = 2
+            end
+          end
+        end
+        object gbRBS: TGroupBox
+          Left = 0
+          Height = 135
+          Top = 414
+          Width = 515
+          Align = alTop
+          AutoSize = True
+          Caption = 'Backscattering detector'
+          ClientHeight = 108
+          ClientWidth = 505
+          TabOrder = 3
+          object chkRBS: TCheckBox
+            AnchorSideLeft.Control = gbRBS
+            AnchorSideTop.Control = gbRBS
+            Left = 6
+            Height = 18
+            Top = 6
+            Width = 229
+            BorderSpacing.Around = 6
+            Caption = 'Record a spectrum of detected ions'
+            TabOrder = 0
+            OnChange = RBSEnabledChange
+          end
+          object lblRBSAngle: TLabel
+            AnchorSideLeft.Control = gbRBS
+            AnchorSideTop.Control = seRBSAngle
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 32
+            Width = 62
+            BorderSpacing.Around = 6
+            Caption = 'Scattering'
+            ParentColor = False
+          end
+          object seRBSAngle: TSciEdit
+            AnchorSideLeft.Control = lblRBSAngle
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = chkRBS
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = divRBS
+            Left = 74
+            Height = 21
+            Hint = 'Angle [rad] (Equivalents: deg, °)'
+            Top = 30
+            Width = 165
+            Text = '165.00 deg'
+            UnitFamily = ufAngle
+            Options = [seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ParentFont = False
+            TabOrder = 1
+          end
+          object lblRBSSolidAngle: TLabel
+            AnchorSideLeft.Control = divRBS
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seRBSSolidAngle
+            AnchorSideTop.Side = asrCenter
+            Left = 266
+            Height = 16
+            Top = 32
+            Width = 67
+            BorderSpacing.Around = 6
+            Caption = 'Solid angle'
+            ParentColor = False
+          end
+          object seRBSSolidAngle: TSciEdit
+            AnchorSideLeft.Control = lblRBSSolidAngle
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = chkRBS
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbRBS
+            AnchorSideRight.Side = asrBottom
+            Left = 339
+            Height = 21
+            Top = 30
+            Width = 160
+            Text = '1.0000 msr'
+            UnitFamily = ufCustom
+            CustomUnits = 'sr'
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ParentFont = False
+            TabOrder = 2
+          end
+          object lblRBSResolution: TLabel
+            AnchorSideLeft.Control = gbRBS
+            AnchorSideTop.Control = seRBSResolution
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 59
+            Width = 64
+            BorderSpacing.Around = 6
+            Caption = 'Resolution'
+            ParentColor = False
+          end
+          object seRBSResolution: TSciEdit
+            AnchorSideLeft.Control = lblRBSResolution
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seRBSAngle
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = divRBS
+            Left = 76
+            Height = 21
+            Hint = 'Energy [J] (Equivalents: N*m, W*s, kg*m^2/s^2, eV, Wh)'
+            Top = 57
+            Width = 163
+            Text = '15.000 keV'
+            UnitFamily = ufEnergy
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ParentFont = False
+            TabOrder = 3
+          end
+          object lblRBSTilt: TLabel
+            AnchorSideLeft.Control = divRBS
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seRBSTilt
+            AnchorSideTop.Side = asrCenter
+            Left = 266
+            Height = 16
+            Top = 59
+            Width = 58
+            BorderSpacing.Around = 6
+            Caption = 'Target tilt'
+            ParentColor = False
+          end
+          object seRBSTilt: TSciEdit
+            AnchorSideLeft.Control = lblRBSTilt
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seRBSAngle
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbRBS
+            AnchorSideRight.Side = asrBottom
+            Left = 330
+            Height = 21
+            Hint = 'Angle [rad] (Equivalents: deg, °)'
+            Top = 57
+            Width = 169
+            Text = '0.0000 deg'
+            UnitFamily = ufAngle
+            Options = [seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ParentFont = False
+            TabOrder = 4
+          end
+          object chkRBSScreening: TCheckBox
+            AnchorSideLeft.Control = gbRBS
+            AnchorSideTop.Control = seRBSResolution
+            AnchorSideTop.Side = asrBottom
+            Left = 6
+            Height = 18
+            Top = 84
+            Width = 201
+            BorderSpacing.Around = 6
+            Caption = 'Andersen screening correction'
+            Checked = True
+            State = cbChecked
+            TabOrder = 5
+          end
+          object divRBS: TDividerBevel
+            AnchorSideLeft.Control = gbRBS
+            AnchorSideLeft.Side = asrCenter
+            AnchorSideTop.Control = chkRBS
+            AnchorSideTop.Side = asrBottom
+            AnchorSideBottom.Control = chkRBSScreening
+            Left = 245
+            Height = 48
+            Top = 30
+            Width = 15
+            Anchors = [akTop, akLeft, akBottom]
+            BorderSpacing.Top = 6
+            BorderSpacing.Bottom = 6
+            Font.Style = [fsBold]
+            Orientation = trVertical
+            ParentFont = False
+          end
+        end
+      end
+      object spltBeamMaterials: TSplitter
+        Left = 515
+        Height = 579
+        Top = 0
+        Width = 5
+      end
+      object pnlPhysics: TPanel
+        Left = 520
+        Height = 579
+        Top = 0
+        Width = 510
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 579
+        ClientWidth = 510
+        TabOrder = 2
+        object lblPhysicsList: TLabel
+          AnchorSideLeft.Control = pnlPhysics
+          AnchorSideTop.Control = btnApplyPhysics
+          AnchorSideTop.Side = asrCenter
+          Left = 6
+          Height = 16
+          Top = 10
+          Width = 51
+          BorderSpacing.Around = 6
+          Caption = 'Base list'
+          ParentColor = False
+        end
+        object cbPhysicsList: TComboBox
+          AnchorSideLeft.Control = lblPhysicsList
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnApplyPhysics
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = btnApplyPhysics
+          Left = 63
+          Height = 19
+          Top = 9
+          Width = 278
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Around = 6
+          ItemHeight = 15
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object btnApplyPhysics: TSpeedButton
+          AnchorSideTop.Control = pnlPhysics
+          AnchorSideRight.Control = pnlPhysics
+          AnchorSideRight.Side = asrBottom
+          Left = 347
+          Height = 25
+          Top = 6
+          Width = 150
+          Action = actApplyPhysics
+          Anchors = [akTop]
+          BorderSpacing.Around = 6
+          ImageIndex = 14
+        end
+        object gbOptionalPhysics: TGroupBox
+          AnchorSideLeft.Control = pnlPhysics
+          AnchorSideTop.Control = btnApplyPhysics
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = pnlPhysics
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = gbDamage
+          Left = 6
+          Height = 340
+          Top = 37
+          Width = 498
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Around = 6
+          Caption = 'Optional components'
+          ClientHeight = 313
+          ClientWidth = 488
+          TabOrder = 1
+          object clbOptionalPhysics: TCheckListBox
+            Left = 0
+            Height = 313
+            Top = 0
+            Width = 488
+            Align = alClient
+            ItemHeight = 0
+            TabOrder = 0
+          end
+        end
+        object gbDamage: TGroupBox
+          AnchorSideLeft.Control = pnlPhysics
+          AnchorSideRight.Control = pnlPhysics
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = pnlPhysics
+          AnchorSideBottom.Side = asrBottom
+          Left = 6
+          Height = 190
+          Top = 383
+          Width = 498
+          Anchors = [akLeft, akRight, akBottom]
+          BorderSpacing.Around = 6
+          Caption = 'Displacement damage'
+          ClientHeight = 163
+          ClientWidth = 488
+          TabOrder = 2
+          object chkDamage: TCheckBox
+            AnchorSideLeft.Control = gbDamage
+            AnchorSideTop.Control = gbDamage
+            Left = 6
+            Height = 18
+            Top = 3
+            Width = 146
+            BorderSpacing.Left = 6
+            BorderSpacing.Top = 3
+            Caption = 'Count displacements'
+            TabOrder = 0
+            OnChange = DamageEnabledChange
+          end
+          object sgDamage: TStringGrid
+            AnchorSideLeft.Control = gbDamage
+            AnchorSideTop.Control = chkDamage
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbDamage
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Control = gbDamage
+            AnchorSideBottom.Side = asrBottom
+            Left = 0
+            Height = 139
+            Top = 24
+            Width = 488
+            Anchors = [akTop, akLeft, akRight, akBottom]
+            BorderSpacing.Top = 3
+            ColCount = 4
+            FixedCols = 0
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goSmoothScroll]
+            RowCount = 1
+            TabOrder = 1
+            OnSelectEditor = sgDamageSelectEditor
+          end
+        end
+      end
+    end
+    object tabMaterials: TTabSheet
+      Caption = 'Materials'
+      ClientHeight = 579
+      ClientWidth = 1030
+      object gbDefinedMaterials: TGroupBox
+        Left = 648
+        Height = 579
+        Top = 0
+        Width = 382
+        Align = alClient
+        Caption = 'Materials currently defined'
+        ClientHeight = 552
+        ClientWidth = 372
+        TabOrder = 0
+        object lbDefinedMaterials: TListBox
+          AnchorSideLeft.Control = gbDefinedMaterials
+          AnchorSideTop.Control = gbDefinedMaterials
+          AnchorSideRight.Control = gbDefinedMaterials
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = btnMatRefresh
+          Left = 6
+          Height = 508
+          Top = 6
+          Width = 360
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Around = 6
+          ItemHeight = 0
+          TabOrder = 0
+          OnDblClick = lbDefinedMaterialsDblClick
+        end
+        object btnMatRefresh: TSpeedButton
+          AnchorSideLeft.Control = gbDefinedMaterials
+          AnchorSideBottom.Control = gbDefinedMaterials
+          AnchorSideBottom.Side = asrBottom
+          Left = 6
+          Height = 26
+          Top = 520
+          Width = 57
+          Action = actRefreshMaterials
+          Anchors = [akLeft, akBottom]
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 18
+        end
+        object btnMatPrint: TSpeedButton
+          AnchorSideLeft.Control = btnMatRefresh
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideBottom.Control = btnMatRefresh
+          AnchorSideBottom.Side = asrCenter
+          Left = 69
+          Height = 26
+          Top = 520
+          Width = 76
+          Action = actPrintMaterials
+          Anchors = [akLeft, akBottom]
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 19
+        end
+      end
+      object pnlNewMaterial: TPanel
+        Left = 0
+        Height = 579
+        Top = 0
+        Width = 643
+        Align = alLeft
+        BevelOuter = bvNone
+        ClientHeight = 579
+        ClientWidth = 643
+        TabOrder = 1
+        object gbNewMaterial: TGroupBox
+          Left = 0
+          Height = 579
+          Top = 0
+          Width = 643
+          Align = alClient
+          Caption = 'Define a material'
+          ClientHeight = 552
+          ClientWidth = 633
+          TabOrder = 0
+          object lblMatName: TLabel
+            AnchorSideLeft.Control = gbNewMaterial
+            AnchorSideTop.Control = seMatDensity
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 8
+            Width = 35
+            BorderSpacing.Around = 6
+            Caption = 'Name'
+            ParentColor = False
+          end
+          object edMatName: TEdit
+            AnchorSideLeft.Control = lblMatName
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seMatDensity
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = divMaterials
+            Left = 47
+            Height = 21
+            Top = 6
+            Width = 256
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 0
+          end
+          object lblMatDensity: TLabel
+            AnchorSideLeft.Control = divMaterials
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = seMatDensity
+            AnchorSideTop.Side = asrCenter
+            Left = 330
+            Height = 16
+            Top = 8
+            Width = 46
+            BorderSpacing.Around = 6
+            Caption = 'Density'
+            ParentColor = False
+          end
+          object seMatDensity: TSciEdit
+            AnchorSideLeft.Control = lblMatDensity
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbNewMaterial
+            AnchorSideRight.Control = gbNewMaterial
+            AnchorSideRight.Side = asrBottom
+            Left = 382
+            Height = 21
+            Hint = 'Density [kg/m^3] (Equivalents: g/cm^3, kg/L, lb/ft^3)'
+            Top = 6
+            Width = 245
+            Text = '1.0000 g/cm^3'
+            UnitFamily = ufDensity
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 1
+          end
+          object rgMatMode: TRadioGroup
+            AnchorSideLeft.Control = gbNewMaterial
+            AnchorSideTop.Control = seMatDensity
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbNewMaterial
+            AnchorSideRight.Side = asrBottom
+            Left = 6
+            Height = 48
+            Top = 33
+            Width = 620
+            AutoFill = True
+            BorderSpacing.Around = 6
+            Caption = 'Composition given as'
+            ChildSizing.LeftRightSpacing = 6
+            ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+            ChildSizing.EnlargeVertical = crsHomogenousChildResize
+            ChildSizing.ShrinkHorizontal = crsScaleChilds
+            ChildSizing.ShrinkVertical = crsScaleChilds
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 2
+            ClientHeight = 21
+            ClientWidth = 610
+            Columns = 2
+            ItemIndex = 0
+            Items.Strings = (
+              'mass fractions (must add up to 1)'
+              'numbers of atoms (elements only)'
+            )
+            TabOrder = 2
+            OnClick = rgMatModeClick
+          end
+          object sgConstituents: TStringGrid
+            AnchorSideLeft.Control = gbNewMaterial
+            AnchorSideTop.Control = rgMatMode
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbNewMaterial
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Control = btnMatCreate
+            Left = 6
+            Height = 427
+            Top = 87
+            Width = 621
+            Anchors = [akTop, akLeft, akRight, akBottom]
+            BorderSpacing.Around = 6
+            ColCount = 3
+            FixedCols = 0
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goSmoothScroll]
+            RowCount = 3
+            TabOrder = 3
+            OnButtonClick = sgConstituentsButtonClick
+            OnEditingDone = sgConstituentsEditingDone
+            OnSelectEditor = sgConstituentsSelectEditor
+          end
+          object btnMatAddRow: TSpeedButton
+            AnchorSideLeft.Control = gbNewMaterial
+            AnchorSideTop.Control = btnMatCreate
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 26
+            Top = 520
+            Width = 86
+            Action = actAddElement
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 15
+          end
+          object btnMatDelRow: TSpeedButton
+            AnchorSideLeft.Control = btnMatAddRow
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnMatCreate
+            AnchorSideTop.Side = asrCenter
+            Left = 98
+            Height = 26
+            Top = 520
+            Width = 110
+            Action = actRemoveElement
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 16
+          end
+          object lblMatSum: TLabel
+            AnchorSideLeft.Control = btnMatDelRow
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnMatCreate
+            AnchorSideTop.Side = asrCenter
+            Left = 214
+            Height = 16
+            Top = 525
+            Width = 37
+            BorderSpacing.Around = 6
+            Caption = 'sum 0'
+            ParentColor = False
+          end
+          object btnMatCreate: TSpeedButton
+            AnchorSideRight.Control = gbNewMaterial
+            AnchorSideRight.Side = asrBottom
+            AnchorSideBottom.Control = gbNewMaterial
+            AnchorSideBottom.Side = asrBottom
+            Left = 525
+            Height = 26
+            Top = 520
+            Width = 102
+            Action = actCreateMaterial
+            Anchors = [akRight, akBottom]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            ImageIndex = 17
+          end
+          object divMaterials: TDividerBevel
+            AnchorSideLeft.Control = gbNewMaterial
+            AnchorSideLeft.Side = asrCenter
+            AnchorSideTop.Control = gbNewMaterial
+            AnchorSideBottom.Control = seMatDensity
+            AnchorSideBottom.Side = asrBottom
+            Left = 309
+            Height = 27
+            Top = 0
+            Width = 15
+            Anchors = [akTop, akLeft, akBottom]
+            Orientation = trVertical
+          end
+        end
+      end
+      object spltMaterials: TSplitter
+        Left = 643
+        Height = 579
+        Top = 0
+        Width = 5
+      end
+    end
+    object tabHistograms: TTabSheet
+      Caption = 'Histograms'
+      ClientHeight = 579
+      ClientWidth = 1030
+      object pnlHistogramSetup: TPanel
+        Left = 0
+        Height = 38
+        Top = 0
+        Width = 1030
+        Align = alTop
+        AutoSize = True
+        BevelOuter = bvNone
+        ClientHeight = 38
+        ClientWidth = 1030
+        TabOrder = 0
+        object lblH1Bins: TLabel
+          AnchorSideLeft.Control = pnlHistogramSetup
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 6
+          Height = 16
+          Top = 11
+          Width = 26
+          BorderSpacing.Around = 6
+          Caption = 'Bins'
+          ParentColor = False
+        end
+        object seH1Bins: TSpinEdit
+          AnchorSideLeft.Control = lblH1Bins
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 38
+          Height = 20
+          Top = 9
+          Width = 80
+          BorderSpacing.Around = 6
+          MaxValue = 1000000
+          MinValue = 1
+          TabOrder = 0
+          Value = 100
+        end
+        object lblH1Min: TLabel
+          AnchorSideLeft.Control = seH1Bins
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 124
+          Height = 16
+          Top = 11
+          Width = 22
+          BorderSpacing.Around = 6
+          Caption = 'Min'
+          ParentColor = False
+        end
+        object seH1Min: TSciEdit
+          AnchorSideLeft.Control = lblH1Min
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 152
+          Height = 21
+          Top = 9
+          Width = 130
+          Text = '0.0000'
+          Options = [seoScientificNotation, seoKeepTypedUnits]
+          TrackBarFactor = 2
+          BorderSpacing.Around = 6
+          TabOrder = 1
+        end
+        object lblH1Max: TLabel
+          AnchorSideLeft.Control = seH1Min
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 288
+          Height = 16
+          Top = 11
+          Width = 25
+          BorderSpacing.Around = 6
+          Caption = 'Max'
+          ParentColor = False
+        end
+        object seH1Max: TSciEdit
+          AnchorSideLeft.Control = lblH1Max
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 319
+          Height = 21
+          Top = 9
+          Width = 130
+          Text = '1.0000'
+          Options = [seoScientificNotation, seoKeepTypedUnits]
+          TrackBarFactor = 2
+          BorderSpacing.Around = 6
+          TabOrder = 2
+        end
+        object btnH1Apply: TSpeedButton
+          AnchorSideLeft.Control = chbH1Log
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 574
+          Height = 26
+          Top = 6
+          Width = 112
+          Action = actActivateHistogram
+          AutoSize = True
+          BorderSpacing.Left = 20
+          BorderSpacing.Around = 6
+          ImageIndex = 21
+        end
+        object btnH1Off: TSpeedButton
+          AnchorSideLeft.Control = btnH1Apply
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = pnlHistogramSetup
+          Left = 692
+          Height = 26
+          Top = 6
+          Width = 75
+          Action = actDeactivateHistogram
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 22
+        end
+        object lblH1Hint: TLabel
+          AnchorSideLeft.Control = btnH1Off
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 773
+          Height = 16
+          Top = 11
+          Width = 186
+          BorderSpacing.Around = 6
+          Caption = 'may be changed between runs'
+          ParentColor = False
+        end
+        object chbH1Log: TCheckBox
+          AnchorSideLeft.Control = seH1Max
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnH1Off
+          AnchorSideTop.Side = asrCenter
+          Left = 455
+          Height = 18
+          Top = 10
+          Width = 93
+          BorderSpacing.Around = 6
+          Caption = 'Logarithmic'
+          TabOrder = 3
+        end
+      end
+      object chtHistogram: TChart
+        Left = 328
+        Height = 541
+        Top = 38
+        Width = 702
+        AxisList = <        
+          item
+            Grid.Color = clSilver
+            Marks.LabelBrush.Style = bsClear
+            Minors = <>
+            Title.LabelFont.Orientation = 900
+            Title.Visible = True
+            Title.LabelBrush.Style = bsClear
+          end        
+          item
+            Grid.Color = clSilver
+            Alignment = calBottom
+            Marks.LabelBrush.Style = bsClear
+            Minors = <>
+            Title.Visible = True
+            Title.LabelBrush.Style = bsClear
+          end>
+        Foot.Brush.Color = clBtnFace
+        Foot.Font.Color = clBlue
+        Title.Brush.Color = clBtnFace
+        Title.Font.Color = clBlue
+        Title.Text.Strings = (
+          'Histogram'
+        )
+        Title.Visible = True
+        Align = alClient
+        object chtHistogramSeries: TLineSeries
+          LinePen.Color = clNavy
+        end
+      end
+      object pnlHistograms: TPanel
+        Left = 0
+        Height = 541
+        Top = 38
+        Width = 323
+        Align = alLeft
+        BevelOuter = bvNone
+        ClientHeight = 541
+        ClientWidth = 323
+        TabOrder = 2
+        object chkOnlyActiveHistograms: TCheckBox
+          AnchorSideLeft.Control = pnlHistograms
+          AnchorSideTop.Control = btnExportHistogram
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = pnlHistograms
+          AnchorSideRight.Side = asrBottom
+          Left = 6
+          Height = 18
+          Top = 38
+          Width = 311
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Around = 6
+          Caption = 'Only active ones'
+          Checked = True
+          State = cbChecked
+          TabOrder = 0
+        end
+        object btnRefreshHistograms: TSpeedButton
+          AnchorSideLeft.Control = pnlHistograms
+          AnchorSideTop.Control = btnExportHistogram
+          AnchorSideTop.Side = asrCenter
+          Left = 6
+          Height = 26
+          Top = 6
+          Width = 57
+          Action = actRefreshHistograms
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 18
+        end
+        object btnExportHistogram: TSpeedButton
+          AnchorSideLeft.Control = btnRefreshHistograms
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = pnlHistograms
+          Left = 69
+          Height = 26
+          Top = 6
+          Width = 79
+          Action = actExportHistogram
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 20
+        end
+        object lbHistogram: TListBox
+          AnchorSideLeft.Control = pnlHistograms
+          AnchorSideTop.Control = chkOnlyActiveHistograms
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = pnlHistograms
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = pnlHistograms
+          AnchorSideBottom.Side = asrBottom
+          Left = 6
+          Height = 473
+          Top = 62
+          Width = 311
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Around = 6
+          ItemHeight = 0
+          TabOrder = 1
+          OnSelectionChange = lbHistogramSelectionChange
+        end
+      end
+      object spltHistograms: TSplitter
+        Left = 323
+        Height = 541
+        Top = 38
+        Width = 5
+      end
+    end
+    object tabOptions: TTabSheet
+      Caption = 'Options'
+      ClientHeight = 579
+      ClientWidth = 1030
+      object pnlOptions: TPanel
+        Left = 0
+        Height = 579
+        Top = 0
+        Width = 504
+        Align = alLeft
+        ClientHeight = 579
+        ClientWidth = 504
+        TabOrder = 0
+        object gbRandom: TGroupBox
+          AnchorSideBottom.Side = asrBottom
+          Left = 1
+          Height = 89
+          Top = 1
+          Width = 502
+          Align = alTop
+          AutoSize = True
+          Caption = 'Random numbers'
+          ClientHeight = 62
+          ClientWidth = 492
+          TabOrder = 0
+          object lblRndEngine: TLabel
+            AnchorSideLeft.Control = gbRandom
+            AnchorSideTop.Control = chkRandomize
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 7
+            Width = 61
+            BorderSpacing.Around = 6
+            Caption = 'Generator'
+            ParentColor = False
+          end
+          object cbRndEngine: TComboBox
+            AnchorSideLeft.Control = lblRndEngine
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = chkRandomize
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = divRandom
+            Left = 73
+            Height = 19
+            Top = 6
+            Width = 160
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ItemHeight = 15
+            Style = csDropDownList
+            TabOrder = 0
+          end
+          object chkRandomize: TCheckBox
+            AnchorSideLeft.Control = divRandom
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbRandom
+            Left = 260
+            Height = 18
+            Top = 6
+            Width = 164
+            BorderSpacing.Around = 6
+            Caption = 'New seeds for every run'
+            Checked = True
+            State = cbChecked
+            TabOrder = 1
+            OnChange = chkRandomizeChange
+          end
+          object lblRndSeeds: TLabel
+            AnchorSideLeft.Control = gbRandom
+            AnchorSideTop.Control = btnUseLastSeeds
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 35
+            Width = 38
+            BorderSpacing.Around = 6
+            Caption = 'Seeds'
+            ParentColor = False
+          end
+          object seRndSeed1: TSpinEdit
+            AnchorSideLeft.Control = lblRndSeeds
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnUseLastSeeds
+            AnchorSideTop.Side = asrCenter
+            Left = 50
+            Height = 20
+            Top = 33
+            Width = 110
+            BorderSpacing.Around = 6
+            MaxValue = 2147483562
+            MinValue = 1
+            TabOrder = 2
+            Value = 1
+          end
+          object seRndSeed2: TSpinEdit
+            AnchorSideLeft.Control = seRndSeed1
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = btnUseLastSeeds
+            AnchorSideTop.Side = asrCenter
+            Left = 166
+            Height = 20
+            Top = 33
+            Width = 110
+            BorderSpacing.Around = 6
+            MaxValue = 2147483562
+            MinValue = 1
+            TabOrder = 3
+            Value = 1
+          end
+          object divRandom: TDividerBevel
+            AnchorSideLeft.Control = gbRandom
+            AnchorSideLeft.Side = asrCenter
+            AnchorSideTop.Control = chkRandomize
+            AnchorSideBottom.Control = chkRandomize
+            AnchorSideBottom.Side = asrBottom
+            Left = 239
+            Height = 18
+            Top = 6
+            Width = 15
+            Anchors = [akTop, akLeft, akBottom]
+            Font.Style = [fsBold]
+            Orientation = trVertical
+            ParentFont = False
+          end
+          object btnUseLastSeeds: TSpeedButton
+            AnchorSideLeft.Control = seRndSeed2
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = chkRandomize
+            AnchorSideTop.Side = asrBottom
+            Left = 282
+            Height = 26
+            Top = 30
+            Width = 188
+            AutoSize = True
+            BorderSpacing.Around = 6
+            Caption = 'Take the seeds of the last run'
+            ImageIndex = 29
+            OnClick = btnUseLastSeedsClick
+          end
+        end
+        object gbOutput: TGroupBox
+          Left = 1
+          Height = 134
+          Top = 90
+          Width = 502
+          Align = alTop
+          AutoSize = True
+          Caption = 'Output'
+          ClientHeight = 107
+          ClientWidth = 492
+          TabOrder = 1
+          object lblOutputBase: TLabel
+            AnchorSideLeft.Control = gbOutput
+            AnchorSideTop.Control = edOutputBase
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 16
+            Top = 8
+            Width = 58
+            BorderSpacing.Around = 6
+            Caption = 'File name'
+            ParentColor = False
+          end
+          object edOutputBase: TEdit
+            AnchorSideLeft.Control = lblOutputBase
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbOutput
+            Left = 70
+            Height = 21
+            Top = 6
+            Width = 180
+            BorderSpacing.Around = 6
+            TabOrder = 0
+            Text = 'strata'
+          end
+          object lblOutputHint: TLabel
+            AnchorSideLeft.Control = edOutputBase
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = edOutputBase
+            AnchorSideTop.Side = asrCenter
+            Left = 256
+            Height = 16
+            Top = 8
+            Width = 144
+            BorderSpacing.Around = 6
+            Caption = 'applied before each run'
+            ParentColor = False
+          end
+          object chkSavePrimaries: TCheckBox
+            AnchorSideLeft.Control = gbOutput
+            AnchorSideTop.Control = edOutputBase
+            AnchorSideTop.Side = asrBottom
+            Left = 6
+            Height = 18
+            Top = 33
+            Width = 124
+            BorderSpacing.Around = 6
+            Caption = 'Save primaries to'
+            TabOrder = 1
+            OnChange = chkSaveTracksChange
+          end
+          object edPrimariesName: TEdit
+            AnchorSideLeft.Control = chkSavePrimaries
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = chkSavePrimaries
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = gbOutput
+            AnchorSideRight.Side = asrBottom
+            Left = 136
+            Height = 21
+            Top = 32
+            Width = 350
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 2
+            Text = 'primaries.txt'
+          end
+          object chkSaveCascades: TCheckBox
+            AnchorSideLeft.Control = gbOutput
+            AnchorSideTop.Control = edPrimariesName
+            AnchorSideTop.Side = asrBottom
+            Left = 6
+            Height = 18
+            Top = 59
+            Width = 125
+            BorderSpacing.Around = 6
+            Caption = 'Save cascades to'
+            TabOrder = 3
+            OnChange = chkSaveTracksChange
+          end
+          object edCascadesName: TEdit
+            AnchorSideLeft.Control = chkSaveCascades
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = chkSaveCascades
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = gbOutput
+            AnchorSideRight.Side = asrBottom
+            Left = 137
+            Height = 21
+            Top = 58
+            Width = 349
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            TabOrder = 4
+            Text = 'cascades.txt'
+          end
+          object lblTracksHint: TLabel
+            AnchorSideLeft.Control = gbOutput
+            AnchorSideTop.Control = edCascadesName
+            AnchorSideTop.Side = asrBottom
+            Left = 6
+            Height = 16
+            Top = 85
+            Width = 405
+            BorderSpacing.Around = 6
+            Caption = 'One step per line, both ends: about 10 kB per event, in event order.'
+            ParentColor = False
+          end
+        end
+        object gbDeexcitation: TGroupBox
+          Left = 1
+          Height = 103
+          Top = 224
+          Width = 502
+          Align = alTop
+          AutoSize = True
+          Caption = 'Atomic de-excitation'
+          ClientHeight = 76
+          ClientWidth = 492
+          TabOrder = 2
+          object chkEmFluo: TCheckBox
+            AnchorSideLeft.Control = gbDeexcitation
+            AnchorSideTop.Control = gbDeexcitation
+            Left = 6
+            Height = 18
+            Top = 6
+            Width = 102
+            BorderSpacing.Around = 6
+            Caption = 'Fluorescence'
+            TabOrder = 0
+          end
+          object chkEmAuger: TCheckBox
+            AnchorSideLeft.Control = chkEmFluo
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbDeexcitation
+            Left = 114
+            Height = 18
+            Top = 6
+            Width = 116
+            BorderSpacing.Around = 6
+            Caption = 'Auger electrons'
+            TabOrder = 1
+          end
+          object chkEmAugerCascade: TCheckBox
+            AnchorSideLeft.Control = chkEmAuger
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbDeexcitation
+            Left = 236
+            Height = 18
+            Top = 6
+            Width = 111
+            BorderSpacing.Around = 6
+            Caption = 'Auger cascade'
+            TabOrder = 2
+          end
+          object chkEmPixe: TCheckBox
+            AnchorSideLeft.Control = chkEmAugerCascade
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbDeexcitation
+            Left = 353
+            Height = 18
+            Top = 6
+            Width = 53
+            BorderSpacing.Around = 6
+            Caption = 'PIXE'
+            TabOrder = 3
+          end
+          object chkEmDeexIgnoreCut: TCheckBox
+            AnchorSideLeft.Control = gbDeexcitation
+            AnchorSideTop.Control = chkEmFluo
+            AnchorSideTop.Side = asrBottom
+            Left = 6
+            Height = 18
+            Top = 30
+            Width = 250
+            BorderSpacing.Around = 6
+            Caption = 'Produce them below the production cut'
+            TabOrder = 4
+          end
+          object lblDeexHint: TLabel
+            AnchorSideLeft.Control = gbDeexcitation
+            AnchorSideTop.Control = chkEmDeexIgnoreCut
+            AnchorSideTop.Side = asrBottom
+            Left = 6
+            Height = 16
+            Top = 54
+            Width = 438
+            BorderSpacing.Around = 6
+            Caption = 'All off in Geant4''s defaults, so spectra 60 to 71 stay empty without them'
+            ParentColor = False
+          end
+        end
+        object gbCuts: TGroupBox
+          Left = 1
+          Height = 103
+          Top = 327
+          Width = 502
+          Align = alTop
+          AutoSize = True
+          Caption = 'Production cuts'
+          ClientHeight = 76
+          ClientWidth = 492
+          TabOrder = 3
+          object chkCut: TCheckBox
+            AnchorSideLeft.Control = gbCuts
+            AnchorSideTop.Control = seCut
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 18
+            Top = 7
+            Width = 110
+            BorderSpacing.Around = 6
+            Caption = 'Production cut'
+            TabOrder = 0
+            OnChange = OptionToggled
+          end
+          object seCut: TSciEdit
+            AnchorSideLeft.Control = chkCut
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbCuts
+            AnchorSideRight.Control = gbCuts
+            AnchorSideRight.Side = asrBottom
+            Left = 122
+            Height = 21
+            Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
+            Top = 6
+            Width = 364
+            Text = '1.0000 nm'
+            UnitFamily = ufLength
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ParentFont = False
+            TabOrder = 1
+          end
+          object pnlCuts: TPanel
+            AnchorSideLeft.Control = gbCuts
+            AnchorSideTop.Control = seCut
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbCuts
+            AnchorSideRight.Side = asrBottom
+            Left = 6
+            Height = 37
+            Top = 33
+            Width = 480
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = True
+            BorderSpacing.Around = 6
+            BevelOuter = bvNone
+            ChildSizing.HorizontalSpacing = 6
+            ChildSizing.EnlargeHorizontal = crsSameSize
+            ChildSizing.ShrinkHorizontal = crsSameSize
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 4
+            ClientHeight = 37
+            ClientWidth = 480
+            TabOrder = 2
+            object lblCutGamma: TLabel
+              Left = 0
+              Height = 16
+              Top = 0
+              Width = 116
+              Caption = 'gamma'
+              ParentColor = False
+            end
+            object lblCutElectron: TLabel
+              Left = 122
+              Height = 16
+              Top = 0
+              Width = 115
+              Caption = 'e-'
+              ParentColor = False
+            end
+            object lblCutPositron: TLabel
+              Left = 243
+              Height = 16
+              Top = 0
+              Width = 116
+              Caption = 'e+'
+              ParentColor = False
+            end
+            object lblCutProton: TLabel
+              Left = 365
+              Height = 16
+              Top = 0
+              Width = 115
+              Caption = 'proton'
+              ParentColor = False
+            end
+            object seCutGamma: TSciEdit
+              AnchorSideRight.Side = asrBottom
+              Left = 0
+              Height = 21
+              Hint = 'Cut length for gamma particles, blank keeps the cut above'
+              Top = 16
+              Width = 116
+              UnitFamily = ufLength
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              TabOrder = 0
+            end
+            object seCutElectron: TSciEdit
+              AnchorSideRight.Side = asrBottom
+              Left = 122
+              Height = 21
+              Hint = 'Cut length for electrons, blank keeps the cut above'
+              Top = 16
+              Width = 115
+              UnitFamily = ufLength
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              TabOrder = 1
+            end
+            object seCutPositron: TSciEdit
+              AnchorSideRight.Side = asrBottom
+              Left = 243
+              Height = 21
+              Hint = 'Cut length for positrons, blank keeps the cut above'
+              Top = 16
+              Width = 116
+              UnitFamily = ufLength
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              TabOrder = 2
+            end
+            object seCutProton: TSciEdit
+              AnchorSideRight.Side = asrBottom
+              Left = 365
+              Height = 21
+              Hint = 'Cut length for protons, blank keeps the cut above'
+              Top = 16
+              Width = 115
+              UnitFamily = ufLength
+              Options = [seoScientificNotation, seoKeepTypedUnits]
+              TrackBarFactor = 2
+              TabOrder = 3
+            end
+          end
+        end
+        object gbTracking: TGroupBox
+          Left = 1
+          Height = 59
+          Top = 430
+          Width = 502
+          Align = alTop
+          AutoSize = True
+          Caption = 'Tracking'
+          ClientHeight = 32
+          ClientWidth = 492
+          TabOrder = 4
+          object chkStepMax: TCheckBox
+            AnchorSideLeft.Control = gbTracking
+            AnchorSideTop.Control = cbKillSecondaries
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 18
+            Top = 6
+            Width = 148
+            BorderSpacing.Around = 6
+            Caption = 'Maximum step length'
+            TabOrder = 0
+            OnChange = OptionToggled
+          end
+          object seStepMax: TSciEdit
+            AnchorSideLeft.Control = chkStepMax
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbKillSecondaries
+            AnchorSideTop.Side = asrCenter
+            Left = 160
+            Height = 21
+            Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
+            Top = 5
+            Width = 110
+            Text = '1.0000 um'
+            UnitFamily = ufLength
+            Options = [seoScientificNotation, seoKeepTypedUnits]
+            TrackBarFactor = 2
+            BorderSpacing.Around = 6
+            ParentFont = False
+            TabOrder = 1
+          end
+          object lblKillSecondaries: TLabel
+            AnchorSideLeft.Control = seStepMax
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbKillSecondaries
+            AnchorSideTop.Side = asrCenter
+            Left = 276
+            Height = 16
+            Top = 7
+            Width = 75
+            BorderSpacing.Around = 6
+            Caption = 'Secondaries'
+            ParentColor = False
+          end
+          object cbKillSecondaries: TComboBox
+            AnchorSideLeft.Control = lblKillSecondaries
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = gbTracking
+            AnchorSideRight.Control = gbTracking
+            AnchorSideRight.Side = asrBottom
+            Left = 357
+            Height = 19
+            Top = 6
+            Width = 129
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Around = 6
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'Track them'
+              'Kill them, recording the energy'
+              'Kill them silently'
+            )
+            Style = csDropDownList
+            TabOrder = 2
+            Text = 'Track them'
+          end
+        end
+      end
+      object spltOptions: TSplitter
+        Left = 504
+        Height = 579
+        Top = 0
+        Width = 5
+      end
+      object pnlEditors: TPanel
+        Left = 509
+        Height = 579
+        Top = 0
+        Width = 521
+        Align = alClient
+        BevelOuter = bvNone
+        ChildSizing.EnlargeHorizontal = crsScaleChilds
+        ChildSizing.EnlargeVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ClientHeight = 579
+        ClientWidth = 521
+        TabOrder = 2
+        object gbCmdGeometry: TGroupBox
+          Left = 0
+          Height = 145
+          Top = 0
+          Width = 521
+          Caption = 'After the geometry, before the physics is chosen'
+          ClientHeight = 118
+          ClientWidth = 511
+          TabOrder = 0
+          object memCmdGeometry: TMemo
+            Left = 0
+            Height = 118
+            Top = 0
+            Width = 511
+            Align = alClient
+            Font.Name = 'Courier'
+            ParentFont = False
+            ScrollBars = ssAutoBoth
+            TabOrder = 0
+            WordWrap = False
+          end
+        end
+        object gbCmdPreInit: TGroupBox
+          Left = 0
+          Height = 144
+          Top = 145
+          Width = 521
+          Caption = 'Before initialisation: cuts, EM options'
+          ClientHeight = 117
+          ClientWidth = 511
+          TabOrder = 1
+          object memCmdPreInit: TMemo
+            Left = 0
+            Height = 117
+            Top = 0
+            Width = 511
+            Align = alClient
+            Font.Name = 'Courier'
+            ParentFont = False
+            ScrollBars = ssAutoBoth
+            TabOrder = 0
+            WordWrap = False
+          end
+        end
+        object gbCmdBeam: TGroupBox
+          Left = 0
+          Height = 145
+          Top = 289
+          Width = 521
+          Caption = 'After initialisation, before the gun is set up'
+          ClientHeight = 118
+          ClientWidth = 511
+          TabOrder = 2
+          object memCmdBeam: TMemo
+            Left = 0
+            Height = 118
+            Top = 0
+            Width = 511
+            Align = alClient
+            Font.Name = 'Courier'
+            ParentFont = False
+            ScrollBars = ssAutoBoth
+            TabOrder = 0
+            WordWrap = False
+          end
+        end
+        object gbCmdRun: TGroupBox
+          Left = 0
+          Height = 145
+          Top = 434
+          Width = 521
+          Caption = 'Last thing before the run starts'
+          ClientHeight = 118
+          ClientWidth = 511
+          TabOrder = 3
+          object memCmdRun: TMemo
+            Left = 0
+            Height = 118
+            Top = 0
+            Width = 511
+            Align = alClient
+            Font.Name = 'Courier'
+            ParentFont = False
+            ScrollBars = ssAutoBoth
+            TabOrder = 0
+            WordWrap = False
+          end
+        end
+      end
+    end
+    object tabResults: TTabSheet
+      Caption = 'Results'
+      ClientHeight = 579
+      ClientWidth = 1030
+      object sgVoxels: TStringGrid
+        Left = 456
+        Height = 579
+        Top = 0
+        Width = 574
+        Align = alClient
+        FixedCols = 0
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+        RowCount = 2
+        TabOrder = 0
+      end
+      object pnlSummary: TPanel
+        Left = 0
+        Height = 579
+        Top = 0
+        Width = 451
+        Align = alLeft
+        BevelOuter = bvNone
+        ClientHeight = 579
+        ClientWidth = 451
+        TabOrder = 1
+        object sgSummary: TStringGrid
+          Left = 0
+          Height = 579
+          Top = 0
+          Width = 451
+          Align = alClient
+          Anchors = [akTop, akLeft, akRight]
+          ColCount = 2
+          FixedCols = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+          RowCount = 2
+          TabOrder = 0
+        end
+      end
+      object spltResults: TSplitter
+        Left = 451
+        Height = 579
+        Top = 0
+        Width = 5
+      end
+    end
+    object tabLog: TTabSheet
+      Caption = 'Log'
+      ClientHeight = 579
+      ClientWidth = 1030
+      object pnlCommand: TPanel
+        Left = 0
+        Height = 38
+        Top = 0
+        Width = 1030
+        Align = alTop
+        AutoSize = True
+        BevelOuter = bvNone
+        ClientHeight = 38
+        ClientWidth = 1030
+        TabOrder = 0
+        object edCommand: TEdit
+          AnchorSideLeft.Control = pnlCommand
+          AnchorSideTop.Control = btnRunMacro
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = btnSendCommand
+          Left = 6
+          Height = 21
+          Top = 9
+          Width = 879
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Around = 6
+          TabOrder = 0
+          TextHint = 'Geant4 command, e.g. /strata/physics/addPhysics standardNR'
+          OnKeyPress = edCommandKeyPress
+        end
+        object btnSendCommand: TSpeedButton
+          AnchorSideTop.Control = btnRunMacro
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = btnRunMacro
+          Left = 891
+          Height = 26
+          Top = 6
+          Width = 41
+          Action = actSendCommand
+          Anchors = [akTop, akRight]
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 25
+        end
+        object btnRunMacro: TSpeedButton
+          AnchorSideTop.Control = pnlCommand
+          AnchorSideRight.Control = pnlCommand
+          AnchorSideRight.Side = asrBottom
+          Left = 938
+          Height = 26
+          Top = 6
+          Width = 86
+          Action = actRunMacro
+          Anchors = [akTop, akRight]
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 26
+        end
+      end
+      object pnlLogButtons: TPanel
+        Left = 0
+        Height = 38
+        Top = 541
+        Width = 1030
+        Align = alBottom
+        AutoSize = True
+        BevelOuter = bvNone
+        ClientHeight = 38
+        ClientWidth = 1030
+        TabOrder = 1
+        object btnClearLog: TSpeedButton
+          AnchorSideLeft.Control = pnlLogButtons
+          AnchorSideTop.Control = pnlLogButtons
+          Left = 6
+          Height = 26
+          Top = 6
+          Width = 42
+          Action = actClearLog
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 23
+        end
+        object btnSaveLog: TSpeedButton
+          AnchorSideLeft.Control = btnClearLog
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnClearLog
+          AnchorSideTop.Side = asrCenter
+          Left = 54
+          Height = 26
+          Top = 6
+          Width = 68
+          Action = actSaveLog
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 24
+        end
+      end
+      object mLog: TMemo
+        Left = 0
+        Height = 503
+        Top = 38
+        Width = 1030
+        Align = alClient
+        Font.Name = 'Courier'
+        ParentFont = False
+        ReadOnly = True
+        ScrollBars = ssAutoBoth
+        TabOrder = 2
+        WordWrap = False
+      end
+    end
+  end
+  object PanelsActions: TActionList
+    Left = 48
+    Top = 560
+    object actNewConfig: TAction
+      Category = 'File'
+      Caption = '&New configuration'
+      Hint = 'New|&New Strata configuration'
+      ImageIndex = 0
+      OnExecute = actNewConfigExecute
+    end
+    object actSaveConfig: TAction
+      Category = 'File'
+      Caption = '&Save configuration'
+      Hint = 'Save|Save Strata configuration'
+      ImageIndex = 2
+      OnExecute = actSaveConfigExecute
+    end
+    object actSaveConfigAs: TFileSaveAs
+      Category = 'File'
+      Caption = 'Save configuration &as ...'
+      Dialog.Title = 'Save Strata configuration'
+      Dialog.DefaultExt = '.scf'
+      Dialog.Filter = 'Strata configuration (*.scf)|*.scf|XML files|*.xml|All files|*'
+      Hint = 'Save As|Save Strata configuration as'
+      ImageIndex = 3
+      BeforeExecute = actSaveConfigAsBeforeExecute
+      OnAccept = actSaveConfigAsAccept
+    end
+    object actImportMacro: TFileOpen
+      Category = 'File'
+      Caption = '&Import settings from macro...'
+      Dialog.Title = 'Import Strata macro'
+      Dialog.DefaultExt = '.mac'
+      Dialog.Filter = 'Geant4 macro (*.mac)|*.mac|All files|*'
+      Hint = 'Import|Import settings from  Strata macro'
+      ImageIndex = 4
+      ShortCut = 16457
+      OnAccept = actImportMacroAccept
+    end
+    object actExportMacro: TFileSaveAs
+      Category = 'File'
+      Caption = '&Export settings as macro...'
+      Dialog.Title = 'Export Strata macro'
+      Dialog.DefaultExt = '.mac'
+      Dialog.Filter = 'Geant4 macro (*.mac)|*.mac|All files|*'
+      Hint = 'Export|Export settings as macro'
+      ImageIndex = 5
+      BeforeExecute = actExportMacroBeforeExecute
+      OnAccept = actExportMacroAccept
+    end
+    object actInitialize: TAction
+      Category = 'Geant4'
+      Caption = 'Initialize'
+      Hint = 'Initialize|Initialize Geant4'
+      ImageIndex = 42
+      OnExecute = actInitializeExecute
+    end
+    object actBeamOn: TAction
+      Category = 'Geant4'
+      Caption = 'Beam on'
+      Hint = 'Beam on|Start Geant4 run'
+      ImageIndex = 7
+      OnExecute = actBeamOnExecute
+    end
+    object actAddElement: TAction
+      Category = 'Materials'
+      Caption = 'Add element'
+      Hint = 'Add element|Add new element'
+      ImageIndex = 15
+      OnExecute = actAddElementExecute
+    end
+    object actRemoveElement: TAction
+      Category = 'Materials'
+      Caption = 'Remove element'
+      Hint = 'Remove element|Remove selected element'
+      ImageIndex = 16
+      OnExecute = actRemoveElementExecute
+    end
+    object actCreateMaterial: TAction
+      Category = 'Materials'
+      Caption = 'Create material'
+      Hint = 'Create material|Create new material'
+      ImageIndex = 17
+      OnExecute = actCreateMaterialExecute
+    end
+    object actRefreshMaterials: TAction
+      Category = 'Materials'
+      Caption = 'Refresh'
+      Hint = 'Refresh materials|Refresh materials list'
+      ImageIndex = 18
+      OnExecute = actRefreshMaterialsExecute
+    end
+    object actPrintMaterials: TAction
+      Category = 'Materials'
+      Caption = 'Print to log'
+      Hint = 'Print materials|Print materials list to log'
+      ImageIndex = 19
+      OnExecute = actPrintMaterialsExecute
+    end
+    object actClearLog: TAction
+      Category = 'Log'
+      Caption = 'Clear'
+      Hint = 'Clear log|Clear log'
+      ImageIndex = 23
+      OnExecute = actClearLogExecute
+    end
+    object actSaveLog: TFileSaveAs
+      Category = 'Log'
+      Caption = 'Save as...'
+      Hint = 'Save log|Save log as...'
+      ImageIndex = 24
+      BeforeExecute = actSaveLogBeforeExecute
+      OnAccept = actSaveLogAccept
+    end
+    object actSelectElement: TAction
+      Category = 'Materials'
+      Caption = 'Periodic table...'
+      Hint = 'Periodic table...|Pick the constituent from a table of the elements...'
+      ImageIndex = 28
+      OnExecute = actSelectElementExecute
+    end
+    object actSelectMaterial: TAction
+      Category = 'Geant4'
+      Caption = 'Select material'
+      Hint = 'Select material|Select world material'
+      ImageIndex = 34
+      OnExecute = actSelectMaterialExecute
+    end
+    object actApplyGeometry: TAction
+      Category = 'Geant4'
+      Caption = 'Apply geometry'
+      Hint = 'Apply geometry|Apply current geometry'
+      ImageIndex = 12
+      OnExecute = actApplyGeometryExecute
+    end
+    object actApplyBeam: TAction
+      Category = 'Geant4'
+      Caption = 'Apply beam'
+      Hint = 'Apply beam|Apply current beam configuration'
+      ImageIndex = 13
+      OnExecute = actApplyBeamExecute
+    end
+    object actApplyField: TAction
+      Category = 'Geant4'
+      Caption = 'Apply field'
+      Hint = 'Apply magnetic field|Send the field, the minimum step and the stepper, then update'
+      ImageIndex = 30
+      OnExecute = actApplyBFieldExecute
+    end
+    object actApplyEField: TAction
+      Category = 'Geant4'
+      Caption = 'Apply field'
+      Hint = 'Apply electric field|Send the field, the minimum step and the stepper, then update'
+      ImageIndex = 31
+      OnExecute = actApplyEFieldExecute
+    end
+    object actApplyPhysics: TAction
+      Category = 'Geant4'
+      Caption = 'Apply physics'
+      Hint = 'Apply physics|Apply current physics list'
+      ImageIndex = 14
+      OnExecute = actApplyPhysicsExecute
+    end
+    object actSendCommand: TAction
+      Category = 'Geant4'
+      Caption = 'Send'
+      Hint = 'Send command|Send Strata/Geant4 command'
+      ImageIndex = 25
+      OnExecute = actSendCommandExecute
+    end
+    object actRunMacro: TFileOpen
+      Category = 'Geant4'
+      Caption = 'Run macro...'
+      Hint = 'Run macro...|Run Strata/Geant4 macro...'
+      ImageIndex = 26
+      BeforeExecute = actRunMacroBeforeExecute
+      OnAccept = actRunMacroAccept
+    end
+    object actSelectIon: TAction
+      Category = 'Geant4'
+      Caption = 'Select ion...'
+      Hint = 'Select ion...|Select projectile ion from a table...'
+      ImageIndex = 28
+      OnExecute = actSelectIonExecute
+    end
+    object actActivateHistogram: TAction
+      Category = 'Histograms'
+      Caption = 'Activate / update'
+      Hint = 'Activate histogram|Activate or update histogram'
+      ImageIndex = 21
+      OnExecute = actActivateHistogramExecute
+    end
+    object actDeactivateHistogram: TAction
+      Category = 'Histograms'
+      Caption = 'Deactivate'
+      Hint = 'Deactivate histogram|Deactivate selected histogram'
+      ImageIndex = 22
+      OnExecute = actDeactivateHistogramExecute
+    end
+    object actRefreshHistograms: TAction
+      Category = 'Histograms'
+      Caption = 'Refresh'
+      Hint = 'Refresh histograms|Refresh list of histograms'
+      ImageIndex = 18
+      OnExecute = actRefreshHistogramsExecute
+    end
+    object actExportHistogram: TAction
+      Category = 'Histograms'
+      Caption = 'Export CSV'
+      Hint = 'Export histogram|Export histogram to CSV file'
+      ImageIndex = 20
+      OnExecute = actExportHistogramExecute
+    end
+  end
+  object StrataTableDlg: TSciPeriodicTableDlg
+    Table.Left = 0
+    Table.Height = 400
+    Table.Top = 0
+    Table.Width = 576
+    Table.ParentColor = False
+    Left = 792
+    Top = 586
+  end
+  object dlgExportHistogram: TSaveDialog
+    Left = 160
+    Top = 520
+  end
+end

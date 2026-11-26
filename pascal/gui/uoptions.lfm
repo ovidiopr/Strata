@@ -1,0 +1,267 @@
+object OptionsDlg: TOptionsDlg
+  Left = 429
+  Height = 347
+  Top = 345
+  Width = 473
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Strata preferences'
+  ClientHeight = 347
+  ClientWidth = 473
+  Position = poScreenCenter
+  LCLVersion = '4.8.0.0'
+  object lblOutput: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 4
+    Height = 16
+    Top = 4
+    Width = 102
+    BorderSpacing.Around = 4
+    Caption = 'Output Directory'
+  end
+  object editOutput: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblOutput
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 21
+    Top = 24
+    Width = 392
+    BorderSpacing.Around = 4
+    TabOrder = 0
+  end
+  object lblGeant4: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = editOutput
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 16
+    Top = 55
+    Width = 104
+    BorderSpacing.Top = 6
+    BorderSpacing.Around = 4
+    Caption = 'Geant4 Directory'
+  end
+  object editGeant4: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblGeant4
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 21
+    Top = 75
+    Width = 392
+    BorderSpacing.Around = 4
+    TabOrder = 2
+  end
+  object lblData: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = editGeant4
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 16
+    Top = 106
+    Width = 101
+    BorderSpacing.Top = 6
+    BorderSpacing.Around = 4
+    Caption = 'Geant4 Datasets'
+  end
+  object editData: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblData
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 21
+    Top = 126
+    Width = 392
+    BorderSpacing.Around = 4
+    TabOrder = 4
+    TextHint = 'Left empty, the ones under the Geant4 directory are used'
+  end
+  object lblLibrary: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = editData
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 16
+    Top = 157
+    Width = 82
+    BorderSpacing.Top = 6
+    BorderSpacing.Around = 4
+    Caption = 'Strata Library'
+  end
+  object editLibrary: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblLibrary
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 21
+    Top = 177
+    Width = 392
+    BorderSpacing.Around = 4
+    TabOrder = 6
+  end
+  object lblStrata: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = editLibrary
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 16
+    Top = 208
+    Width = 107
+    BorderSpacing.Top = 6
+    BorderSpacing.Around = 4
+    Caption = 'Strata Executable'
+  end
+  object editStrata: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblStrata
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 21
+    Top = 228
+    Width = 392
+    BorderSpacing.Around = 4
+    TabOrder = 8
+  end
+  object lblTerminal: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = editStrata
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 16
+    Top = 259
+    Width = 157
+    BorderSpacing.Top = 6
+    BorderSpacing.Around = 4
+    Caption = 'Terminal Command (Unix)'
+  end
+  object editTerminal: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblTerminal
+    AnchorSideTop.Side = asrBottom
+    Left = 4
+    Height = 21
+    Top = 279
+    Width = 392
+    BorderSpacing.Around = 4
+    TabOrder = 10
+    TextHint = 'Left empty, the usual terminals are tried in turn'
+  end
+  object btnBrowseOutput: TBitBtn
+    AnchorSideLeft.Control = editOutput
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = editOutput
+    AnchorSideTop.Side = asrCenter
+    Left = 404
+    Height = 25
+    Top = 22
+    Width = 58
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 4
+    Caption = '...'
+    Images = MainForm.StrataSVGImageList
+    ImageIndex = 1
+    TabOrder = 1
+    OnClick = btnBrowseOutputClick
+  end
+  object btnBrowseGeant4: TBitBtn
+    AnchorSideLeft.Control = editGeant4
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = editGeant4
+    AnchorSideTop.Side = asrCenter
+    Left = 404
+    Height = 25
+    Top = 73
+    Width = 58
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 4
+    Caption = '...'
+    Images = MainForm.StrataSVGImageList
+    ImageIndex = 1
+    TabOrder = 3
+    OnClick = btnBrowseGeant4Click
+  end
+  object btnBrowseData: TBitBtn
+    AnchorSideLeft.Control = editData
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = editData
+    AnchorSideTop.Side = asrCenter
+    Left = 404
+    Height = 25
+    Top = 124
+    Width = 58
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 4
+    Caption = '...'
+    Images = MainForm.StrataSVGImageList
+    ImageIndex = 1
+    TabOrder = 5
+    OnClick = btnBrowseDataClick
+  end
+  object btnBrowseLibrary: TBitBtn
+    AnchorSideLeft.Control = editLibrary
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = editLibrary
+    AnchorSideTop.Side = asrCenter
+    Left = 404
+    Height = 25
+    Top = 175
+    Width = 58
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 4
+    Caption = '...'
+    Images = MainForm.StrataSVGImageList
+    ImageIndex = 1
+    TabOrder = 7
+    OnClick = btnBrowseLibraryClick
+  end
+  object btnBrowseStrata: TBitBtn
+    AnchorSideLeft.Control = editStrata
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = editStrata
+    AnchorSideTop.Side = asrCenter
+    Left = 404
+    Height = 25
+    Top = 226
+    Width = 58
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 4
+    Caption = '...'
+    Images = MainForm.StrataSVGImageList
+    ImageIndex = 1
+    TabOrder = 9
+    OnClick = btnBrowseStrataClick
+  end
+  object ButtonPanel: TButtonPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = editTerminal
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 35
+    Top = 306
+    Width = 461
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    OKButton.Name = 'OKButton'
+    OKButton.Caption = 'Accept'
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 11
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object DirectoryDialog: TSelectDirectoryDialog
+    Left = 128
+    Top = 200
+  end
+  object OpenDialog: TOpenDialog
+    Left = 40
+    Top = 200
+  end
+end

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="1" transverseSizeUnit="cm">
+    <layer unit="cm" index="0" material="Silver" thickness="1"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking cut="1" cutUnit="um" killSecondaries="0"/>
+  <beam angle="0" energy="20" events="5000000" radius="0" particle="e-" energyUnit="keV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="standard_opt4"/>
+  <spectra>
+    <spectrum id="50" fcn="" max="20" min="0" bins="40" unit="keV"/>
+  </spectra>
+  <commands stage="beam">/strata/gun/setDefault
+</commands>
+  <commands stage="run">/analysis/h1/setAscii 50
+/run/printProgress 100000
+</commands>
+  <output folder="" fileName="acosta"/>
+</strata-configuration>

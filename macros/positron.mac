@@ -1,0 +1,36 @@
+#
+# macro file for Strata.cc
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 1
+/run/verbose 1
+#
+/strata/geometry/setSizeYZ 1 m
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 10 mm
+/strata/geometry/layerMaterial 0 G4_Al
+#
+#/strata/physics/addPhysics standard_opt0
+/strata/physics/addPhysics standardATIMA
+#
+/run/setCut 0.01 mm
+#
+/run/initialize
+#
+/gun/particle e+
+/gun/energy 5 MeV
+#
+/analysis/setFileName positron
+/analysis/h1/set 10 100 0. 10. MeV
+/analysis/h1/set 12 100 0. 5. MeV
+/analysis/h1/set 14 100 -4 1 MeV
+#
+/analysis/h1/setAscii 10
+/analysis/h1/setAscii 12
+/analysis/h1/setAscii 14
+#
+/tracking/verbose 0
+#
+/run/beamOn 10000
+#

@@ -1,0 +1,47 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+# It shows how to introduce simple voxels
+#
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 20 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 20 um
+/strata/geometry/layerMaterial 0 Water
+#
+/strata/geometry/voxelNumber 4
+/strata/geometry/voxelDefinition 0 2. 2. 2. nm
+/strata/geometry/voxelDefinition 1 2. 2. 2. nm
+/strata/geometry/voxelDefinition 2 2. 2. 2. nm
+/strata/geometry/voxelDefinition 3 2. 2. 2. nm
+/strata/geometry/voxelPosition 0 -9.9 0. 0. um
+/strata/geometry/voxelPosition 1 -5.  0. 0. um
+/strata/geometry/voxelPosition 2  0.  0. 0. um
+/strata/geometry/voxelPosition 3  5.  0. 0. um
+#
+/strata/physics/addPhysics  local	# em physics
+#
+/run/initialize
+#
+/gun/particle proton
+/gun/energy 0.7 MeV
+#
+# beam size
+/strata/gun/rndBeam 3 nm
+#
+/analysis/setFileName voxels
+# activate the histogram for implanted ions
+/analysis/h1/set 3 500 0 20 um
+#
+/analysis/h1/setAscii 3
+#
+# limit the step size
+/strata/stepMax 10 nm
+#
+/run/printProgress 1000
+#
+/run/beamOn 10000

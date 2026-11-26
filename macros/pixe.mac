@@ -1,0 +1,62 @@
+# macro file for Strata.cc
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 1
+#
+/strata/geometry/setSizeYZ 50 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 50 um
+/strata/geometry/layerMaterial 0 Gold
+#
+/strata/physics/addPhysics standard_opt4
+#/strata/physics/addPhysics livermore
+#
+/run/setCut 2 um
+/run/setCutForAGivenParticle gamma 0.5 um
+#
+# to (de)activate pixe or atomic deexcitation
+/process/em/pixe true
+/process/em/augerCascade true
+/process/em/deexcitationIgnoreCut true
+#
+/process/em/verbose 0
+/process/em/printParameters 
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle proton 
+/gun/energy 20 MeV
+#
+# to be run interactively
+#/control/execute vis.mac
+#/tracking/verbose 2
+#/run/beamOn 1
+# 
+/analysis/setFileName pixe
+/analysis/h1/set 12 1000 0 100 keV #all gamma: energy at vertex
+/analysis/h1/setAscii 12
+/analysis/h1/set 61 1000 0 100 keV #deexcitation
+/analysis/h1/setAscii 61
+/analysis/h1/set 65 1000 0 100 keV #pixe
+/analysis/h1/setAscii 65
+#
+/analysis/h1/set 11 500 0 50 keV #all e-: energy at vertex
+/analysis/h1/setAscii 11
+/analysis/h1/set 60 200 0 20 keV #deexcitation
+/analysis/h1/setAscii 60
+/analysis/h1/set 64 200 0 20 keV #pixe
+/analysis/h1/setAscii 64
+#
+/analysis/h1/set 13 500 0.01 50 keV log10 #all e-: energy at vertex
+/analysis/h1/setAscii 13
+/analysis/h1/set 62 200 0.01 20 keV log10 #deexcitation
+/analysis/h1/setAscii 62
+/analysis/h1/set 66 200 0.01 20 keV log10 #pixe
+/analysis/h1/setAscii 66
+#
+/tracking/verbose 0
+/run/printProgress 10000 
+/run/beamOn 100000

@@ -1,0 +1,31 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+# It shows how to introduce simple voxels
+#
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 10 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 10 um
+/strata/geometry/layerMaterial 0 G4_SILICON_DIOXIDE # Silica
+#/strata/geometry/layerMaterial 0 G4_SILICON_DIOXIDE 2.65 g/cm3 # Quartz
+#
+/strata/physics/addPhysics standardNR
+/strata/physics/addPhysics elastic
+/strata/physics/addPhysics binary
+/strata/physics/addPhysics binary_ion
+#
+/run/initialize
+#
+# Bromine 7+ at 40 MeV
+/gun/particle ion
+/gun/ion 35 79 7
+/gun/energy 40 MeV
+#
+# Save track information to files
+/strata/files/savePrimaries true
+/strata/files/saveCascades true

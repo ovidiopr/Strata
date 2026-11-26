@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="600" transverseSizeUnit="nm">
+    <layer unit="nm" index="0" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="1" material="G4_Nb" thickness="50"/>
+    <layer unit="nm" index="2" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="3" material="G4_Nb" thickness="50"/>
+    <layer unit="nm" index="4" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="5" material="G4_Nb" thickness="50"/>
+    <layer unit="nm" index="6" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="7" material="G4_Nb" thickness="50"/>
+    <layer unit="nm" index="8" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="9" material="G4_Nb" thickness="50"/>
+    <layer unit="nm" index="10" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="11" material="G4_Nb" thickness="50"/>
+    <layer unit="nm" index="12" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="13" material="G4_Nb" thickness="50"/>
+    <layer unit="nm" index="14" material="G4_Al" thickness="50"/>
+    <layer unit="nm" index="15" material="G4_Nb" thickness="50"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <beam angle="0" energy="100" events="200000" radius="0" particle="ion" energyUnit="keV">
+    <ion a="4" z="2" charge="1"/>
+  </beam>
+  <physics list="standardNR">
+    <optional name="elastic"/>
+    <optional name="binary"/>
+    <optional name="binary_ion"/>
+  </physics>
+  <spectra>
+    <spectrum id="3" fcn="" max="800" min="0" bins="100" unit="nm"/>
+  </spectra>
+  <commands stage="preinit">/control/saveHistory
+</commands>
+  <commands stage="run">/analysis/h1/setAscii 3
+/run/printProgress 10000
+</commands>
+  <output folder="" fileName="li_multilayer"/>
+</strata-configuration>

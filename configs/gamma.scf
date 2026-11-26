@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="10" transverseSizeUnit="mm">
+    <layer unit="mm" index="0" material="Tungsten" thickness="3"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking cut="100" cutUnit="um" killSecondaries="0"/>
+  <beam angle="0" energy="6" events="500000" radius="0" particle="e-" energyUnit="MeV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="standard_opt3"/>
+  <spectra>
+    <spectrum id="12" fcn="" max="10" min="0.01" bins="200" unit="MeV"/>
+    <spectrum id="14" fcn="log10" max="10" min="0.01" bins="200" unit="MeV"/>
+    <spectrum id="30" fcn="" max="6" min="0" bins="200" unit="MeV"/>
+    <spectrum id="50" fcn="" max="6" min="0" bins="200" unit="MeV"/>
+  </spectra>
+  <commands stage="beam">/strata/gun/setDefault
+</commands>
+  <commands stage="run">/analysis/h1/setAscii 12
+/analysis/h1/setAscii 14
+/analysis/h1/setAscii 30
+/analysis/h1/setAscii 50
+/run/printProgress 50000
+</commands>
+  <output folder="" fileName="gamma"/>
+</strata-configuration>

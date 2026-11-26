@@ -1,0 +1,69 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+# N. Li et al., J. Appl. Phys. 105 (2009) 123522
+# https://doi.org/10.1063/1.3138804
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 600 nm
+#
+/strata/geometry/layerNumber 16
+/strata/geometry/layerThickness 0 50 nm
+/strata/geometry/layerMaterial 0 G4_Al
+/strata/geometry/layerThickness 1 50 nm
+/strata/geometry/layerMaterial 1 G4_Nb
+/strata/geometry/layerThickness 2 50 nm
+/strata/geometry/layerMaterial 2 G4_Al
+/strata/geometry/layerThickness 3 50 nm
+/strata/geometry/layerMaterial 3 G4_Nb
+/strata/geometry/layerThickness 4 50 nm
+/strata/geometry/layerMaterial 4 G4_Al
+/strata/geometry/layerThickness 5 50 nm
+/strata/geometry/layerMaterial 5 G4_Nb
+/strata/geometry/layerThickness 6 50 nm
+/strata/geometry/layerMaterial 6 G4_Al
+/strata/geometry/layerThickness 7 50 nm
+/strata/geometry/layerMaterial 7 G4_Nb
+/strata/geometry/layerThickness 8 50 nm
+/strata/geometry/layerMaterial 8 G4_Al
+/strata/geometry/layerThickness 9 50 nm
+/strata/geometry/layerMaterial 9 G4_Nb
+/strata/geometry/layerThickness 10 50 nm
+/strata/geometry/layerMaterial 10 G4_Al
+/strata/geometry/layerThickness 11 50 nm
+/strata/geometry/layerMaterial 11 G4_Nb
+/strata/geometry/layerThickness 12 50 nm
+/strata/geometry/layerMaterial 12 G4_Al
+/strata/geometry/layerThickness 13 50 nm
+/strata/geometry/layerMaterial 13 G4_Nb
+/strata/geometry/layerThickness 14 50 nm
+/strata/geometry/layerMaterial 14 G4_Al
+/strata/geometry/layerThickness 15 50 nm
+/strata/geometry/layerMaterial 15 G4_Nb
+#
+/strata/physics/addPhysics standardNR
+/strata/physics/addPhysics elastic
+/strata/physics/addPhysics binary
+/strata/physics/addPhysics binary_ion
+#
+/control/verbose 2
+/control/saveHistory
+/run/verbose 2
+#
+/run/initialize
+#
+# He+ ions at 100 keV
+/gun/particle ion
+/gun/ion 2 4 1
+/gun/energy 100 keV
+#
+# save histograms in an ascii file
+/analysis/setFileName li_multilayer
+/analysis/h1/set 3 100 0 800 nm
+/analysis/h1/setAscii 3
+#
+/run/printProgress 10000
+#
+/run/beamOn 200000

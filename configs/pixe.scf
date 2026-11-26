@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="50" transverseSizeUnit="um">
+    <layer unit="um" index="0" material="Gold" thickness="50"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <deexcitation fluo="no" pixe="yes" auger="no" ignoreCut="yes" augerCascade="yes"/>
+  <tracking cut="2" cutUnit="um" cut_gamma="0.5" cutUnit_gamma="um" killSecondaries="0"/>
+  <beam angle="0" energy="20" events="100000" radius="0" particle="proton" energyUnit="MeV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="standard_opt4"/>
+  <spectra>
+    <spectrum id="12" fcn="" max="100" min="0" bins="1000" unit="keV"/>
+    <spectrum id="61" fcn="" max="100" min="0" bins="1000" unit="keV"/>
+    <spectrum id="65" fcn="" max="100" min="0" bins="1000" unit="keV"/>
+    <spectrum id="11" fcn="" max="50" min="0" bins="500" unit="keV"/>
+    <spectrum id="60" fcn="" max="20" min="0" bins="200" unit="keV"/>
+    <spectrum id="64" fcn="" max="20" min="0" bins="200" unit="keV"/>
+    <spectrum id="13" fcn="log10" max="50" min="0.01" bins="500" unit="keV"/>
+    <spectrum id="62" fcn="log10" max="20" min="0.01" bins="200" unit="keV"/>
+    <spectrum id="66" fcn="log10" max="20" min="0.01" bins="200" unit="keV"/>
+  </spectra>
+  <commands stage="preinit">/control/cout/ignoreThreadsExcept 0
+/process/em/verbose 0
+/process/em/printParameters
+</commands>
+  <commands stage="beam">/strata/gun/setDefault
+</commands>
+  <commands stage="run">/analysis/h1/setAscii 12
+/analysis/h1/setAscii 61
+/analysis/h1/setAscii 65
+/analysis/h1/setAscii 11
+/analysis/h1/setAscii 60
+/analysis/h1/setAscii 64
+/analysis/h1/setAscii 13
+/analysis/h1/setAscii 62
+/analysis/h1/setAscii 66
+/tracking/verbose 0
+/run/printProgress 10000
+</commands>
+  <output folder="" fileName="pixe"/>
+</strata-configuration>

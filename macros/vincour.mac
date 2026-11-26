@@ -1,0 +1,34 @@
+#
+# macro file for Strata.cc
+#
+# angle distribution of  6.56 MeV protons
+# transmitted through thin silicon targets.
+# J. Vincour, P. Bém, Nucl. Instrum. Meth. 148 (1978) 399-402
+# https://doi.org/10.1016/0029-554X(70)90195-3
+#     		    
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 1 cm
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 50 um
+#/strata/geometry/layerThickness 0 92.6 um
+/strata/geometry/layerMaterial 0 Silicon
+#
+/run/setCut 7 um
+/run/setCutForAGivenParticle gamma 2.13 mm
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle proton 
+/gun/energy 6.56 MeV
+#
+/analysis/setFileName vincour
+/analysis/h1/set 22 60 0. 6. deg #space angle
+/analysis/h1/setAscii 22
+#
+/strata/stack/killSecondaries
+#
+/run/beamOn 100000

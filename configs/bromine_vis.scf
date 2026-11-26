@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="10" transverseSizeUnit="um">
+    <layer unit="um" index="0" material="G4_SILICON_DIOXIDE" thickness="10"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="yes" primaries="yes" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <beam angle="0" energy="40" events="1000" radius="0" particle="ion" energyUnit="MeV">
+    <ion a="79" z="35" charge="7"/>
+  </beam>
+  <physics list="standardNR">
+    <optional name="elastic"/>
+    <optional name="binary"/>
+    <optional name="binary_ion"/>
+  </physics>
+  <spectra/>
+  <output folder="" fileName="strata"/>
+</strata-configuration>

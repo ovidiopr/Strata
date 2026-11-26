@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="500px"
+   height="500px"
+   viewBox="0 0 64 64"
+   data-name="Layer 1"
+   id="Layer_1"
+   version="1.1"
+   sodipodi:docname="electric-field.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.472"
+     inkscape:cx="248.94068"
+     inkscape:cy="250"
+     inkscape:window-width="1472"
+     inkscape:window-height="825"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1" />
+  <defs
+     id="defs1">
+    <style
+       id="style1">.cls-1{fill:#65c8d0;}.cls-2{fill:#e7685d;}.cls-3{fill:#fcdd7c;}.cls-4{fill:#f4ecce;}</style>
+  </defs>
+  <path
+     class="cls-1"
+     d="m 25,30 h -6.13 l 1,-1.45 -1.66,-1.1 -1.75,2.55 h -4.59 l 1,-1.45 -1.66,-1.1 L 9.46,30 H 8 v -6.13 l 1.45,1 1.1,-1.66 L 8,21.46 v -4.59 l 1.45,1 1.1,-1.66 L 8,14.46 V 12 h 3.13 l -1,1.45 1.66,1.1 1.75,-2.55 h 4.59 l -1,1.45 1.66,1.1 L 20.54,12 H 24 v -2 h -3.46 l -1.71,-2.55 -1.66,1.1 1,1.45 h -4.63 l -1.71,-2.55 -1.66,1.1 1,1.45 H 7 a 1,1 0 0 0 -1,1 v 3.46 l -2.55,1.71 1.1,1.66 1.45,-1 v 4.59 l -2.55,1.75 1.1,1.66 1.45,-1 V 31 a 1,1 0 0 0 1,1 h 2.46 l 1.71,2.55 1.66,-1.1 -1,-1.45 h 4.59 l 1.71,2.55 1.66,-1.1 -1,-1.45 H 24 v 4 h 2 v -5 a 1,1 0 0 0 -1,-1 z"
+     id="path1" />
+  <path
+     class="cls-1"
+     d="m 59.45,22.17 -1.45,1 v -4.63 l 2.55,-1.71 -1.1,-1.66 -1.45,1 V 11 a 1,1 0 0 0 -1,-1 h -3.46 l -1.71,-2.55 -1.66,1.1 1,1.45 h -4.63 l -1.71,-2.55 -1.66,1.1 1,1.45 H 40 v 2 h 4.13 l -1,1.45 1.66,1.1 1.75,-2.55 h 4.59 l -1,1.45 1.66,1.1 L 53.54,12 H 56 v 4.13 l -1.45,-1 -1.1,1.66 2.55,1.75 v 4.59 l -1.45,-1 -1.1,1.66 2.55,1.75 V 30 h -3.13 l 1,-1.45 -1.66,-1.1 -1.75,2.55 h -4.59 l 1,-1.45 -1.66,-1.1 L 43.46,30 H 39 a 1,1 0 0 0 -1,1 v 5 h 2 v -4 h 3.46 l 1.71,2.55 1.66,-1.1 -1,-1.45 h 4.59 l 1.71,2.55 1.66,-1.1 -1,-1.45 H 57 a 1,1 0 0 0 1,-1 v -5.46 l 2.55,-1.71 z"
+     id="path2" />
+  <rect
+     class="cls-1"
+     height="22"
+     width="12"
+     x="20"
+     y="40"
+     id="rect2" />
+  <rect
+     class="cls-2"
+     height="22"
+     width="12"
+     x="32"
+     y="40"
+     id="rect3" />
+  <polyline
+     class="cls-3"
+     points="22 40 22 36 28 36 28 40"
+     id="polyline3" />
+  <polyline
+     class="cls-3"
+     points="36 40 36 36 42 36 42 40"
+     id="polyline4" />
+  <circle
+     class="cls-3"
+     cx="32"
+     cy="11"
+     r="9"
+     id="circle4" />
+  <polygon
+     class="cls-4"
+     points="27,43 25,43 25,45 23,45 23,47 25,47 25,49 27,49 27,47 29,47 29,45 27,45 "
+     id="polygon4" />
+  <rect
+     class="cls-1"
+     height="2"
+     width="6"
+     x="35"
+     y="45"
+     id="rect4" />
+  <path
+     class="cls-1"
+     d="M 32.53,17.37 30.67,16.63 32.52,12 H 30 a 1,1 0 0 1 -0.79,-0.39 1,1 0 0 1 -0.18,-0.87 l 1.6,-6 1.94,0.52 L 31.3,10 H 34 a 1,1 0 0 1 0.83,0.44 1,1 0 0 1 0.1,0.93 z"
+     id="path4" />
+</svg>

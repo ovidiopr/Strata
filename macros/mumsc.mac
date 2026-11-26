@@ -1,0 +1,35 @@
+#
+# macro file for Strata.cc
+#
+# mu+, transmitted through 1 m of iron
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 1 m
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 1 m
+/strata/geometry/layerMaterial 0 Iron
+#
+/strata/physics/addPhysics standard_opt0
+#
+/run/setCut 1 mm
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle mu+
+/gun/energy 100 GeV
+#
+/analysis/setFileName mumsc
+/analysis/h1/set 24 100 -5.0 +5.0 mm #x-position at exit
+/analysis/h1/setAscii 24
+/analysis/h1/set 25 100 0. +10.0 mm #radius at exit
+/analysis/h1/setAscii 25
+#
+/strata/stack/killSecondaries
+#
+/run/printProgress 4000
+/run/beamOn 40000

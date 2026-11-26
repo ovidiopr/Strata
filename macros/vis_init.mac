@@ -1,0 +1,11 @@
+#
+# Macro file for the visual initialization of  Strata.cc
+#
+# Sets some default verbose
+# and initializes the graphic.
+#
+/control/verbose 2
+/control/saveHistory
+/run/verbose 2
+#
+/run/initialize

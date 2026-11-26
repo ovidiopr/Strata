@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="1" transverseSizeUnit="m">
+    <layer unit="mm" index="0" material="G4_Al" thickness="10"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking cut="0.01" cutUnit="mm" killSecondaries="0"/>
+  <beam angle="0" energy="5" events="10000" radius="0" particle="e+" energyUnit="MeV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="standardATIMA"/>
+  <spectra>
+    <spectrum id="10" fcn="" max="10" min="0" bins="100" unit="MeV"/>
+    <spectrum id="12" fcn="" max="5" min="0" bins="100" unit="MeV"/>
+    <spectrum id="14" fcn="" max="1" min="-4" bins="100" unit="MeV"/>
+  </spectra>
+  <commands stage="preinit">/control/cout/ignoreThreadsExcept 0
+</commands>
+  <commands stage="run">/analysis/h1/setAscii 10
+/analysis/h1/setAscii 12
+/analysis/h1/setAscii 14
+/tracking/verbose 0
+</commands>
+  <output folder="" fileName="positron"/>
+</strata-configuration>

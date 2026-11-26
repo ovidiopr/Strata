@@ -1,0 +1,38 @@
+#
+# macro file for Strata.cc
+#
+# angle distribution of  15.7 MeV electrons
+# transmitted through thin gold foils.
+# A.O. Hanson et al., Phys. Rev. 84 (1951) 634-637
+# https://doi.org/10.1103/PhysRev.84.634
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 1 cm
+#
+/strata/geometry/layerNumber 1
+#/strata/geometry/layerThickness 0 9.658 um
+/strata/geometry/layerThickness 0 19.296 um
+/strata/geometry/layerMaterial 0 Gold
+#
+/run/setCut 1.12 um
+/run/setCutForAGivenParticle gamma 13 um
+#
+/strata/physics/addPhysics local
+#/strata/physics/addPhysics standard_opt3
+#
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle e-
+/gun/energy 15.7 MeV
+#
+/analysis/setFileName hanson_19um-local
+/analysis/h1/set 22 120 0 30 deg #space angle
+/analysis/h1/setAscii 22
+#
+/run/printProgress 100000
+/run/beamOn 1000000

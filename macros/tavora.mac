@@ -1,0 +1,32 @@
+#
+# macro file for TestEm5.cc
+#
+# Back scattering of 35 keV electrons in Silver.
+# L.M.N. Távora et al., J. Phys. D: Appl. Phys. 33 (2000) 2497-2507
+# Fig. 7
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 60 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 50 um
+/strata/geometry/layerMaterial 0 Silver
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle e- 
+/gun/energy 35 keV
+#
+/analysis/setFileName tavora
+/analysis/h1/set 40 40 0.0 40 keV #energy reflected_charged
+/analysis/h1/setAscii 40
+#
+/strata/stepMax 50 nm
+#
+/run/printProgress 10000
+# 
+/run/beamOn 100000

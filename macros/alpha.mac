@@ -1,0 +1,32 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 10 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 10 um
+/strata/geometry/layerMaterial 0 Water
+#
+/strata/physics/addPhysics local
+#/strata/physics/addPhysics standard_opt0
+#/strata/physics/addPhysics standard_opt3
+#
+/run/initialize
+#
+/gun/particle alpha
+/gun/energy 400 MeV
+#
+# step limit
+/strata/stepMax 0.5 nm
+#
+/run/printProgress 1000
+#
+/analysis/setFileName alpha
+/analysis/h1/set 2 100 75 85 nm
+/analysis/h1/set 3 100 75 85 nm
+#
+/run/beamOn 10000

@@ -1,0 +1,321 @@
+name: Build and Package Strata
+
+on:
+  release:
+    types: [published]
+  # For trying the build without cutting a release; nothing is uploaded
+  workflow_dispatch:
+
+# Required to allow the workflow to upload files to the Release page
+permissions:
+  contents: write
+
+env:
+  # Update this variable (and FPC_VER) for new Lazarus releases
+  LAZ_VER: "4.8"
+  QT_VERSION: "6.8.3"
+
+jobs:
+  build:
+    name: Package on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            artifact_name: Strata-Debian
+            pattern: "*.deb"
+            G4_PLATFORM: linux-amd64
+            FPC_VER: "3.2.2-210709"
+            ARCH_VER: "amd64"
+          - os: ubuntu-24.04-arm
+            artifact_name: Strata-RaspberryPi
+            pattern: "*.deb"
+            G4_PLATFORM: linux-arm64
+            FPC_VER: "3.2.3-240813"
+            ARCH_VER: "arm64"
+          - os: macos-latest
+            artifact_name: Strata-macOS
+            pattern: "*.dmg"
+            G4_PLATFORM: macos-arm64
+            FPC_VER: "3.2.4rc1a"
+          - os: windows-latest
+            artifact_name: Strata-Windows
+            pattern: "windows/*.exe"
+            G4_PLATFORM: windows-x64
+            FPC_VER: "3.2.2"
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v5
+
+    # The release tag names the version, so the packages and the tag cannot
+    # disagree. Without a tag (workflow_dispatch) the Makefile default is used
+    - name: Determine Version
+      shell: bash
+      run: |
+        TAG="${{ github.event.release.tag_name }}"
+        if [ -n "$TAG" ]; then
+          VER="${TAG#v}"
+        else
+          VER=$(make -s print_version 2>/dev/null || echo 1.0.0)
+        fi
+        echo "STRATA_VER=$VER" >> $GITHUB_ENV
+        echo "Packaging Strata $VER"
+
+    # ==========================================
+    # 1. Native Lazarus Installation
+    # ==========================================
+
+    - name: Install Lazarus (Ubuntu, Raspberry Pi)
+      if: runner.os == 'Linux'
+      run: |
+        echo "Downloading Lazarus and FPC..."
+
+        BASE_URL="https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20${{ matrix.ARCH_VER }}%20DEB/Lazarus%20${LAZ_VER}"
+
+        wget -q ${BASE_URL}/fpc-laz_${{ matrix.FPC_VER }}_${{ matrix.ARCH_VER }}.deb/download -O fpc-laz_${{ matrix.FPC_VER }}_${{ matrix.ARCH_VER }}.deb
+        wget -q ${BASE_URL}/fpc-src_${{ matrix.FPC_VER }}_${{ matrix.ARCH_VER }}.deb/download -O fpc-src_${{ matrix.FPC_VER }}_${{ matrix.ARCH_VER }}.deb
+        wget -q ${BASE_URL}/lazarus-project_${LAZ_VER}.0-0_${{ matrix.ARCH_VER }}.deb/download -O lazarus-project_${LAZ_VER}_${{ matrix.ARCH_VER }}.deb
+
+        sudo apt-get update
+
+        # Install all Lazarus dependencies
+        sudo apt-get install -y \
+          libgtk2.0-dev \
+          libgtk2.0-0 \
+          libglib2.0-0 \
+          libx11-6 \
+          libxext6 \
+          libxrender1 \
+          libcairo2 \
+          libpango-1.0-0 \
+          libpangocairo-1.0-0 \
+          libgdk-pixbuf2.0-0 \
+          libatk1.0-0
+
+        sudo dpkg -i fpc-laz_${{ matrix.FPC_VER }}_${{ matrix.ARCH_VER }}.deb fpc-src_${{ matrix.FPC_VER }}_${{ matrix.ARCH_VER }}.deb lazarus-project_${LAZ_VER}_${{ matrix.ARCH_VER }}.deb
+        sudo apt-get install -f -y
+
+        which lazbuild || { echo "ERROR: lazbuild not found"; exit 1; }
+
+        # Remove the Lazarus/FPC installer .debs
+        rm -f fpc-laz_*.deb fpc-src_*.deb lazarus-project_*.deb
+
+    - name: Install Lazarus (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: powershell
+      run: |
+        $BaseUrl = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%20${env:LAZ_VER}/lazarus-${env:LAZ_VER}-fpc-${{ matrix.FPC_VER }}-win64.exe"
+
+        Write-Host "Downloading Lazarus and FPC..."
+
+        Invoke-WebRequest -Uri "${BaseUrl}/download" -OutFile ".\lazarus-setup.exe" -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::FireFox
+
+        Write-Host "Installing Lazarus..."
+        Start-Process -FilePath ".\lazarus-setup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /DIR=C:\lazarus" -Wait -NoNewWindow
+
+        "C:\lazarus" >> $env:GITHUB_PATH
+        "C:\lazarus\fpc\${{ matrix.FPC_VER }}\bin\x86_64-win64" >> $env:GITHUB_PATH
+        Write-Host "Lazarus installation completed"
+
+        # Remove the Lazarus installer
+        Remove-Item ".\lazarus-setup.exe" -Force
+
+    - name: Install Lazarus (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        echo "Downloading Lazarus and FPC for macOS..."
+
+        BASE_URL="https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20aarch64/Lazarus%20${LAZ_VER}"
+        FPC_DMG="fpc-${{ matrix.FPC_VER }}.intelarm64-macosx.dmg"
+        LAZ_ZIP="lazarus-darwin-aarch64-${LAZ_VER}.zip"
+
+        wget -q ${BASE_URL}/${FPC_DMG}/download -O $FPC_DMG
+        wget -q ${BASE_URL}/${LAZ_ZIP}/download -O $LAZ_ZIP
+
+        echo "Installing FPC..."
+        hdiutil attach "$FPC_DMG"
+        PKG_FILE=$(find /Volumes/fpc* -name "*.pkg" -type f 2>/dev/null | head -n 1)
+        [ -z "$PKG_FILE" ] && { echo "No .pkg found"; exit 1; }
+        sudo installer -pkg "$PKG_FILE" -target /
+        hdiutil detach $(df | grep '/Volumes/fpc' | awk '{print $1}')
+
+        echo "Extracting Lazarus..."
+        xattr -cr "$LAZ_ZIP"
+        unzip -q "$LAZ_ZIP" -d "$HOME/lazarus_install"
+
+        # Find the lazarus directory (handle cases where it might be nested)
+        LAZARUS_DIR=$(find "$HOME/lazarus_install" -maxdepth 2 -type d -name lazarus | head -n 1)
+        [ -z "$LAZARUS_DIR" ] && { echo "Lazarus directory not found"; exit 1; }
+        [ ! -d "$LAZARUS_DIR/lcl" ] && { echo "lcl directory not found in $LAZARUS_DIR"; exit 1; }
+
+        # Add lazbuild to PATH
+        echo "$LAZARUS_DIR" >> $GITHUB_PATH
+        echo "LAZARUS_DIR=$LAZARUS_DIR" >> $GITHUB_ENV
+
+        # Add -k-ld_classic to global FPC config
+        sudo bash -c 'echo "-k-ld_classic" >> /etc/fpc.cfg'
+        echo "Updated /etc/fpc.cfg:"
+        cat /etc/fpc.cfg
+
+        # Remove the Lazarus/FPC installer files
+        rm -f "$FPC_DMG" "$LAZ_ZIP"
+
+    # ==========================================
+    # 2. Fetch dependencies via GIT
+    # ==========================================
+
+    - name: Clone & Register Package Dependencies
+      shell: bash
+      run: |
+        # Store packages one directory above the workspace so they don't get compiled into artifacts
+        mkdir -p ../lazarus-libs
+        cd ../lazarus-libs
+
+        # Fetch latest source directly from authors (bypassing OPM entirely)
+        git clone https://github.com/bgrabitmap/bgrabitmap.git
+        git clone https://github.com/bgrabitmap/bgracontrols.git
+        git clone https://github.com/ovidiopr/ExtSVGImageList.git
+        git clone https://github.com/ovidiopr/LazScience.git
+
+        # Register packages with lazbuild (order matters for dependencies)
+        lazbuild ${LAZARUS_DIR:+--lazarusdir="$LAZARUS_DIR"} --add-package-link bgrabitmap/bgrabitmap/bgrabitmappack.lpk
+        lazbuild ${LAZARUS_DIR:+--lazarusdir="$LAZARUS_DIR"} --add-package-link bgracontrols/bgracontrols.lpk
+        lazbuild ${LAZARUS_DIR:+--lazarusdir="$LAZARUS_DIR"} --add-package-link ExtSVGImageList/component/extsvgimagelist.lpk
+        lazbuild ${LAZARUS_DIR:+--lazarusdir="$LAZARUS_DIR"} --add-package-link LazScience/components/lazscience.lpk
+
+    # ==========================================
+    # 3. Geant4
+    # ==========================================
+
+    # The install tree of the geant4-installers release, which needs Qt6 (and
+    # Xerces-C on Unix) to be found by find_package(Geant4)
+
+    - name: Install Qt (macOS, Windows)
+      if: runner.os != 'Linux'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ env.QT_VERSION }}
+        arch: ${{ runner.os == 'Windows' && 'win64_msvc2022_64' || '' }}
+        cache: true
+
+    - name: Install Qt and Xerces-C (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y qt6-base-dev libqt6opengl6-dev libxerces-c-dev \
+          libgl1-mesa-dev libglu1-mesa-dev libxmu-dev
+
+    - name: Install Xerces-C (macOS)
+      if: runner.os == 'macOS'
+      run: brew install xerces-c || true
+
+    - name: Download Geant4
+      id: geant4
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -eu
+        version=$(cat GEANT4_VERSION)
+        echo "GEANT4_VERSION=$version" >> $GITHUB_ENV
+        # The latest geant4-installers release of that version
+        tag=$(gh release list -R ovidiopr/geant4-installers --limit 100 --json tagName -q '.[].tagName' \
+              | grep -E "^${version}-[0-9]+$" | sort -V | tail -1)
+        [ -n "$tag" ] || { echo "No geant4-installers release for Geant4 $version"; exit 1; }
+        name="geant4-${tag}-${{ matrix.G4_PLATFORM }}"
+        mkdir -p "$HOME/geant4"
+        if [ "$RUNNER_OS" = Windows ]; then
+          gh release download "$tag" -R ovidiopr/geant4-installers -p "$name.zip" -D "$HOME/geant4"
+          (cd "$HOME/geant4" && 7z x "$name.zip" > /dev/null && rm "$name.zip")
+        else
+          gh release download "$tag" -R ovidiopr/geant4-installers -p "$name.tar.gz" -D "$HOME/geant4"
+          (cd "$HOME/geant4" && tar xzf "$name.tar.gz" && rm "$name.tar.gz")
+        fi
+        config=$(find "$HOME/geant4" -name Geant4Config.cmake -print -quit)
+        [ -n "$config" ] || { echo "Geant4Config.cmake not found in $name"; exit 1; }
+        dir=$(cd "$(dirname "$config")" && pwd)
+        prefix=$(cd "$dir/../../.." && pwd)
+        if [ "$RUNNER_OS" = Windows ]; then dir=$(cygpath -m "$dir"); prefix=$(cygpath -m "$prefix"); fi
+        echo "geant4-dir=$dir" >> $GITHUB_OUTPUT
+        echo "GEANT4_PREFIX=$prefix" >> $GITHUB_ENV
+        # Where find_package(Geant4) looks for the Qt it was built with
+        if [ -n "${QT_ROOT_DIR:-}" ]; then echo "CMAKE_PREFIX_PATH=$QT_ROOT_DIR" >> $GITHUB_ENV; fi
+
+    - name: Install backend build dependencies (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get install -y cmake ninja-build libexpat1-dev zlib1g-dev
+
+    # ==========================================
+    # 4. Compile and package
+    # ==========================================
+
+    # make drives both halves on Unix. Windows does the same three steps by
+    # hand, because the runner image carries no make and the Makefile reads
+    # uname to decide what it is packaging
+
+    - name: Compile Backend and Application (Unix)
+      if: runner.os != 'Windows'
+      shell: bash
+      run: |
+        make build VERSION="$STRATA_VER" \
+          GEANT4_DIR="${{ steps.geant4.outputs.geant4-dir }}" \
+          ${LAZARUS_DIR:+LAZARUS_DIR="$LAZARUS_DIR"}
+
+    - name: Compile Backend and Application (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        cmake -S . -B build/release/cmake -A x64 `
+          -DGeant4_DIR="${{ steps.geant4.outputs.geant4-dir }}"
+        cmake --build build/release/cmake --config Release --parallel
+        cmake --install build/release/cmake --config Release --prefix build/release/stage
+
+        lazbuild --build-mode=Release pascal/gui/StrataGUI.lpi
+        New-Item -ItemType Directory -Force -Path build\release\stage\bin | Out-Null
+        Copy-Item pascal\build\StrataGUI.exe build\release\stage\bin\
+
+    - name: Package Debian (.deb)
+      if: runner.os == 'Linux'
+      run: make package_deb VERSION="$STRATA_VER" GEANT4_VERSION="$GEANT4_VERSION"
+
+    - name: Package macOS (.dmg)
+      if: matrix.os == 'macos-latest'
+      run: |
+        export PATH="$LAZARUS_DIR:$PATH"
+        make package_dmg VERSION="$STRATA_VER" LAZARUS_DIR="$LAZARUS_DIR"
+
+    - name: Package Windows Installer (.exe)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        # Install NSIS
+        choco install nsis -y
+
+        # Add NSIS dir to PATH
+        $env:Path += ";C:\Program Files (x86)\NSIS"
+
+        # From windows\, because OutFile is relative to the working directory
+        # while File is relative to the script, so this is the one place both
+        # land where the upload pattern expects them
+        cd windows
+        makensis /DPRODUCT_VERSION=${{ env.STRATA_VER }} /DG4_VERSION=${{ env.GEANT4_VERSION }} /DPRODUCT_ARCH=win64-x86_64 /DBUILD_DIR=..\build\release\stage\bin Strata.nsi
+
+    # ==========================================
+    # 5. Export artifacts to Release
+    # ==========================================
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: ${{ matrix.pattern }}
+        if-no-files-found: error
+
+    - name: Upload to GitHub Release
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ${{ matrix.pattern }}

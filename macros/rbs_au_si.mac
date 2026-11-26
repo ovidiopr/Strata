@@ -1,0 +1,41 @@
+# Rutherford backscattering from a gold film on silicon
+#
+# 2 MeV He on 30 nm of gold over bulk silicon, seen by a detector at 165
+# degrees subtending a millisteradian.
+#
+/control/verbose 0
+/run/verbose 0
+#
+/strata/geometry/setSizeYZ 10 um
+/strata/geometry/layerNumber 2
+/strata/geometry/layerThickness 0 30 nm
+/strata/geometry/layerMaterial 0 G4_Au
+/strata/geometry/layerThickness 1 2 um
+/strata/geometry/layerMaterial 1 G4_Si
+#
+# Nuclear stopping matters for the exit path of a helium ion this slow
+/strata/physics/addPhysics standardNR
+/run/setCut 10 nm
+#
+/run/initialize
+#
+/gun/particle ion
+/gun/ion 2 4 2
+/gun/energy 2 MeV
+/strata/gun/rndBeam 0 mm
+#
+/strata/rbs/enable true
+/strata/rbs/angle 165 deg
+/strata/rbs/solidAngle 1 msr
+/strata/rbs/resolution 15 keV
+/strata/rbs/tilt 0 deg
+/strata/rbs/screening true
+#
+/analysis/h1/set 80 400 0 2 MeV
+# The ions themselves stop in the silicon, so the stopping power is worth
+# having beside the spectrum
+/analysis/h1/set 1 200 0 2 um
+/analysis/h1/set 2 200 0 2 um
+#
+/run/printProgress 5000
+/run/beamOn 20000

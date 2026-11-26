@@ -1,0 +1,69 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+# Y. Chen et al., J. Nucl. Mater. 475 (2016) 274-279
+# https://doi.org/10.1016/j.jnucmat.2016.04.009
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 1 um
+#
+/strata/geometry/layerNumber 14
+/strata/geometry/layerThickness 0 100 nm
+/strata/geometry/layerMaterial 0 G4_Cu
+/strata/geometry/layerThickness 1 100 nm
+/strata/geometry/layerMaterial 1 G4_Fe
+/strata/geometry/layerThickness 2 100 nm
+/strata/geometry/layerMaterial 2 G4_Cu
+/strata/geometry/layerThickness 3 100 nm
+/strata/geometry/layerMaterial 3 G4_Fe
+/strata/geometry/layerThickness 4 100 nm
+/strata/geometry/layerMaterial 4 G4_Cu
+/strata/geometry/layerThickness 5 100 nm
+/strata/geometry/layerMaterial 5 G4_Fe
+/strata/geometry/layerThickness 6 100 nm
+/strata/geometry/layerMaterial 6 G4_Cu
+/strata/geometry/layerThickness 7 100 nm
+/strata/geometry/layerMaterial 7 G4_Fe
+/strata/geometry/layerThickness 8 100 nm
+/strata/geometry/layerMaterial 8 G4_Cu
+/strata/geometry/layerThickness 9 100 nm
+/strata/geometry/layerMaterial 9 G4_Fe
+/strata/geometry/layerThickness 10 100 nm
+/strata/geometry/layerMaterial 10 G4_Cu
+/strata/geometry/layerThickness 11 100 nm
+/strata/geometry/layerMaterial 11 G4_Fe
+/strata/geometry/layerThickness 12 100 nm
+/strata/geometry/layerMaterial 12 G4_Cu
+/strata/geometry/layerThickness 13 100 nm
+/strata/geometry/layerMaterial 13 G4_Fe
+#
+/strata/physics/addPhysics standardNR
+/strata/physics/addPhysics elastic
+/strata/physics/addPhysics binary
+/strata/physics/addPhysics binary_ion
+#
+/control/verbose 2
+/control/saveHistory
+/run/verbose 2
+#
+/run/initialize
+#
+# Cu3+ ions at 3 MeV
+/gun/particle ion
+/gun/ion 29 63 3
+/gun/energy 3 MeV
+#
+# save histograms in an ascii file
+/analysis/setFileName chen_multilayer
+/analysis/h1/set 1 200 0 1400 nm
+/analysis/h1/setAscii 1
+/analysis/h1/set 2 200 0 1400 nm
+/analysis/h1/setAscii 2
+/analysis/h1/set 3 200 0 1400 nm
+/analysis/h1/setAscii 3
+#
+/run/printProgress 10000
+#
+/run/beamOn 200000

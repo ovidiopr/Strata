@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="10" transverseSizeUnit="um">
+    <layer unit="nm" index="0" material="G4_Au" thickness="30"/>
+    <layer unit="um" index="1" material="G4_Si" thickness="2"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <rbs tilt="0" angle="165" screening="yes" resolution="15" solidAngle="1" resolutionUnit="keV" solidAngleUnit="msr"/>
+  <tracking cut="10" cutUnit="nm" killSecondaries="0"/>
+  <beam angle="0" energy="2" events="20000" radius="0" particle="ion" energyUnit="MeV">
+    <ion a="4" z="2" charge="2"/>
+  </beam>
+  <physics list="standardNR"/>
+  <spectra>
+    <spectrum id="80" fcn="" max="2" min="0" bins="400" unit="MeV"/>
+    <spectrum id="1" fcn="" max="2" min="0" bins="200" unit="um"/>
+    <spectrum id="2" fcn="" max="2" min="0" bins="200" unit="um"/>
+  </spectra>
+  <commands stage="run">/run/printProgress 5000
+</commands>
+  <output folder="" fileName="strata"/>
+</strata-configuration>

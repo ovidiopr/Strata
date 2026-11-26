@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="Vacuum" transverseSize="10" transverseSizeUnit="cm">
+    <layer unit="m" index="0" material="Vacuum" thickness="2.5"/>
+    <layer unit="cm" index="1" material="StripperGas" thickness="10"/>
+    <layer unit="m" index="2" material="Vacuum" thickness="2.5"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="yes" primaries="yes" cascadesFile="stripper_recoils.txt" primariesFile="stripper_primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking cut="1" cutUnit="um" killSecondaries="0"/>
+  <beam angle="0" energy="2.01" events="10000" radius="1" particle="ion" energyUnit="MeV">
+    <ion a="12" z="6" charge="1"/>
+  </beam>
+  <physics list="standardNR"/>
+  <spectra>
+    <spectrum id="20" fcn="" max="2.1" min="1.8" bins="300" unit="MeV"/>
+    <spectrum id="23" fcn="" max="2" min="-2" bins="200" unit="deg"/>
+    <spectrum id="11" fcn="" max="20" min="0" bins="200" unit="keV"/>
+    <spectrum id="13" fcn="log10" max="20" min="0.001" bins="200" unit="keV"/>
+  </spectra>
+  <commands stage="run">/run/printProgress 2000
+</commands>
+  <output folder="" fileName="strata"/>
+</strata-configuration>

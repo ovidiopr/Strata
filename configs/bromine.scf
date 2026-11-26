@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="10" transverseSizeUnit="um">
+    <layer unit="um" index="0" material="G4_SILICON_DIOXIDE" thickness="10"/>
+  </geometry>
+  <materials/>
+  <voxels>
+    <voxel posX="-4" posY="0" posZ="0" index="0" sizeX="4" sizeY="4" sizeZ="4" posUnit="um" sizeUnit="nm"/>
+    <voxel posX="-2" posY="0" posZ="0" index="1" sizeX="4" sizeY="4" sizeZ="4" posUnit="um" sizeUnit="nm"/>
+    <voxel posX="0" posY="0" posZ="0" index="2" sizeX="4" sizeY="4" sizeZ="4" posUnit="um" sizeUnit="nm"/>
+    <voxel posX="2" posY="0" posZ="0" index="3" sizeX="4" sizeY="4" sizeZ="4" posUnit="um" sizeUnit="nm"/>
+    <voxel posX="4" posY="0" posZ="0" index="4" sizeX="4" sizeY="4" sizeZ="4" posUnit="um" sizeUnit="nm"/>
+  </voxels>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking stepMax="10" stepMaxUnit="nm" killSecondaries="0"/>
+  <beam angle="0" energy="40" events="20000" radius="5" particle="ion" energyUnit="MeV">
+    <ion a="79" z="35" charge="7"/>
+  </beam>
+  <physics list="standardNR">
+    <optional name="elastic"/>
+    <optional name="binary"/>
+    <optional name="binary_ion"/>
+  </physics>
+  <spectra>
+    <spectrum id="1" fcn="" max="10" min="0" bins="100" unit="um"/>
+    <spectrum id="2" fcn="" max="10" min="0" bins="100" unit="um"/>
+    <spectrum id="3" fcn="" max="10" min="0" bins="100" unit="um"/>
+  </spectra>
+  <commands stage="run">/analysis/h1/setAscii 1
+/analysis/h1/setAscii 2
+/analysis/h1/setAscii 3
+/run/printProgress 1000
+</commands>
+  <output folder="" fileName="bromine"/>
+</strata-configuration>

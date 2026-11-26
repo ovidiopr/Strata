@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="10" transverseSizeUnit="um">
+    <layer unit="um" index="0" material="Graphite" thickness="10"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking cut="1" cutUnit="km" killSecondaries="0"/>
+  <beam angle="0" energy="1" events="10000" radius="0" particle="e-" energyUnit="MeV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="standard_opt4"/>
+  <spectra>
+    <spectrum id="10" fcn="" max="10" min="0" bins="100" unit="keV"/>
+  </spectra>
+  <commands stage="beam">/strata/gun/setDefault
+</commands>
+  <commands stage="run">/analysis/h1/setAscii 10
+</commands>
+  <output folder="" fileName="dedx"/>
+</strata-configuration>

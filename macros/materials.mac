@@ -1,0 +1,57 @@
+#==============================================================================
+# Defining materials from a density and a list of constituents.
+#
+# A definition is opened with create, filled with one add command per
+# constituent, and closed with build.  Nothing is created until build
+# succeeds, so a definition that does not add up leaves the material table
+# untouched and can be corrected and built again.
+#
+# Constituents may be any material that already exists (a NIST material,
+# one of Strata's own, or one defined earlier here) or a chemical element.
+# Amounts are either mass fractions, which have to add up to 1, or numbers
+# of atoms.  Geant4 does not allow the two forms in the same material.
+#==============================================================================
+
+/control/verbose 2
+/run/verbose 0
+
+# --- a glass, as a mixture of oxides by weight -------------------------------
+/strata/material/create Borosilicate 2.23 g/cm3
+/strata/material/addMaterial G4_SILICON_DIOXIDE 0.81
+/strata/material/addMaterial G4_BORON_OXIDE 0.13
+/strata/material/addMaterial G4_SODIUM_MONOXIDE 0.04
+/strata/material/addMaterial G4_ALUMINUM_OXIDE 0.02
+/strata/material/build
+
+# --- a compound from its formula, Si3N4 --------------------------------------
+/strata/material/create SiliconNitride 3.17 g/cm3
+/strata/material/addElementByAtoms Si 3
+/strata/material/addElementByAtoms N 4
+/strata/material/build
+
+# --- an alloy from elements by weight, AISI 304 stainless --------------------
+/strata/material/create Steel304 7.9 g/cm3
+/strata/material/addElement Fe 0.70
+/strata/material/addElement Cr 0.19
+/strata/material/addElement Ni 0.09
+/strata/material/addElement Mn 0.02
+/strata/material/build
+
+/strata/material/list
+
+# --- and then use one as a target layer --------------------------------------
+/strata/physics/addPhysics standardNR
+/strata/geometry/layerNumber 2
+/strata/geometry/layerMaterial 0 SiliconNitride
+/strata/geometry/layerThickness 0 500 nm
+/strata/geometry/layerMaterial 1 Borosilicate
+/strata/geometry/layerThickness 1 20 um
+/run/initialize
+/run/setCut 10 nm
+
+/gun/particle proton
+/gun/energy 1 MeV
+/random/setSeeds 20260116 1
+/run/beamOn 200
+
+/strata/material/print SiliconNitride

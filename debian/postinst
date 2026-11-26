@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+# Update icon cache (the icon is shipped as SVG, under hicolor/scalable)
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+    gtk-update-icon-cache -f /usr/share/icons/hicolor >/dev/null 2>&1 || true
+fi
+
+# Update desktop database
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database >/dev/null 2>&1 || true
+fi
+
+# The loader has to find the backend; it is installed in a private directory
+# rather than /usr/lib so that it cannot be confused with a system library.
+if command -v ldconfig >/dev/null 2>&1; then
+    ldconfig >/dev/null 2>&1 || true
+fi
+
+exit 0

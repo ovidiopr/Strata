@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="Strata"/>
+      <Scaled Value="True"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <XPManifest>
+        <DpiAware Value="True"/>
+        <TextName Value="Strata"/>
+        <TextDesc Value="MC app based on Geant4."/>
+      </XPManifest>
+      <Icon Value="0"/>
+    </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="1"/>
+      <StringTable ProductName="Strata" ProductVersion="1.0.0"/>
+    </VersionInfo>
+    <BuildModes>
+      <Item Name="Default" Default="True"/>
+      <Item Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="../build/StrataGUI"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../src"/>
+            <UnitOutputDirectory Value="../build/units/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="bgrapascalscriptcomponent"/>
+      </Item>
+      <Item>
+        <PackageName Value="bgracontrols"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazControls"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazControlDsgn"/>
+      </Item>
+      <Item>
+        <PackageName Value="ExtSVGImageList"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazScience"/>
+      </Item>
+      <Item>
+        <PackageName Value="TAChartLazarusPkg"/>
+      </Item>
+      <Item>
+        <PackageName Value="SynEdit"/>
+      </Item>
+      <Item>
+        <PackageName Value="LCL"/>
+      </Item>
+    </RequiredPackages>
+    <Units>
+      <Unit>
+        <Filename Value="StrataGUI.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="umain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uMain"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uscigrid.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSciGrid"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/ustrataapi.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStrataApi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/ustrataengine.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStrataEngine"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/ustrataapp.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStrataApp"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uabout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="AboutBox"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uAbout"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="OptionsDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uOptions"/>
+      </Unit>
+      <Unit>
+        <Filename Value="udatasets.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DatasetsDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uDatasets"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/ustratadatasets.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStrataDatasets"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/ustratafetch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStrataFetch"/>
+      </Unit>
+      <Unit>
+        <Filename Value="umaterials.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MaterialsDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uMaterials"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ustratawidgets.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uStrataWidgets"/>
+      </Unit>
+      <Unit>
+        <Filename Value="upanelsframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="PanelsFrame"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="uPanelsFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ueditorframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditorFrame"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="uEditorFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="usynstratamacro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSynStrataMacro"/>
+      </Unit>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="../build/StrataGUI"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../src"/>
+      <UnitOutputDirectory Value="../build/units/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <IncludeAssertionCode Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions>
+      <Item>
+        <Name Value="EAbort"/>
+      </Item>
+      <Item>
+        <Name Value="ECodetoolError"/>
+      </Item>
+      <Item>
+        <Name Value="EFOpenError"/>
+      </Item>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

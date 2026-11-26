@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="20" transverseSizeUnit="um">
+    <layer unit="um" index="0" material="G4_WATER" thickness="20"/>
+  </geometry>
+  <materials/>
+  <voxels>
+    <voxel posX="-9.9" posY="0" posZ="0" index="0" sizeX="2" sizeY="2" sizeZ="2" posUnit="um" sizeUnit="nm"/>
+    <voxel posX="-5" posY="0" posZ="0" index="1" sizeX="2" sizeY="2" sizeZ="2" posUnit="um" sizeUnit="nm"/>
+    <voxel posX="0" posY="0" posZ="0" index="2" sizeX="2" sizeY="2" sizeZ="2" posUnit="um" sizeUnit="nm"/>
+    <voxel posX="5" posY="0" posZ="0" index="3" sizeX="2" sizeY="2" sizeZ="2" posUnit="um" sizeUnit="nm"/>
+  </voxels>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking stepMax="1" stepMaxUnit="nm" killSecondaries="0"/>
+  <beam angle="0" energy="160" events="1000" radius="3" particle="proton" energyUnit="MeV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="local"/>
+  <spectra/>
+  <commands stage="preinit">/tracking/verbose 0
+</commands>
+  <commands stage="run">/run/printProgress 1000
+</commands>
+  <output folder="" fileName="strata"/>
+</strata-configuration>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="100" transverseSizeUnit="um">
+    <layer unit="um" index="0" material="G4_Au" thickness="100"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <tracking stepMax="10" stepMaxUnit="nm" killSecondaries="0"/>
+  <beam angle="0" energy="3" events="1000" radius="0" particle="proton" energyUnit="MeV">
+    <ion a="28" z="14" charge="-1"/>
+  </beam>
+  <physics list="standardATIMA"/>
+  <spectra>
+    <spectrum id="1" fcn="" max="10" min="0" bins="100" unit="um"/>
+    <spectrum id="2" fcn="" max="10" min="0" bins="100" unit="um"/>
+    <spectrum id="3" fcn="" max="10" min="0" bins="100" unit="um"/>
+  </spectra>
+  <commands stage="run">/analysis/h1/setAscii 1
+/analysis/h1/setAscii 2
+/analysis/h1/setAscii 3
+</commands>
+  <output folder="" fileName="rbs"/>
+</strata-configuration>

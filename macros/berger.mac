@@ -1,0 +1,39 @@
+#
+# macro file for Strata.cc
+#
+# energy deposit by 1 MeV electrons in silicon counters.
+# M.J. Berger et al., Nucl. Instrum. Meth. 69 (1969) 181-193
+# https://doi.org/10.1016/0029-554X(69)90411-X
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 1 cm
+#
+/strata/geometry/layerNumber 1
+#/strata/geometry/layerThickness 0 61 um
+#/strata/geometry/layerThickness 0 105 um
+#/strata/geometry/layerThickness 0 191 um
+/strata/geometry/layerThickness 0 530 um
+#/strata/geometry/layerThickness 0 1 mm
+#/strata/geometry/layerThickness 0 3 mm
+/strata/geometry/layerMaterial 0 Silicon
+#
+/strata/physics/addPhysics local
+#/strata/physics/addPhysics standard_opt4
+#
+/run/setCut 10 um
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle e- 
+/gun/energy 1 MeV
+#
+/analysis/setFileName berger
+/analysis/h1/set 10 105 0 1.05 MeV #energy deposit
+/analysis/h1/setAscii 10
+#
+/run/printProgress 100000 
+/run/beamOn 1000000

@@ -1,0 +1,37 @@
+#
+# macro file for Strata.cc
+#
+# Back scattering of 41 keV electrons.
+# H.-J. Hunger, L. Küchler, Physica Status Solidi (a) 56 (1979) K45-K48
+# https://doi.org/10.1002/pssa.2210560157
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 60 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 50 um
+/strata/geometry/layerMaterial 0 Silver
+#
+/strata/physics/addPhysics local
+#
+#
+/run/initialize
+#
+/run/setCut 1 mm
+#
+/strata/gun/setDefault
+/gun/particle e- 
+/gun/energy 41 keV
+#
+/analysis/setFileName hunger
+/analysis/h1/set 40 50 0.0 50 keV #energy reflected_charged
+/analysis/h1/setAscii 40
+#
+#/strata/stepMax 1 um
+#
+/run/printProgress 10000
+# 
+/run/beamOn 100000

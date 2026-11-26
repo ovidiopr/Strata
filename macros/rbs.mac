@@ -1,0 +1,46 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+# It shows how to introduce simple voxels
+#
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 100 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 100 um
+/strata/geometry/layerMaterial 0 G4_Au # Gold
+#/strata/geometry/layerMaterial 0 G4_SILICON_DIOXIDE # Silica
+#/strata/geometry/layerMaterial 0 G4_SILICON_DIOXIDE 2.65 g/cm3 # Quartz
+#
+/strata/physics/addPhysics standardATIMA
+#/strata/physics/addPhysics elastic
+#/strata/physics/addPhysics binary
+#/strata/physics/addPhysics binary_ion
+#
+/run/initialize
+#
+# Protons at 3 MeV
+/gun/particle proton
+/gun/energy 3 MeV
+#
+# beam size
+#/strata/gun/rndBeam 5 nm
+#
+# limit the step size
+/strata/stepMax 10 nm
+#
+# save histograms in an ascii file
+/analysis/setFileName rbs
+/analysis/h1/set 1 100 0 10 um
+/analysis/h1/set 2 100 0 10 um
+/analysis/h1/set 3 100 0 10 um
+/analysis/h1/setAscii 1
+/analysis/h1/setAscii 2
+/analysis/h1/setAscii 3
+#
+#/run/printProgress 1000
+#
+#/run/beamOn 20000

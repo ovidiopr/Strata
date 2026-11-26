@@ -1,0 +1,82 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+#
+#
+/control/verbose 1
+/run/verbose 1
+#
+/strata/geometry/setSizeYZ 20 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 20 um
+/strata/geometry/layerMaterial 0 G4_WATER
+#
+/strata/geometry/voxelNumber 4
+/strata/geometry/voxelDefinition 0 2. 2. 2. nm
+/strata/geometry/voxelDefinition 1 2. 2. 2. nm
+/strata/geometry/voxelDefinition 2 2. 2. 2. nm
+/strata/geometry/voxelDefinition 3 2. 2. 2. nm
+/strata/geometry/voxelPosition 0 -9.9 0. 0. um
+/strata/geometry/voxelPosition 1 -5.  0. 0. um
+/strata/geometry/voxelPosition 2  0.  0. 0. um
+/strata/geometry/voxelPosition 3  5.  0. 0. um
+#
+/strata/physics/addPhysics   standard_opt3
+#
+/run/initialize
+/analysis/setActivation false
+#
+/gun/particle proton
+/gun/energy 0.7 MeV
+# beam size
+/strata/gun/rndBeam 3 nm
+#
+/strata/stepMax 1 nm
+#
+/run/printProgress 1000
+#
+/run/beamOn 10000
+#
+/gun/particle ion
+/gun/ion 6 12 6
+/gun/energy 12 MeV
+#
+/strata/stepMax 100 nm
+#
+/run/beamOn 1000
+#
+/strata/geometry/voxelNumber 0
+/strata/geometry/layerMaterial 0 G4_Cu
+#
+/gun/particle kaon+
+/gun/energy 1.5 MeV
+/run/beamOn 1000
+#
+/strata/geometry/layerMaterial 0 Vacuum
+#
+/gun/particle alpha
+/gun/energy 0.265 keV
+/run/beamOn 100
+#
+/strata/geometry/layerMaterial 0 G4_WATER
+#
+/gun/particle alpha
+/gun/energy 3 MeV
+/run/beamOn 100
+#
+/strata/geometry/layerMaterial 0 G4_Si
+/gun/particle ion
+/gun/ion 54 131 35
+/gun/energy 200 MeV
+/run/setCut 0.002 nm
+/run/beamOn 10
+#
+/strata/geometry/layerMaterial 0 Water_1.05
+/gun/particle proton
+/gun/energy 0.8 MeV
+/strata/stepMax 1 nm
+/run/setCut 1 nm
+/tracking/verbose 0
+/run/beamOn 1000
+#

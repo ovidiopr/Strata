@@ -1,0 +1,40 @@
+#
+# Macro file for  Strata.cc
+# Implantation of Al ions on Aluminium
+# Described in: J. Nucl. Mater. 117 (1983) 208-212.
+# https://doi.org/10.1016/0022-3115(83)90025-9
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 6 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 8 um
+/strata/geometry/layerMaterial 0 G4_Al
+#
+/strata/physics/addPhysics standardNR
+/strata/physics/addPhysics rad_decay
+/strata/physics/addPhysics binary_cascade
+/strata/physics/addPhysics extra_physics
+/strata/physics/addPhysics elastic
+/strata/physics/addPhysics stopping
+/strata/physics/addPhysics qgsp_bic
+/strata/physics/addPhysics neutron_tracking
+#
+/control/verbose 2
+/control/saveHistory
+/run/verbose 2
+#
+# Save track information to files
+/strata/files/savePrimaries true
+/strata/files/saveCascades true
+#
+/run/initialize
+#
+#/strata/gun/rndBeam 2 um
+#
+# Al4+ ions at 15 MeV
+/gun/particle ion
+/gun/ion 13 27 4
+/gun/energy 15 MeV

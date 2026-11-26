@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Strata
+GenericName=Ion irradiation simulation
+Comment=Monte Carlo simulation of ion irradiation, on Geant4
+Exec=StrataGUI
+Icon=strata
+Terminal=false
+Categories=Science;Physics;Education;
+Keywords=Geant4;Monte Carlo;ion;irradiation;dosimetry;SRIM;
+StartupNotify=true

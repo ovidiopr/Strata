@@ -1,0 +1,31 @@
+#
+# macro file for TestEm5.cc
+#
+# to control dE/dx calculation
+#
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 10 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 10 um
+/strata/geometry/layerMaterial 0 Graphite
+#
+/strata/physics/addPhysics standard_opt4
+#/strata/physics/addPhysics livermore
+#/strata/physics/addPhysics penelope
+#
+/run/setCut 1 km
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle e-
+/gun/energy 1 MeV
+#
+/analysis/setFileName dedx
+/analysis/h1/set 10 100 0. 10. keV #energy in absorber
+/analysis/h1/setAscii 10
+#
+/run/beamOn 10000

@@ -1,0 +1,38 @@
+# Displacement damage from a self-ion irradiation
+#
+# 1 MeV iron into iron, which is one of the six materials whose constants
+# are built in.  standardNR is required: without nuclear recoils there are
+# no knock-on atoms to count.
+#
+/control/verbose 0
+/run/verbose 0
+#
+/strata/geometry/setSizeYZ 1 um
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 1 um
+/strata/geometry/layerMaterial 0 G4_Fe
+#
+/strata/physics/addPhysics standardNR
+/strata/damage/enable true
+# Ed, b and c for a material the table does not carry:
+# /strata/damage/setEd G4_Si 15 eV
+# /strata/damage/setArc G4_Si -0.5 0.3
+/strata/damage/print
+#
+/run/initialize
+#
+/gun/particle ion
+/gun/ion 26 56
+/gun/energy 1 MeV
+#
+# dpa per unit fluence against depth, NRT and with the athermal
+# recombination correction.  Multiply by the fluence in ions/cm2
+/analysis/h1/set 4 100 0 1 um
+/analysis/h1/set 5 100 0 1 um
+# The knock-on atoms the projectile makes, which is what both are built on
+/analysis/h1/set 6 200 0 100 keV
+# The non-ionizing part of the energy deposit, for comparison
+/analysis/h1/set 2 100 0 1 um
+#
+/run/printProgress 500
+/run/beamOn 2000

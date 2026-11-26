@@ -1,0 +1,20 @@
+Package: strata
+Version: @VERSION@
+Section: science
+Priority: optional
+Architecture: @ARCH@
+Depends: libc6, libstdc++6, geant4 (>= @GEANT4_VERSION@), geant4 (<< @GEANT4_VERSION@.0)
+Maintainer: Ovidio Peña Rodríguez <ovidio@bytesfall.com>
+Description: Monte Carlo simulation of ion irradiation, on Geant4
+ Strata simulates the irradiation of a multilayer target: the energy
+ deposited along the track, ionizing and non-ionizing separately, the
+ projected range and its straggling, the spectra of whatever leaves the
+ target, and the dose in test volumes placed inside it.
+ .
+ The package carries the batch program, the shared library it is driven
+ through, and a graphical front end for preparing a run and looking at
+ the spectra it produces.
+ .
+ Geant4 @GEANT4_VERSION@ comes from its own package, from
+ https://github.com/ovidiopr/geant4-installers, which also downloads the data
+ files.

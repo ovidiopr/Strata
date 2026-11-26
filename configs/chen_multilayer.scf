@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="1" transverseSizeUnit="um">
+    <layer unit="nm" index="0" material="G4_Cu" thickness="100"/>
+    <layer unit="nm" index="1" material="G4_Fe" thickness="100"/>
+    <layer unit="nm" index="2" material="G4_Cu" thickness="100"/>
+    <layer unit="nm" index="3" material="G4_Fe" thickness="100"/>
+    <layer unit="nm" index="4" material="G4_Cu" thickness="100"/>
+    <layer unit="nm" index="5" material="G4_Fe" thickness="100"/>
+    <layer unit="nm" index="6" material="G4_Cu" thickness="100"/>
+    <layer unit="nm" index="7" material="G4_Fe" thickness="100"/>
+    <layer unit="nm" index="8" material="G4_Cu" thickness="100"/>
+    <layer unit="nm" index="9" material="G4_Fe" thickness="100"/>
+    <layer unit="nm" index="10" material="G4_Cu" thickness="100"/>
+    <layer unit="nm" index="11" material="G4_Fe" thickness="100"/>
+    <layer unit="nm" index="12" material="G4_Cu" thickness="100"/>
+    <layer unit="nm" index="13" material="G4_Fe" thickness="100"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="no" primaries="no" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <beam angle="0" energy="3" events="200000" radius="0" particle="ion" energyUnit="MeV">
+    <ion a="63" z="29" charge="3"/>
+  </beam>
+  <physics list="standardNR">
+    <optional name="elastic"/>
+    <optional name="binary"/>
+    <optional name="binary_ion"/>
+  </physics>
+  <spectra>
+    <spectrum id="1" fcn="" max="1400" min="0" bins="200" unit="nm"/>
+    <spectrum id="2" fcn="" max="1400" min="0" bins="200" unit="nm"/>
+    <spectrum id="3" fcn="" max="1400" min="0" bins="200" unit="nm"/>
+  </spectra>
+  <commands stage="preinit">/control/saveHistory
+</commands>
+  <commands stage="run">/analysis/h1/setAscii 1
+/analysis/h1/setAscii 2
+/analysis/h1/setAscii 3
+/run/printProgress 10000
+</commands>
+  <output folder="" fileName="chen_multilayer"/>
+</strata-configuration>

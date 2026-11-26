@@ -1,0 +1,45 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+#
+/control/verbose 2
+/run/verbose 2
+/tracking/verbose 0
+#
+/strata/geometry/setSizeYZ 20 um
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 20 um
+/strata/geometry/layerMaterial 0 G4_WATER
+#
+/strata/geometry/voxelNumber 4
+/strata/geometry/voxelDefinition 0 2. 2. 2. nm
+/strata/geometry/voxelDefinition 1 2. 2. 2. nm
+/strata/geometry/voxelDefinition 2 2. 2. 2. nm
+/strata/geometry/voxelDefinition 3 2. 2. 2. nm
+/strata/geometry/voxelPosition 0 -9.9 0. 0. um
+/strata/geometry/voxelPosition 1 -5.  0. 0. um
+/strata/geometry/voxelPosition 2  0.  0. 0. um
+/strata/geometry/voxelPosition 3  5.  0. 0. um
+#
+#/strata/physics/addPhysics  standard_opt0
+/strata/physics/addPhysics  standard_opt4
+#/strata/physics/addPhysics  standardSS
+#/strata/physics/addPhysics  ionGasModels
+#
+/run/initialize
+#
+/gun/particle ion
+/gun/ion 9 19 9
+#/gun/ion 6 12 6
+#/gun/energy 1.0 MeV
+/gun/energy 0.01 MeV
+#
+# step limit
+/run/setCut 0.5 nm
+/strata/stepMax 0.1 um
+#
+/run/printProgress 100
+#
+/run/beamOn 1000
+#

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strata-configuration version="1">
+  <engine threads="2"/>
+  <geometry temperature="293.15" worldMaterial="G4_Galactic" transverseSize="6" transverseSizeUnit="um">
+    <layer unit="um" index="0" material="G4_Al" thickness="8"/>
+  </geometry>
+  <materials/>
+  <voxels/>
+  <tracks cascades="yes" primaries="yes" cascadesFile="cascades.txt" primariesFile="primaries.txt"/>
+  <random seed1="0" seed2="0" engine="ranecu" seeding="perRun"/>
+  <beam angle="0" energy="15" events="1000" radius="0" particle="ion" energyUnit="MeV">
+    <ion a="27" z="13" charge="4"/>
+  </beam>
+  <physics list="standardNR">
+    <optional name="rad_decay"/>
+    <optional name="binary_cascade"/>
+    <optional name="extra_physics"/>
+    <optional name="elastic"/>
+    <optional name="stopping"/>
+    <optional name="qgsp_bic"/>
+    <optional name="neutron_tracking"/>
+  </physics>
+  <spectra/>
+  <commands stage="preinit">/control/saveHistory
+</commands>
+  <output folder="" fileName="strata"/>
+</strata-configuration>

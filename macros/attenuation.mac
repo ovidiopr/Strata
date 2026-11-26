@@ -1,0 +1,36 @@
+# Photon attenuation: mu from the unscattered peak
+#
+# A narrow beam of 662 keV gammas (Cs-137) through 5 cm of aluminium.
+# Photons that cross without interacting arrive with their full energy, so
+# the last bin of h1[30] holds exp(-mu*t) of the beam and mu follows from
+# one number.  NIST XCOM gives mu/rho = 0.07466 cm2/g for Al at 662 keV,
+# and with rho = 2.699 g/cm3 that is mu = 0.2015 /cm, so 5 cm should
+# transmit exp(-1.0075) = 0.3651 of the beam unscattered.
+#
+/control/verbose 0
+/run/verbose 0
+#
+/strata/geometry/setSizeYZ 40 cm
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 5 cm
+/strata/geometry/layerMaterial 0 G4_Al
+#
+# livermore or penelope could also be used
+/strata/physics/addPhysics standard_opt4
+/run/setCut 1 mm
+#
+/run/initialize
+#
+/gun/particle gamma
+/gun/energy 662 keV
+# A pencil beam
+/strata/gun/rndBeam 0 mm
+#
+# Transmitted photons
+/analysis/h1/set 30 700 0 700 keV
+# What the absorbed photons left behind
+/analysis/h1/set 10 200 0 700 keV
+/analysis/h1/set 11 200 0 700 keV
+#
+/run/printProgress 20000
+/run/beamOn 100000

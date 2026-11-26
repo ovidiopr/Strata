@@ -1,0 +1,45 @@
+# The gas stripper of a tandem accelerator
+#
+# The acceleration itself cannot be simulated here. What is simulated is
+# the stripper cell: how much energy the ion loses in the gas, how much
+# that loss straggles, how far the beam is scattered, and what the gas
+# itself recoils into.
+#
+/control/verbose 0
+/run/verbose 0
+#
+# 5 m chamber: 2.5 m drift, a 10 cm gas cell, 2.5 m drift
+/strata/geometry/setSizeYZ 10 cm
+/strata/geometry/layerNumber 3
+/strata/geometry/layerThickness 0 2.5 m
+/strata/geometry/layerMaterial 0 Vacuum
+/strata/geometry/layerThickness 1 10 cm
+/strata/geometry/layerMaterial 1 StripperGas
+/strata/geometry/layerThickness 2 2.5 m
+/strata/geometry/layerMaterial 2 Vacuum
+/strata/geometry/setWorldMat Vacuum
+#
+/strata/physics/addPhysics standardNR
+/run/setCut 1 um
+#
+/run/initialize
+#
+# Carbon at the terminal: 10 keV injected plus 1 x 2 MV
+/gun/particle ion
+/gun/ion 6 12 1
+/gun/energy 2.01 MeV
+/strata/gun/rndBeam 1 mm
+#
+/analysis/h1/set 20 300 1.8 2.1 MeV
+/analysis/h1/set 23 200 -2 2 deg
+/analysis/h1/set 11 200 0 20 keV
+/analysis/h1/set 13 200 1e-3 20 keV log10
+#
+# The projectile and every secondary the gas produced
+/strata/files/savePrimaries true
+/strata/files/setPrimariesName stripper_primaries.txt
+/strata/files/saveCascades true
+/strata/files/setCascadesName stripper_recoils.txt
+#
+/run/printProgress 2000
+/run/beamOn 10000

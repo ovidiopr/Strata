@@ -1,0 +1,33 @@
+#
+# macro file for Strata.cc 
+#
+# angle distribution of high energy (50-200 GeV/c) protons
+# transmitted through different targets.
+# G. Shen et al., Phys. Rev. D 20 (1979) 1584-1588
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 2
+#
+/strata/geometry/setSizeYZ 1 cm
+#
+/strata/geometry/layerNumber 1
+/strata/geometry/layerThickness 0 4.005 mm
+/strata/geometry/layerMaterial 0 Aluminium
+#
+/run/setCut 6.05 um
+/run/setCutForAGivenParticle gamma 2.25 mm
+#
+/run/initialize
+#
+/strata/gun/setDefault
+/gun/particle proton 
+/gun/energy 69.068 GeV #momentum 70 GeV/c
+#
+/analysis/setFileName shen1
+/analysis/h1/set 22 100 0.00 0.01 deg #space angle
+/analysis/h1/setAscii 22
+#
+/strata/stack/killSecondaries
+#
+/run/beamOn 100000
