@@ -54,33 +54,47 @@ object MainForm: TMainForm
       Visible = False
     end
   end
-  inline fraPanels: TPanelsFrame
+  object nbMain: TNotebook
+    Left = 0
+    Height = 632
     Top = 32
+    Width = 1040
+    PageIndex = 0
     Align = alClient
     TabOrder = 2
-    DesignTop = 200
-  end
-  inline fraEditor: TEditorFrame
-    Top = 32
-    Align = alClient
-    TabOrder = 3
-    Visible = False
-    inherited pcEditor: TPageControl
-      inherited tabEdHistograms: TTabSheet
-        inherited pnlEdHistograms: TPanel
-          inherited btnEdExportHistogram: TSpeedButton
-            Width = 79
-          end
-        end
+    object pgPanels: TPage
+      inline fraPanels: TPanelsFrame
+        Left = 0
+        Top = 0
+        Align = alClient
+        TabOrder = 0
+        DesignTop = 200
       end
-      inherited tabEdLog: TTabSheet
-        inherited pnlEdLogButtons: TPanel
-          inherited btnEdClearLog: TSpeedButton
-            Width = 42
+    end
+    object pgEditor: TPage
+      inline fraEditor: TEditorFrame
+        Left = 0
+        Top = 0
+        Align = alClient
+        TabOrder = 0
+        inherited pcEditor: TPageControl
+          inherited tabEdHistograms: TTabSheet
+            inherited pnlEdHistograms: TPanel
+              inherited btnEdExportHistogram: TSpeedButton
+                Width = 79
+              end
+            end
           end
-          inherited btnEdSaveLog: TSpeedButton
-            Left = 54
-            Width = 68
+          inherited tabEdLog: TTabSheet
+            inherited pnlEdLogButtons: TPanel
+              inherited btnEdClearLog: TSpeedButton
+                Width = 42
+              end
+              inherited btnEdSaveLog: TSpeedButton
+                Left = 54
+                Width = 68
+              end
+            end
           end
         end
       end

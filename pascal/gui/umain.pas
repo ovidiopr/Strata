@@ -6,8 +6,9 @@
   run-finished events on the GUI thread.  Nothing in this unit runs on a
   background thread, and nothing in the backend ever calls into the LCL.
 
-  What the window shows is a frame: TPanelsFrame holds the set-up pages and
-  the .scf document; the toolbar and the menus carry its commands.
+  What the window shows is one of two frames, each on a page of nbMain:
+  TPanelsFrame holds the set-up pages and the .scf document, TEditorFrame the
+  macro editor; the toolbar and the menus carry their commands.
 ==============================================================================}
 
 unit uMain;
@@ -27,6 +28,9 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    nbMain: TNotebook;
+    pgPanels: TPage;
+    pgEditor: TPage;
     fraPanels: TPanelsFrame;
     fraEditor: TEditorFrame;
     actOpenDocument: TFileOpen;
@@ -1101,8 +1105,8 @@ end;
 procedure TMainForm.ShowInterface(AEditor: Boolean);
 begin
   FEditing := AEditor;
-  fraPanels.Visible := not AEditor;
-  fraEditor.Visible := AEditor;
+  if AEditor then nbMain.PageIndex := pgEditor.PageIndex
+  else nbMain.PageIndex := pgPanels.PageIndex;
   if AEditor then
   begin
     FApp.Options.LastInterface := 'editor';
