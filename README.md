@@ -83,6 +83,9 @@ Strata -g setup.mac          # run setup.mac, then open the viewer
   beam, random numbers, histograms, displacement damage, RBS and output.
 * [doc/srim-comparison.md](doc/srim-comparison.md): the `srim` physics list
   and how Strata compares with SRIM/TRIM.
+* [doc/physics.md](doc/physics.md): the physics models, where each applies,
+  and references.
+* [doc/developers.md](doc/developers.md): how the code is organised.
 
 ---
 
