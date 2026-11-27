@@ -130,13 +130,13 @@ SRIM's.
 understanding, because getting it wrong silently biases every range you
 compute. A tabulated stopping power is the *total* energy lost to electrons.
 Geant4 wants the *restricted* loss, excluding the part carried off by delta
-rays that it transports explicitly, because counting both double-counts. The
-models therefore scale the tabulated value by the restricted/unrestricted
+electrons that it transports explicitly, because counting both double-counts.
+The models therefore scale the tabulated value by the restricted/unrestricted
 ratio the underlying Geant4 model gives at the same point.
 
-When the production cut is above the maximum delta-ray energy, no deltas are
-made, the ratio is one, and the table is used exactly as supplied. **That is
-the configuration to use when comparing against SRIM**, because TRIM has no
+When the production cut is above the maximum delta-electron energy, no deltas
+are made, the ratio is one, and the table is used exactly as supplied. **That
+is the configuration to use when comparing against SRIM**, because TRIM has no
 delta transport at all. If you want the strict TRIM analogue, raise the cut
 until the range stops changing.
 
@@ -209,8 +209,8 @@ different definitions unless the cut is raised.
 4. Run `/strata/physics/srim/list` and confirm your pair appears under
    "served from a table". If it appears under "fell back to Geant4", the name
    or the energy range is wrong.
-5. Raise the production cut above the maximum delta-ray energy if you want the
-   strict TRIM analogue, and say so in your methods.
+5. Raise the production cut above the maximum delta-electron energy if you want
+   the strict TRIM analogue, and say so in your methods.
 6. Compare the projected range first — it is the most robust number in both
    codes. Compare S_e(x) next. Leave vacancy counts for last, and state
    explicitly which definition you are using.
