@@ -6,7 +6,8 @@ Unicode True
 ;  Installs the four things Strata is made of: the window (StrataGUI.exe),
 ;  the batch program (Strata.exe), the engine (strata_engine.exe) and the
 ;  backend the window drives it
-;  through (strata.dll), plus the example macros.
+;  through (strata.dll), plus the stopping-power tool (strata_dedx.exe) and
+;  the example macros.
 ;
 ;  Geant4 is NOT installed here.  It is a separate installer, because it is
 ;  shared with everything else built on it and because its data files are
@@ -35,6 +36,7 @@ Unicode True
 !define CLI_NAME "Strata.exe"
 !define DLL_NAME "strata.dll"
 !define ENGINE_NAME "strata_engine.exe"
+!define DEDX_NAME "strata_dedx.exe"
 !define PRODUCT_PUBLISHER "Ovidio Y. Pena Rodriguez"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\${EXE_NAME}"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -96,6 +98,7 @@ Section "!${PRODUCT_NAME}" SEC01
   File "${BUILD_DIR}\${CLI_NAME}"
   File "${BUILD_DIR}\${DLL_NAME}"
   File "${BUILD_DIR}\${ENGINE_NAME}"
+  File "${BUILD_DIR}\${DEDX_NAME}"
   File "..\images\strata.ico"
 
   ; The window looks for the backend next to its own executable first and
@@ -185,6 +188,7 @@ Section Uninstall
   Delete "$INSTDIR\${CLI_NAME}"
   Delete "$INSTDIR\${DLL_NAME}"
   Delete "$INSTDIR\${ENGINE_NAME}"
+  Delete "$INSTDIR\${DEDX_NAME}"
   Delete "$INSTDIR\strata.ico"
   Delete "$INSTDIR\macros\*.mac"
   Delete "$INSTDIR\configs\*.scf"

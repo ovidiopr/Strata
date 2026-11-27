@@ -115,7 +115,8 @@ SRIM's `eV / (1E15 atoms/cm²)` and L.S.S. reduced units are **not** accepted:
 converting them needs the areal atom density or the reduced-energy scaling
 rather than a mass density. Re-export choosing one of the supported units.
 
-`strata_dedx` (built with Strata from source, see [BUILDING.md](../BUILDING.md))
+`strata_dedx`, installed with Strata (`/usr/bin` on Linux,
+`StrataGUI.app/Contents/MacOS` on macOS, the installation folder on Windows),
 writes the columnar format with `--dump`, so
 
 ```

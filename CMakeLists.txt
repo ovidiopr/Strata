@@ -211,7 +211,7 @@ endif ()
 set(STRATA_GEANT4_LIBDIR "${_strata_g4_lib}" CACHE PATH "Where an installed Strata looks for Geant4")
 set(_strata_rpath "${_strata_origin};${_strata_origin}/../lib;${STRATA_GEANT4_LIBDIR};${Geant4_DIR}/../..")
 
-set(_strata_installed Strata strata_engine)
+set(_strata_installed Strata strata_engine strata_dedx)
 if (STRATA_BUILD_SHARED)
     list(APPEND _strata_installed libstrata)
 endif ()

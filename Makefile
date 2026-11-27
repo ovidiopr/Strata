@@ -120,6 +120,8 @@ package_deb:
 		{ echo "ERROR: $(STAGE)/bin/Strata not found - run 'make build' first"; exit 1; }
 	@test -f "$(STAGE)/bin/StrataGUI" || \
 		{ echo "ERROR: $(STAGE)/bin/StrataGUI not found - run 'make build' first"; exit 1; }
+	@test -f "$(STAGE)/bin/strata_dedx" || \
+		{ echo "ERROR: $(STAGE)/bin/strata_dedx not found - run 'make build' first"; exit 1; }
 	rm -rf $(PKGROOT)
 	mkdir -p $(PKGROOT)/DEBIAN
 	mkdir -p $(PKGROOT)/usr/bin
@@ -135,11 +137,13 @@ package_deb:
 	cp $(STAGE)/bin/StrataGUI     $(PKGROOT)/usr/lib/strata/
 	cp $(STAGE)/bin/Strata        $(PKGROOT)/usr/lib/strata/
 	cp $(STAGE)/bin/strata_engine $(PKGROOT)/usr/lib/strata/
+	cp $(STAGE)/bin/strata_dedx   $(PKGROOT)/usr/lib/strata/
 	cp $(STAGE)/lib/libstrata.so* $(PKGROOT)/usr/lib/strata/
 	chmod 755 $(PKGROOT)/usr/lib/strata/StrataGUI $(PKGROOT)/usr/lib/strata/Strata \
-		$(PKGROOT)/usr/lib/strata/strata_engine
-	ln -sf ../lib/strata/StrataGUI $(PKGROOT)/usr/bin/StrataGUI
-	ln -sf ../lib/strata/Strata    $(PKGROOT)/usr/bin/Strata
+		$(PKGROOT)/usr/lib/strata/strata_engine $(PKGROOT)/usr/lib/strata/strata_dedx
+	ln -sf ../lib/strata/StrataGUI   $(PKGROOT)/usr/bin/StrataGUI
+	ln -sf ../lib/strata/Strata      $(PKGROOT)/usr/bin/Strata
+	ln -sf ../lib/strata/strata_dedx $(PKGROOT)/usr/bin/strata_dedx
 
 	cp macros/*.mac $(PKGROOT)/usr/share/strata/macros/
 	cp configs/*.scf $(PKGROOT)/usr/share/strata/configs/
@@ -173,6 +177,8 @@ package_dmg:
 		{ echo "ERROR: Info.plist not found at $(PLIST_SRC)"; exit 1; }
 	@test -f "$(STAGE)/bin/Strata" || \
 		{ echo "ERROR: $(STAGE)/bin/Strata not found - run 'make build' first"; exit 1; }
+	@test -f "$(STAGE)/bin/strata_dedx" || \
+		{ echo "ERROR: $(STAGE)/bin/strata_dedx not found - run 'make build' first"; exit 1; }
 	rm -rf "$(DMG_STAGING)"
 	mkdir -p "$(DMG_STAGING)"
 	# Copy bundle, resolving all symlinks
@@ -192,10 +198,12 @@ package_dmg:
 	# first place the window looks for them
 	cp "$(STAGE)/bin/Strata" "$(DMG_APP_BUNDLE)/Contents/MacOS/"
 	cp "$(STAGE)/bin/strata_engine" "$(DMG_APP_BUNDLE)/Contents/MacOS/"
+	cp "$(STAGE)/bin/strata_dedx" "$(DMG_APP_BUNDLE)/Contents/MacOS/"
 	cp -P $(STAGE)/lib/libstrata*.dylib "$(DMG_APP_BUNDLE)/Contents/MacOS/"
 	# Libraries outside the system are found through the Geant4 folder
 	./macos/use-rpath.sh "$(DMG_APP_BUNDLE)/Contents/MacOS/Strata" \
 		"$(DMG_APP_BUNDLE)/Contents/MacOS/strata_engine" \
+		"$(DMG_APP_BUNDLE)/Contents/MacOS/strata_dedx" \
 		"$(DMG_APP_BUNDLE)"/Contents/MacOS/libstrata*.dylib
 
 	# The macros, as a reference and as the regression cases
