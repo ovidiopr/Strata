@@ -95,8 +95,9 @@ that survive.
 2. M. H. Mendenhall, R. A. Weller, Nucl. Instrum. Methods B 227 (2005) 420,
    https://doi.org/10.1016/j.nimb.2004.08.014
 3. ICRU Report 49, *Stopping Powers and Ranges for Protons and Alpha
-   Particles* (1993).
-4. ICRU Report 73, *Stopping of Ions Heavier than Helium* (2005).
+   Particles* (1993), https://doi.org/10.1093/jicru/os25.2.Report49
+4. ICRU Report 73, *Stopping of Ions Heavier than Helium*, J. ICRU 5 (1)
+   (2005), https://doi.org/10.1093/jicru/ndi001
 5. J. F. Ziegler, M. D. Ziegler, J. P. Biersack, Nucl. Instrum. Methods B 268
    (2010) 1818, https://doi.org/10.1016/j.nimb.2010.02.091
 6. V. N. Ivanchenko, O. Kadri, M. Maire, L. Urban, J. Phys. Conf. Ser. 219
@@ -104,11 +105,15 @@ that survive.
 7. ATIMA, GSI, https://web-docs.gsi.de/~weick/atima/ ; J. Lindhard,
    A. H. Sørensen, Phys. Rev. A 53 (1996) 2443,
    https://doi.org/10.1103/PhysRevA.53.2443
-8. D. Bernard, Nucl. Instrum. Methods A 899 (2018) 85; I. Semeniouk,
-   D. Bernard, Nucl. Instrum. Methods A 936 (2019) 290.
+8. D. Bernard, Nucl. Instrum. Methods A 899 (2018) 85,
+   https://doi.org/10.1016/j.nima.2018.05.021 ; I. Semeniouk, D. Bernard,
+   Nucl. Instrum. Methods A 936 (2019) 290,
+   https://doi.org/10.1016/j.nima.2018.09.154
 9. J. Lindhard, V. Nielsen, M. Scharff, P. V. Thomsen, Mat. Fys. Medd. Dan.
-   Vid. Selsk. 33 (10) (1963); M. T. Robinson, in *Radiation-Induced Voids
-   in Metals*, Albany (1972) 397.
+   Vid. Selsk. 33 (10) (1963), https://www.osti.gov/biblio/4701226 ;
+   M. T. Robinson, in *Radiation-Induced Voids in Metals*, Albany (1972) 397
+   (neither has a DOI). Strata uses the form given by I. Jun, IEEE Trans.
+   Nucl. Sci. 48 (2001) 162, https://doi.org/10.1109/23.907581
 10. S. Incerti et al., Med. Phys. 45 (2018) e722,
     https://doi.org/10.1002/mp.13048
 11. L. Thulliez, C. Jouanne, E. Dumonteil, Nucl. Instrum. Methods A 1027
