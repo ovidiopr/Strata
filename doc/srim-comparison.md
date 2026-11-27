@@ -22,7 +22,7 @@ configuration with two changes:
   where you have loaded one, and fall back to Geant4's own parameterisation
   everywhere else.
 
-With no table loaded it is a complete, self-consistent Geant4 physics list —
+With no table loaded it is a complete, self-consistent Geant4 physics list:
 `standardNR` with the screening choice made visible. It is not a broken or
 half-configured state, and it is a perfectly reasonable thing to run.
 
@@ -46,7 +46,7 @@ relates to each differently.
 | **Electronic stopping** | Semi-empirical fit, distributed as coefficient tables | Your table if loaded; otherwise ICRU49/ICRU73/ASTAR with Brandt–Kitagawa effective charge | Same only if you supply SRIM's table |
 | **Damage** | Kinchin–Pease or full cascade, against a displacement threshold you type in | NIEL via the Lindhard–Robinson partition, plus full secondary transport | **Different quantities** |
 
-### 2.1 Nuclear stopping — the close match
+### 2.1 Nuclear stopping: the close match
 
 Both use the ZBL universal screening function, with the universal screening
 length
@@ -74,12 +74,12 @@ Three differences remain, all of them in the numerics rather than the physics:
   `PhysListEmStandardSRIM.cc` to pick one; it is the second constructor
   argument to `G4ScreenedNuclearRecoil`.
 
-### 2.2 Electronic stopping — where you have to act
+### 2.2 Electronic stopping: where you have to act
 
 Geant4's low-energy ion stopping comes from `G4BraggModel`,
 `G4BraggIonModel` and `G4IonParametrisedLossModel`, built on ICRU49, ICRU73
 and ASTAR with a Brandt–Kitagawa effective charge. That is the same lineage as
-ZBL — Ziegler contributed to those compilations — but it is not the same fit.
+ZBL (Ziegler contributed to those compilations) but it is not the same fit.
 
 To use SRIM's numbers instead:
 
@@ -93,8 +93,8 @@ To use SRIM's numbers instead:
 Tables must be loaded **before** `/run/initialize`. Use the Geant4 particle
 name (`proton`, `alpha`, `He3`, `deuteron`, `triton`, or `GenericIon` as a
 catch-all for every ion) and the Geant4 material name exactly as it appears in
-the material table. `/strata/physics/srim/list` reports what is loaded and —
-after a run — which particle/material pairs were actually served from a table
+the material table. `/strata/physics/srim/list` reports what is loaded and,
+after a run, which particle/material pairs were actually served from a table
 and which quietly fell back to Geant4. Read it before trusting a comparison; a
 typo in a material name is otherwise invisible.
 
@@ -146,13 +146,13 @@ nuclear stopping power would throw away the recoil spectrum, which is the main
 thing Strata can tell you and TRIM's tabulated S_n cannot. It is retained for
 reporting and for plotting against what the explicit collisions produce.
 
-### 2.3 Damage — different quantities, not different numbers
+### 2.3 Damage, different quantities, not different numbers
 
 This is the one that most often causes confusion in print.
 
 TRIM reports **vacancies**, counted against a displacement threshold energy
 E_d you supply per element, either in Kinchin–Pease mode or by following the
-full cascade. Strata reports **NIEL** — non-ionizing energy loss — obtained
+full cascade. Strata reports **NIEL** (non-ionizing energy loss) obtained
 from the Lindhard–Robinson partition of each recoil's energy, and transports
 every recoil above the recoil cutoff (100 eV per nucleon of the recoil) as a
 real particle. With `/strata/damage/enable` it also counts NRT displacements
@@ -169,8 +169,8 @@ cautions apply to any comparison you make here.
 
 Nor does Strata model:
 
-* **lattice binding energy** — TRIM subtracts it at every collision;
-* **surface binding energy** — TRIM's route to sputtering yields. Strata
+* **lattice binding energy**: TRIM subtracts it at every collision;
+* **surface binding energy**: TRIM's route to sputtering yields. Strata
   predicts no sputtering.
 
 So the shallow end of a depth profile is where the two codes should be
@@ -182,7 +182,7 @@ expected to differ most, and sputtering comparisons are out of scope.
 
 | Aspect | SRIM/TRIM | Strata |
 | --- | --- | --- |
-| Target structure | Amorphous, no channeling | Amorphous, no channeling — **the same** |
+| Target structure | Amorphous, no channeling | Amorphous, no channeling: **the same** |
 | Electronic straggling | Chu/Yang parameterisation | Urban / universal fluctuation model |
 | Secondary electrons | Not transported | Transported, down to the production cut |
 | Photons, X-rays | Not modelled | Full EM cascade, fluorescence on by default |
@@ -211,7 +211,7 @@ different definitions unless the cut is raised.
    or the energy range is wrong.
 5. Raise the production cut above the maximum delta-electron energy if you want
    the strict TRIM analogue, and say so in your methods.
-6. Compare the projected range first — it is the most robust number in both
+6. Compare the projected range first, it is the most robust number in both
    codes. Compare S_e(x) next. Leave vacancy counts for last, and state
    explicitly which definition you are using.
 
