@@ -16,10 +16,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
   ComCtrls, Grids, Spin, CheckLst, Menus, ActnList, StdActns, Buttons, LCLType,
-  ImgList, uSciEdit, uSciPeriodicTableDlg, Process, uStrataConfig,
-  DividerBevel, BCTrackbarUpdown, uStrataApi, uStrataEngine, uStrataApp,
-  uUnitParser, uSciGrid, uMaterials, uStrataWidgets, TAGraph,
-  TASeries, FileUtil;
+  ImgList, uSciEdit, uSciPeriodicTableDlg, uStrataConfig, DividerBevel,
+  BCTrackbarUpdown, uStrataApi, uStrataEngine, uStrataApp, uUnitParser,
+  uSciGrid, uMaterials, uStrataWidgets, TAGraph, TASeries, FileUtil;
 
 type
   // A yes/no question the window answers
