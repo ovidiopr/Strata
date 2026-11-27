@@ -56,7 +56,19 @@ function NumToG4(AValue: Double): String;
 // A reference value written out in the problem's unit
 function InProblemUnit(AReference: Double; AQuantity: TStrataQuantity; const AUnit: String): String;
 
+// The output name without extension, or the document's name when it is empty or the default
+function StrataHistogramBase(const AOutputName, ADocument: String): String;
+
+// The name Geant4's CSV output gives histogram AId
+function StrataHistogramCSVName(const ABase: String; AId: Integer): String;
+
+// Writes a histogram as comma-separated values, always with a '.' decimal point
+procedure WriteHistogramCSV(const AHistogram: TStrataHistogram; const AFileName: String);
+
 implementation
+
+uses
+  Classes;
 
 function SciValid(AEdit: TSciEdit): Boolean;
 begin
@@ -225,6 +237,46 @@ begin
   factor := StrataUnitFactor(AQuantity, AUnit);
   if factor <= 0 then factor := 1;
   Result := NumToG4(AReference/factor);
+end;
+
+function StrataHistogramBase(const AOutputName, ADocument: String): String;
+const
+  kOutputExts: array[0..4] of String = ('.csv', '.root', '.xml', '.hdf5', '.h5');
+var
+  ext: String;
+begin
+  Result := Trim(ExtractFileName(Trim(AOutputName)));
+  for ext in kOutputExts do
+    if SameText(ExtractFileExt(Result), ext) then Result := ChangeFileExt(Result, '');
+  if (Result = '') or SameText(Result, 'strata') then
+  begin
+    Result := ChangeFileExt(ExtractFileName(ADocument), '');
+    if Result = '' then Result := 'strata';
+  end;
+end;
+
+function StrataHistogramCSVName(const ABase: String; AId: Integer): String;
+begin
+  Result := Format('%s_h1_%d.csv', [ABase, AId]);
+end;
+
+procedure WriteHistogramCSV(const AHistogram: TStrataHistogram; const AFileName: String);
+var
+  f: TStringList;
+  i: Integer;
+begin
+  f := TStringList.Create;
+  try
+    f.Add(Format('# h1[%d] %s', [AHistogram.Id, AHistogram.Title]));
+    f.Add(Format('# bins=%d range=[%.17g,%.17g] width=%.17g entries=%.17g',
+      [AHistogram.NBins, AHistogram.XMin, AHistogram.XMax, AHistogram.Width, AHistogram.Entries], G4Fmt));
+    f.Add('bin_centre,height');
+    for i := 0 to High(AHistogram.Y) do
+      f.Add(Format('%.17g,%.17g', [AHistogram.X[i], AHistogram.Y[i]], G4Fmt));
+    f.SaveToFile(AFileName);
+  finally
+    f.Free;
+  end;
 end;
 
 initialization

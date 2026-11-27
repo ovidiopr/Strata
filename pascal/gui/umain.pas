@@ -55,6 +55,7 @@ type
     mnuDeactivateHistogram: TMenuItem;
     mnuActivateHistogram: TMenuItem;
     mnuExportHistogram: TMenuItem;
+    mnuExportAllHistograms: TMenuItem;
     mnuRefreshHistograms: TMenuItem;
     mnuPrintMaterials: TMenuItem;
     mnuRefreshMaterials: TMenuItem;
@@ -282,6 +283,7 @@ begin
   mnuPrintMaterials.Action := fraPanels.actPrintMaterials;
   mnuRefreshHistograms.Action := fraPanels.actRefreshHistograms;
   mnuExportHistogram.Action := fraPanels.actExportHistogram;
+  mnuExportAllHistograms.Action := fraPanels.actExportAllHistograms;
   mnuActivateHistogram.Action := fraPanels.actActivateHistogram;
   mnuDeactivateHistogram.Action := fraPanels.actDeactivateHistogram;
 

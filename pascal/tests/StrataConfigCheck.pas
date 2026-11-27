@@ -360,6 +360,7 @@ begin
     begin
       CheckStr(AVia + ': damage material', ARef.Damage[i].Material, AGot.Damage[i].Material);
       CheckNum(AVia + ': damage Ed', ARef.Damage[i].Ed, AGot.Damage[i].Ed);
+      CheckStr(AVia + ': damage Ed unit', StrataEdUnit(ARef.Damage[i].EdUnit), StrataEdUnit(AGot.Damage[i].EdUnit));
       Check(AVia + ': damage has arc', ARef.Damage[i].HasArc = AGot.Damage[i].HasArc);
       if ARef.Damage[i].HasArc or AAll then
       begin
@@ -555,6 +556,8 @@ begin
     ref.Damage[i].ArcC := 0.12;
     i := ref.DamageFor('G4_Si');
     ref.Damage[i].Ed := 15;
+    // Shown and written in keV, still kept in eV
+    ref.Damage[i].EdUnit := 'keV';
     ref.SaveToXML(xmlFile);
     back := TStrataConfig.Create;
     try
@@ -579,6 +582,8 @@ begin
       back.LoadFromMacro(macFile, unknown);
       Check('Ed given in keV is kept in eV',
             (Length(back.Damage) = 1) and (Abs(back.Damage[0].Ed - 15) < 1e-9));
+      Check('Ed keeps the unit it was given in',
+            (Length(back.Damage) = 1) and (back.Damage[0].EdUnit = 'keV'));
     finally
       back.Free;
     end;
