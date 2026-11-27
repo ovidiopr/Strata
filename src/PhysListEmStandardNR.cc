@@ -51,7 +51,6 @@
 #include "G4hMultipleScattering.hh"
 #include "G4CoulombScattering.hh"
 #include "G4eCoulombScatteringModel.hh"
-#include "G4UrbanMscModel.hh"
 
 #include "G4eIonisation.hh"
 #include "G4eBremsstrahlung.hh"
@@ -72,6 +71,7 @@
 #include "G4IonParametrisedLossModel.hh"
 
 #include "G4ScreenedNuclearRecoil.hh"
+#include "StrataIonMsc.hh"
 
 #include "G4PhysicsListHelper.hh"
 #include "G4BuilderType.hh"
@@ -90,6 +90,7 @@ PhysListEmStandardNR::PhysListEmStandardNR(const G4String& name)
     param->SetStepFunctionLightIons(0.1, 10*um);
     param->SetStepFunctionIons(0.1, 1*um);
     param->SetFluo(true);
+    StrataIonMsc::Configure();
     SetPhysicsType(bElectromagnetic);
 }
 
@@ -109,6 +110,7 @@ void PhysListEmStandardNR::ConstructProcess()
     G4MuPairProduction* mup = new G4MuPairProduction();
 
     G4ScreenedNuclearRecoil* nucr = new G4ScreenedNuclearRecoil();
+    nucr->SetMscSplit(StrataIonMsc::kMinEnergyPerNucleon);
     G4double energyLimit = 100.*MeV;
     nucr->SetMaxEnergyForScattering(energyLimit);
     G4eCoulombScatteringModel* csm = new G4eCoulombScatteringModel();
@@ -182,11 +184,7 @@ void PhysListEmStandardNR::ConstructProcess()
 
         } else if (particleName == "alpha" || particleName == "He3") {
 
-            G4hMultipleScattering* msc = new G4hMultipleScattering();
-            G4UrbanMscModel* model = new G4UrbanMscModel();
-            model->SetActivationLowEnergyLimit(energyLimit);
-            msc->SetEmModel(model);
-            ph->RegisterProcess(msc, particle);
+            ph->RegisterProcess(StrataIonMsc::Make(particle, energyLimit), particle);
 
             G4ionIonisation* ionIoni = new G4ionIonisation();
             ph->RegisterProcess(ionIoni, particle);
@@ -195,11 +193,7 @@ void PhysListEmStandardNR::ConstructProcess()
 
         } else if (particleName == "GenericIon" ) {
 
-            G4hMultipleScattering* msc = new G4hMultipleScattering();
-            G4UrbanMscModel* model = new G4UrbanMscModel();
-            model->SetActivationLowEnergyLimit(energyLimit);
-            msc->SetEmModel(model);
-            ph->RegisterProcess(msc, particle);
+            ph->RegisterProcess(StrataIonMsc::Make(particle, energyLimit), particle);
 
             G4ionIonisation* ionIoni = new G4ionIonisation();
             ionIoni->SetEmModel(new G4IonParametrisedLossModel());
@@ -211,11 +205,7 @@ void PhysListEmStandardNR::ConstructProcess()
                    particleName == "deuteron" ||
                    particleName == "triton") {
 
-            G4hMultipleScattering* msc = new G4hMultipleScattering();
-            G4UrbanMscModel* model = new G4UrbanMscModel();
-            model->SetActivationLowEnergyLimit(energyLimit);
-            msc->SetEmModel(model);
-            ph->RegisterProcess(msc, particle);
+            ph->RegisterProcess(StrataIonMsc::Make(particle, energyLimit), particle);
 
             G4hIonisation* hIoni = new G4hIonisation();
             ph->RegisterProcess(hIoni, particle);

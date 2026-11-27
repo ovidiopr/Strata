@@ -108,8 +108,11 @@ Strata's own lists:
   of multiple scattering.
 * **standardNR**: standard EM physics with the screened nuclear recoil process
   of M. H. Mendenhall and R. A. Weller ([NIMB 227 (2005) 420](https://dx.doi.org/10.1016/j.nimb.2004.08.014))
-  for ions below 100 MeV/nucleon. This is the list for nuclear stopping,
-  recoils and displacement damage.
+  for ions below 100 MeV/nucleon, and Urban multiple scattering above.
+  Between 1 and 100 MeV/nucleon, p, d, t, He3 and alpha also get WentzelVI
+  multiple scattering for the small momentum transfers the recoil process
+  leaves out. This is the list for nuclear stopping, recoils and displacement
+  damage.
 * **srim**: standardNR with the ZBL screening function, and electronic
   stopping from tables you supply. See [srim-comparison.md](srim-comparison.md).
 

@@ -126,6 +126,14 @@ public:
       const G4ScreeningTables *GetScreening(G4int Z)
                      { return &(screeningData[Z]); }
       void SetVerbosity(G4int v) { verbosity=v; }
+
+      // q-limit factor (MeV) of a combined msc model and the energy per nucleon above
+      // which it applies to Z1 <= 2 projectiles
+      void SetMscSplit(G4double factor, G4double minEnergyPerNucleon)
+      { mscSplitFactor = factor; mscSplitMinEnergy = minEnergyPerNucleon; }
+
+      // smallest msc-split recoil energy of element Z (mass a2 in amu) over all materials
+      G4double SplitRecoilEnergy(G4int Z, G4double a2) const;
         
       // this process needs element selection weighted only by number density
       G4ParticleDefinition* SelectRandomUnweightedTarget
@@ -146,6 +154,8 @@ protected:
       ScreeningMap screeningData; // screening tables for each element
       ParticleCache targetMap;
       G4int verbosity;
+      G4double mscSplitFactor = 0.0;
+      G4double mscSplitMinEnergy = DBL_MAX;
       std::map<G4int, G4_c2_const_ptr > sigmaMap; 
       // total cross section for each element
       std::map<G4int, G4_c2_const_ptr > MFPTables; // MFP for each material
@@ -309,6 +319,13 @@ public:
      
      /// \brief find out if generation of recoils is enabled.
      G4bool GetEnableRecoils() const { return generateRecoils; }
+
+     /// \brief leave collisions below the msc momentum-transfer limit to a combined msc
+     /// model, for p, d, t, He3 and alpha above minEnergyPerNucleon
+     void SetMscSplit(G4double minEnergyPerNucleon) { mscSplitMinEnergy = minEnergyPerNucleon; }
+
+     /// \brief true if collisions of this particle at this energy below the msc limit are skipped
+     G4bool MscSplitApplies(const G4ParticleDefinition* particle, G4double energy) const;
      
      /// \brief set the mean free path scaling as specified
      /// \param scale the factor by which the default MFP will be scaled.  
@@ -444,6 +461,7 @@ protected:
      static G4double sUserThreshold;
      static RecoilObserver sObserver;
      G4bool registerDepositedEnergy;
+     G4double mscSplitMinEnergy = -1.0;
      G4double IonizingLoss, NIEL;
      G4double MFPScale;
      G4double hardeningFraction, hardeningFactor;

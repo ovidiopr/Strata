@@ -9,6 +9,7 @@
 #include "SRIMStoppingData.hh"
 
 #include "G4ScreenedNuclearRecoil.hh"
+#include "StrataIonMsc.hh"
 
 #include "G4ComptonScattering.hh"
 #include "G4CoulombScattering.hh"
@@ -34,7 +35,6 @@
 #include "G4hIonisation.hh"
 #include "G4hMultipleScattering.hh"
 #include "G4ionIonisation.hh"
-#include "G4UrbanMscModel.hh"
 
 #include "G4BuilderType.hh"
 #include "G4EmParameters.hh"
@@ -59,6 +59,7 @@ PhysListEmStandardSRIM::PhysListEmStandardSRIM(const G4String& name)
     param->SetStepFunctionLightIons(0.1, 10*um);
     param->SetStepFunctionIons(0.1, 1*um);
     param->SetFluo(true);
+    StrataIonMsc::Configure();
 
     SetPhysicsType(bElectromagnetic);
 }
@@ -83,6 +84,7 @@ void PhysListEmStandardSRIM::ConstructProcess() {
     // screening function stated explicitly
     G4ScreenedNuclearRecoil* nucr =
         new G4ScreenedNuclearRecoil("ScreenedElastic", "zbl");
+    nucr->SetMscSplit(StrataIonMsc::kMinEnergyPerNucleon);
     nucr->SetMaxEnergyForScattering(fScatteringLimit);
 
     G4eCoulombScatteringModel* csm = new G4eCoulombScatteringModel();
@@ -132,11 +134,7 @@ void PhysListEmStandardSRIM::ConstructProcess() {
         } else if (particleName == "alpha" || particleName == "He3"
                    || particleName == "GenericIon") {
 
-            G4hMultipleScattering* msc = new G4hMultipleScattering();
-            G4UrbanMscModel* model = new G4UrbanMscModel();
-            model->SetActivationLowEnergyLimit(fScatteringLimit);
-            msc->SetEmModel(model);
-            ph->RegisterProcess(msc, particle);
+            ph->RegisterProcess(StrataIonMsc::Make(particle, fScatteringLimit), particle);
 
             // Two models, low energy first
             G4ionIonisation* ionIoni = new G4ionIonisation();
@@ -149,11 +147,7 @@ void PhysListEmStandardSRIM::ConstructProcess() {
         } else if (particleName == "proton" || particleName == "deuteron"
                    || particleName == "triton") {
 
-            G4hMultipleScattering* msc = new G4hMultipleScattering();
-            G4UrbanMscModel* model = new G4UrbanMscModel();
-            model->SetActivationLowEnergyLimit(fScatteringLimit);
-            msc->SetEmModel(model);
-            ph->RegisterProcess(msc, particle);
+            ph->RegisterProcess(StrataIonMsc::Make(particle, fScatteringLimit), particle);
 
             G4hIonisation* hIoni = new G4hIonisation();
             hIoni->SetEmModel(new SRIMBraggModel());
@@ -175,7 +169,10 @@ void PhysListEmStandardSRIM::ConstructProcess() {
         G4cout << "\nStrata: 'srim' physics list constructed."
                << "\n  nuclear stopping : G4ScreenedNuclearRecoil, ZBL screening, "
                << "explicit recoils below "
-               << fScatteringLimit/MeV << " MeV"
+               << fScatteringLimit/MeV << " MeV/u"
+               << "\n  small-angle scattering : WentzelVI for p, d, t, He3, alpha from "
+               << StrataIonMsc::kMinEnergyPerNucleon/MeV << " to "
+               << fScatteringLimit/MeV << " MeV/u, Urban above"
                << "\n  electronic stopping : external table where loaded, "
                << "Geant4 ICRU/ASTAR otherwise" << G4endl;
         SRIMStoppingData::Instance().Print();

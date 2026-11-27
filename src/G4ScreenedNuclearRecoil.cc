@@ -118,6 +118,8 @@ const char* G4ScreenedCoulombCrossSectionInfo::CVSFileVers() {
 #include "G4ProcessManager.hh"
 #include "G4StableIsotopes.hh"
 #include "G4LindhardPartition.hh"
+#include "G4EmParameters.hh"
+#include "G4IonisParamMat.hh"
 
 #include "Randomize.hh"
 
@@ -425,6 +427,9 @@ G4double G4ScreenedNuclearRecoil::GetMeanFreePath(const G4Track& track,
 
     if (xh == crossSectionHandlers.end()) {
         xs = crossSectionHandlers[z1] = GetNewCrossSectionHandler();
+        if (mscSplitMinEnergy >= 0.0)
+            xs->SetMscSplit(G4EmParameters::Instance()->FactorForAngleLimit()
+                            *CLHEP::hbarc/CLHEP::fermi, mscSplitMinEnergy);
         xs->LoadData(screeningKey, z1, a1, physicsCutoff);
         xs->BuildMFPTables();
     } else xs = (*xh).second;
@@ -729,6 +734,17 @@ void G4ScreenedCoulombClassicalKinematics::DoCollisionStep(
                        /((a1 + A)*(a1 + A));
     kin.eRecoil = eRecoil;
 
+    // Momentum transfers below the WentzelVI combined-mode limit belong to msc
+    if (master->MscSplitApplies(baseParticle, incidentEnergy)) {
+        const G4double f = G4EmParameters::Instance()->FactorForAngleLimit()
+                           *CLHEP::hbarc/CLHEP::fermi;
+        const G4double qLim2 = f*f*kin.targetMaterial->GetIonisation()->GetInvA23();
+        if (2.0*eRecoil*A*amu_c2 < qLim2) {
+            master->SetValidCollision(0);
+            return;
+        }
+    }
+
     if (incidentEnergy - eRecoil < master->GetRecoilCutoff()*a1) {
         aParticleChange.ProposeEnergy(0.0);
         master->DepositEnergy(int(screen->z1), a1, kin.targetMaterial,
@@ -984,6 +1000,29 @@ static inline G4double thetac(G4double m1, G4double mass2, G4double eratio) {
     return 2.0*std::asin(sth2);
 }
 
+G4bool G4ScreenedNuclearRecoil::MscSplitApplies(const G4ParticleDefinition* particle,
+                                                G4double energy) const {
+    if (mscSplitMinEnergy < 0.0) return false;
+    const G4String& name = particle->GetParticleName();
+    if (name != "proton" && name != "deuteron" && name != "triton"
+        && name != "He3" && name != "alpha") return false;
+    return energy >= mscSplitMinEnergy*particle->GetPDGMass()/amu_c2;
+}
+
+G4double G4ScreenedCoulombCrossSection::SplitRecoilEnergy(G4int Z, G4double a2) const {
+    if (mscSplitFactor <= 0.0) return 0.0;
+    G4double tmin = DBL_MAX;
+    for (const G4Material* material : *G4Material::GetMaterialTable()) {
+        for (const G4Element* element : *material->GetElementVector()) {
+            if (element->GetZasInt() != Z) continue;
+            const G4double q2 = mscSplitFactor*mscSplitFactor
+                                *material->GetIonisation()->GetInvA23();
+            tmin = std::min(tmin, q2/(2.0*a2*amu_c2));
+        }
+    }
+    return tmin == DBL_MAX ? 0.0 : tmin;
+}
+
 void G4NativeScreenedCoulombCrossSection::LoadData(G4String screeningKey,
                                                    G4int z1, G4double a1,
                                                    G4double recoilCutoff) {
@@ -1033,6 +1072,10 @@ void G4NativeScreenedCoulombCrossSection::LoadData(G4String screeningKey,
             st.m1 = a1;
             st.z2 = Z;
             st.m2 = a2;
+            // Above the split energy, Z1 <= 2 tables start well below the msc split
+            // (sigma is approximate, factor ~2); recoilCutoff applies elsewhere, on the same grid
+            const G4double eminSplit = (z1 <= 2) ? 0.05*SplitRecoilEnergy(Z, a2) : 0.0;
+            const G4double eSplit = mscSplitMinEnergy*a1;
             st.emin = recoilCutoff;
             st.au = au;
 
@@ -1080,7 +1123,9 @@ void G4NativeScreenedCoulombCrossSection::LoadData(G4String screeningKey,
             for (size_t idx = 0; idx < sigLen; idx++) {
                 G4double ee = std::exp(idx*((l1 - l0)/sigLen) + l0);
                 G4double gamma = 1.0 + ee/m1c2;
-                G4double eratio = (cmfact0*st.emin)/ee;
+                const G4double eminE = (eminSplit > 0.0 && ee >= eSplit) ? eminSplit
+                                                                         : recoilCutoff;
+                G4double eratio = (cmfact0*eminE)/ee;
                 // factor by which ee needs to be reduced to get emin
                 G4double theta = thetac(gamma*a1, a2, eratio);
 
