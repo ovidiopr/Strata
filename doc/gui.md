@@ -96,7 +96,8 @@ of the beam energy and the dose in gray appear on the Results tab.
 * **Magnetic field** and **Electric field**.
 * **Displacement damage**: **Count displacements** switches on histograms 4
   to 6. The table has one row per material in the layers, with the
-  displacement threshold energy Ed in eV and the two arc-dpa constants.
+  displacement threshold energy Ed, in any energy unit (eV when none is
+  typed), and the two arc-dpa constants.
   The rows for materials Strata knows come filled in; edit a cell to change
   it, and give Ed for the others. Leave b and c empty for no arc-dpa
   correction.
@@ -123,7 +124,11 @@ until the next session.
 
 The list shows every spectrum, or only the active ones. The chart is
 redrawn several times a second during a run. **Export CSV** writes the
-spectrum shown.
+spectrum shown, and **Export all** writes every active one, asking for each
+file in turn. The suggested name is `<name>_h1_<id>.csv`, where `<name>` is
+the output name, or the configuration's name when the output name is empty
+or still `strata`. The macro editor's **Histograms** tab does the same, with
+the macro's `/analysis/setFileName` and the macro's name.
 
 A spectrum that is switched on can still be drawn flat: either the quantity
 is zero for the physics chosen, or every value fell outside the range and

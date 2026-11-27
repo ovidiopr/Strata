@@ -230,8 +230,10 @@ type
     actActivateHistogram: TAction;
     actDeactivateHistogram: TAction;
     actExportHistogram: TAction;
+    actExportAllHistograms: TAction;
     actRefreshHistograms: TAction;
     btnExportHistogram: TSpeedButton;
+    btnExportAllHistograms: TSpeedButton;
     btnH1Apply: TSpeedButton;
     btnH1Off: TSpeedButton;
     btnRefreshHistograms: TSpeedButton;
@@ -258,6 +260,7 @@ type
     procedure actActivateHistogramExecute(Sender: TObject);
     procedure actDeactivateHistogramExecute(Sender: TObject);
     procedure actExportHistogramExecute(Sender: TObject);
+    procedure actExportAllHistogramsExecute(Sender: TObject);
     procedure actRefreshHistogramsExecute(Sender: TObject);
     procedure lbHistogramSelectionChange(Sender: TObject; User: boolean);
     procedure actAddElementExecute(Sender: TObject);
@@ -345,6 +348,7 @@ type
     FLayerThicknessEditor: TSciGridEditor;
     FLayerDensityEditor: TSciGridEditor;
     FVoxelEditor: TSciGridEditor;
+    FDamageEdEditor: TSciGridEditor;
     procedure FillStepperList;
     function CurrentStepper: Integer;
     procedure SelectStepper(ANumber: Integer);
@@ -405,6 +409,7 @@ type
     procedure SetImages(AValue: TCustomImageList);
     function RunningOrAborting: Boolean;
     function HistogramFor(AId: Integer; AWithData: Boolean): TStrataHistogram;
+    function SaveHistogramAs(const AHistogram: TStrataHistogram): Boolean;
     procedure SelectHistogram(AId: Integer);
     procedure lbHistogramDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
     procedure RefreshHistogramList;
@@ -690,6 +695,7 @@ begin
   btnH1Off.Images := AValue;
   btnRefreshHistograms.Images := AValue;
   btnExportHistogram.Images := AValue;
+  btnExportAllHistograms.Images := AValue;
   btnApplyGeometry.Images := AValue;
   btnWorldMaterial.Images := AValue;
   btnApplyBeam.Images := AValue;
@@ -869,6 +875,7 @@ begin
   actDeactivateHistogram.Enabled := ready and (not running);
   actRefreshHistograms.Enabled := ready and (not running);
   actExportHistogram.Enabled := ready and (not running);
+  actExportAllHistograms.Enabled := ready and (not running);
 
   // The command box
   actSendCommand.Enabled := open and (not running);
@@ -2562,7 +2569,7 @@ end;
 procedure TPanelsFrame.DamageFromGrid;
 var
   r, i, j: Integer;
-  mat: String;
+  mat, edText, edUnit: String;
   ed, b, c, dEd, dB, dC: Double;
   hasArc, known, same: Boolean;
 begin
@@ -2570,7 +2577,17 @@ begin
   begin
     mat := Trim(sgDamage.Cells[colDmgMaterial, r]);
     if mat = '' then Continue;
-    ed := StrataTextToNum(Trim(sgDamage.Cells[colDmgEd, r]), 0);
+    edText := Trim(sgDamage.Cells[colDmgEd, r]);
+    edUnit := 'eV';
+    // A bare number is in eV, as the column used to be
+    if not TryStrToFloat(edText, ed, G4Fmt) then
+      if CellAsTyped(edText, ufEnergy, sqEnergy, ed, edUnit) then
+        ed := ed*StrataUnitFactor(sqEnergy, edUnit)/StrataUnitFactor(sqEnergy, 'eV')
+      else
+      begin
+        ed := 0;
+        edUnit := 'eV';
+      end;
     hasArc := (Trim(sgDamage.Cells[colDmgB, r]) <> '') and (Trim(sgDamage.Cells[colDmgC, r]) <> '');
     b := StrataTextToNum(Trim(sgDamage.Cells[colDmgB, r]), 0);
     c := StrataTextToNum(Trim(sgDamage.Cells[colDmgC, r]), 1);
@@ -2578,7 +2595,7 @@ begin
     known := FEngine.DamageDefaults(mat, dEd, dB, dC);
     // An empty Ed is the table's; empty b and c on a tabulated material have
     // to be said out loud, or its built-in correction stays in force
-    if known and (Trim(sgDamage.Cells[colDmgEd, r]) = '') then ed := dEd;
+    if known and (edText = '') then ed := dEd;
     if known and (not hasArc) then
     begin
       hasArc := True;
@@ -2606,6 +2623,7 @@ begin
 
     i := FConfig.DamageFor(mat);
     FConfig.Damage[i].Ed := ed;
+    FConfig.Damage[i].EdUnit := StrataEdUnit(edUnit);
     FConfig.Damage[i].HasArc := hasArc;
     FConfig.Damage[i].ArcB := b;
     FConfig.Damage[i].ArcC := c;
@@ -2636,7 +2654,7 @@ begin
     try
       sgDamage.RowCount := mats.Count + 1;
       sgDamage.Cells[colDmgMaterial, 0] := 'Material';
-      sgDamage.Cells[colDmgEd, 0] := 'Ed (eV)';
+      sgDamage.Cells[colDmgEd, 0] := 'Ed';
       sgDamage.Cells[colDmgB, 0] := 'arc b';
       sgDamage.Cells[colDmgC, 0] := 'arc c';
       for r := 1 to mats.Count do
@@ -2652,7 +2670,8 @@ begin
           begin
             have := True;
             if FConfig.Damage[i].Ed > 0 then
-              sgDamage.Cells[colDmgEd, r] := StrataNumToText(FConfig.Damage[i].Ed);
+              sgDamage.Cells[colDmgEd, r] := StrataQuantityText(
+                StrataEdInUnit(FConfig.Damage[i].Ed, FConfig.Damage[i].EdUnit), StrataEdUnit(FConfig.Damage[i].EdUnit));
             if FConfig.Damage[i].HasArc then
             begin
               sgDamage.Cells[colDmgB, r] := StrataNumToText(FConfig.Damage[i].ArcB);
@@ -2663,7 +2682,7 @@ begin
 
         if (not have) and FEngine.DamageDefaults(mats[r - 1], ed, b, c) then
         begin
-          sgDamage.Cells[colDmgEd, r] := StrataNumToText(ed);
+          sgDamage.Cells[colDmgEd, r] := StrataQuantityText(ed, 'eV');
           sgDamage.Cells[colDmgB, r] := StrataNumToText(b);
           sgDamage.Cells[colDmgC, r] := StrataNumToText(c);
         end;
@@ -2686,8 +2705,10 @@ begin
   for i := 0 to High(FConfig.Damage) do
   begin
     if FConfig.Damage[i].Ed > 0 then
-      FEngine.ApplyFmt('/strata/damage/setEd %s %s eV',
-                       [FConfig.Damage[i].Material, NumToG4(FConfig.Damage[i].Ed)]);
+      FEngine.ApplyFmt('/strata/damage/setEd %s %s %s',
+                       [FConfig.Damage[i].Material,
+                        NumToG4(StrataEdInUnit(FConfig.Damage[i].Ed, FConfig.Damage[i].EdUnit)),
+                        StrataEdUnit(FConfig.Damage[i].EdUnit)]);
     if FConfig.Damage[i].HasArc then
       FEngine.ApplyFmt('/strata/damage/setArc %s %s %s',
                        [FConfig.Damage[i].Material, NumToG4(FConfig.Damage[i].ArcB),
@@ -2713,7 +2734,10 @@ end;
 // The material names come from the layers
 procedure TPanelsFrame.sgDamageSelectEditor(Sender: TObject; aCol, aRow: Integer; var Editor: TWinControl);
 begin
-  if aCol = colDmgMaterial then Editor := nil;
+  if aCol = colDmgMaterial then
+    Editor := nil
+  else if aCol = colDmgEd then
+    Editor := SciEditorFor(FDamageEdEditor, Self, ufEnergy);
 end;
 
 procedure TPanelsFrame.actApplyEFieldExecute(Sender: TObject);
@@ -3462,11 +3486,22 @@ begin
   DoStatus(Format('h1[%d] active: %d bins over [%s, %s] %s', [id, seH1Bins.Value, NumToG4(lo), NumToG4(hi), u]));
 end;
 
+// Asks where to write one histogram and writes it; False when the user cancels
+function TPanelsFrame.SaveHistogramAs(const AHistogram: TStrataHistogram): Boolean;
+begin
+  dlgExportHistogram.FileName := StrataHistogramCSVName(
+    StrataHistogramBase(edOutputBase.Text, FConfigFile), AHistogram.Id);
+  dlgExportHistogram.Filter := 'Comma-separated values|*.csv|All files|*';
+  if OutputFolder <> '' then dlgExportHistogram.InitialDir := OutputFolder;
+  Result := dlgExportHistogram.Execute;
+  if not Result then Exit;
+  WriteHistogramCSV(AHistogram, dlgExportHistogram.FileName);
+  DoStatus('exported ' + dlgExportHistogram.FileName);
+end;
+
 procedure TPanelsFrame.actExportHistogramExecute(Sender: TObject);
 var
   h: TStrataHistogram;
-  f: TStringList;
-  i: Integer;
 begin
   if CurrentHistogramId < 0 then Exit;
   h := HistogramFor(CurrentHistogramId, True);
@@ -3476,24 +3511,39 @@ begin
       [mbOK], 0);
     Exit;
   end;
+  SaveHistogramAs(h);
+end;
 
-  dlgExportHistogram.FileName := Format('h1_%d.csv', [h.Id]);
-  dlgExportHistogram.Filter := 'Comma-separated values|*.csv|All files|*';
-  if not dlgExportHistogram.Execute then Exit;
-
-  f := TStringList.Create;
-  try
-    f.Add(Format('# h1[%d] %s', [h.Id, h.Title]));
-    f.Add(Format('# bins=%d range=[%.17g,%.17g] width=%.17g entries=%.17g',
-      [h.NBins, h.XMin, h.XMax, h.Width, h.Entries]));
-    f.Add('bin_centre,height');
-    for i := 0 to High(h.Y) do
-      f.Add(Format('%.17g,%.17g', [h.X[i], h.Y[i]]));
-    f.SaveToFile(dlgExportHistogram.FileName);
-    DoStatus('exported ' + dlgExportHistogram.FileName);
-  finally
-    f.Free;
+// Every active histogram, each to the file the user picks; Cancel stops the rest
+procedure TPanelsFrame.actExportAllHistogramsExecute(Sender: TObject);
+var
+  h: TStrataHistogram;
+  i, nActive, nSaved: Integer;
+  noData: String;
+begin
+  nActive := 0;
+  nSaved := 0;
+  noData := '';
+  for i := 0 to FEngine.HistogramCount - 1 do
+  begin
+    h := HistogramFor(i, False);
+    if (not h.Active) or (h.Title = 'dummy') then Continue;
+    Inc(nActive);
+    h := HistogramFor(i, True);
+    if Length(h.Y) = 0 then
+    begin
+      noData := noData + Format(' h1[%d]', [i]);
+      Continue;
+    end;
+    if not SaveHistogramAs(h) then Break;
+    Inc(nSaved);
   end;
+  if nActive = 0 then
+    MessageDlg('Strata', 'There are no active histograms to export.', mtInformation, [mbOK], 0)
+  else if noData <> '' then
+    DoStatus(Format('exported %d of %d active histograms; no data in%s', [nSaved, nActive, noData]))
+  else
+    DoStatus(Format('exported %d of %d active histograms', [nSaved, nActive]));
 end;
 
 function TPanelsFrame.RunningOrAborting: Boolean;

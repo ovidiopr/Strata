@@ -16,7 +16,7 @@ uses
   ComCtrls, ActnList, StdActns, Buttons, ImgList, SynEdit, TAGraph, TASeries,
   uStrataApi, uStrataEngine, uStrataApp, uStrataMacro, SynEditMiscClasses,
   SynEditTypes, SynEditKeyCmds, SynCompletion, LCLType, uStrataCommands,
-  uSynStrataMacro;
+  uSynStrataMacro, uStrataWidgets;
 
 type
   // Starts an engine of its own for a run, False when it could not
@@ -29,6 +29,7 @@ type
   TEditorFrame = class(TFrame)
     actEdClearLog: TAction;
     actEdExportHistogram: TAction;
+    actEdExportAllHistograms: TAction;
     actEdRun: TAction;
     actEdRunToCursor: TAction;
     actEdStep: TAction;
@@ -38,6 +39,7 @@ type
     actSaveMacroAs: TFileSaveAs;
     btnEdClearLog: TSpeedButton;
     btnEdExportHistogram: TSpeedButton;
+    btnEdExportAllHistograms: TSpeedButton;
     btnEdSaveLog: TSpeedButton;
     chtEdHistogram: TChart;
     chtEdHistogramSeries: TLineSeries;
@@ -57,6 +59,7 @@ type
     tabMacro: TTabSheet;
     procedure actEdClearLogExecute(Sender: TObject);
     procedure actEdExportHistogramExecute(Sender: TObject);
+    procedure actEdExportAllHistogramsExecute(Sender: TObject);
     procedure actEdRunExecute(Sender: TObject);
     procedure actEdRunToCursorExecute(Sender: TObject);
     procedure actEdStepExecute(Sender: TObject);
@@ -117,6 +120,8 @@ type
     function CurrentHistogramId: Integer;
     procedure RefreshHistogramList;
     procedure ShowHistogram;
+    function HistogramOutputName: String;
+    function SaveHistogramAs(const AHistogram: TStrataHistogram): Boolean;
     procedure SetImages(AValue: TCustomImageList);
     function WriteMacro(const AFileName: String): Boolean;
     procedure MacroKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -437,6 +442,7 @@ begin
   btnEdClearLog.Images := AValue;
   btnEdSaveLog.Images := AValue;
   btnEdExportHistogram.Images := AValue;
+  btnEdExportAllHistograms.Images := AValue;
 end;
 
 procedure TEditorFrame.UpdateState(AOpen, AReady, ARunning: Boolean);
@@ -452,6 +458,7 @@ begin
   actEdRunToCursor.Enabled := actEdRun.Enabled;
   lbEdHistograms.Enabled := AOpen;
   actEdExportHistogram.Enabled := AOpen and (not ARunning);
+  actEdExportAllHistograms.Enabled := AOpen and (not ARunning);
 end;
 
 procedure TEditorFrame.ShowLog;
@@ -972,8 +979,6 @@ end;
 procedure TEditorFrame.actEdExportHistogramExecute(Sender: TObject);
 var
   h: TStrataHistogram;
-  f: TStringList;
-  i: Integer;
 begin
   if CurrentHistogramId < 0 then Exit;
   h := FEngine.Histogram(CurrentHistogramId, True);
@@ -983,22 +988,74 @@ begin
       [mbOK], 0);
     Exit;
   end;
-  dlgEdExportHistogram.FileName := Format('h1_%d.csv', [h.Id]);
-  dlgEdExportHistogram.Filter := 'Comma-separated values|*.csv|All files|*';
-  if not dlgEdExportHistogram.Execute then Exit;
-  f := TStringList.Create;
-  try
-    f.Add(Format('# h1[%d] %s', [h.Id, h.Title]));
-    f.Add(Format('# bins=%d range=[%.17g,%.17g] width=%.17g entries=%.17g',
-      [h.NBins, h.XMin, h.XMax, h.Width, h.Entries]));
-    f.Add('bin_centre,height');
-    for i := 0 to High(h.Y) do
-      f.Add(Format('%.17g,%.17g', [h.X[i], h.Y[i]]));
-    f.SaveToFile(dlgEdExportHistogram.FileName);
-    DoStatus('exported ' + dlgEdExportHistogram.FileName);
-  finally
-    f.Free;
+  SaveHistogramAs(h);
+end;
+
+// The argument of the macro's last /analysis/setFileName, empty when it has none
+function TEditorFrame.HistogramOutputName: String;
+const
+  kCmd = '/analysis/setFileName';
+var
+  i: Integer;
+  line: String;
+begin
+  Result := '';
+  for i := synMacro.Lines.Count - 1 downto 0 do
+  begin
+    line := Trim(synMacro.Lines[i]);
+    if (Pos(kCmd, line) = 1) and ((Length(line) = Length(kCmd)) or (line[Length(kCmd) + 1] in [' ', #9])) then
+      Exit(Trim(Copy(line, Length(kCmd) + 1, MaxInt)));
   end;
+end;
+
+// Asks where to write one histogram and writes it; False when the user cancels
+function TEditorFrame.SaveHistogramAs(const AHistogram: TStrataHistogram): Boolean;
+var
+  outName: String;
+begin
+  outName := HistogramOutputName;
+  dlgEdExportHistogram.FileName := StrataHistogramCSVName(StrataHistogramBase(outName, FFileName), AHistogram.Id);
+  dlgEdExportHistogram.Filter := 'Comma-separated values|*.csv|All files|*';
+  if (outName <> '') and ((outName[1] in ['/', '\']) or (ExtractFileDrive(outName) <> '')) then
+    dlgEdExportHistogram.InitialDir := ExtractFileDir(outName)
+  else if FFileName <> '' then
+    dlgEdExportHistogram.InitialDir := ExtractFileDir(FFileName);
+  Result := dlgEdExportHistogram.Execute;
+  if not Result then Exit;
+  WriteHistogramCSV(AHistogram, dlgEdExportHistogram.FileName);
+  DoStatus('exported ' + dlgEdExportHistogram.FileName);
+end;
+
+// Every active histogram, each to the file the user picks; Cancel stops the rest
+procedure TEditorFrame.actEdExportAllHistogramsExecute(Sender: TObject);
+var
+  h: TStrataHistogram;
+  i, nSaved: Integer;
+  noData: String;
+begin
+  RefreshHistogramList;
+  if Length(FHistogramIds) = 0 then
+  begin
+    MessageDlg('Strata', 'There are no active histograms to export.', mtInformation, [mbOK], 0);
+    Exit;
+  end;
+  nSaved := 0;
+  noData := '';
+  for i := 0 to High(FHistogramIds) do
+  begin
+    h := FEngine.Histogram(FHistogramIds[i], True);
+    if Length(h.Y) = 0 then
+    begin
+      noData := noData + Format(' h1[%d]', [FHistogramIds[i]]);
+      Continue;
+    end;
+    if not SaveHistogramAs(h) then Break;
+    Inc(nSaved);
+  end;
+  if noData <> '' then
+    DoStatus(Format('exported %d of %d active histograms; no data in%s', [nSaved, Length(FHistogramIds), noData]))
+  else
+    DoStatus(Format('exported %d of %d active histograms', [nSaved, Length(FHistogramIds)]));
 end;
 
 end.

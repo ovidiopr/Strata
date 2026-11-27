@@ -66,6 +66,7 @@ type
   TStrataDamageDef = record
     Material: String;
     Ed: Double;                  // eV
+    EdUnit: String;              // the unit Ed is shown and written in
     HasArc: Boolean;
     ArcB, ArcC: Double;
   end;
@@ -255,6 +256,12 @@ function StrataReferenceUnit(AQuantity: TStrataQuantity): String;
 // How many reference units one AUnit is
 function StrataUnitFactor(AQuantity: TStrataQuantity; const AUnit: String): Double;
 
+// The unit to show Ed in: AUnit when Strata knows it, eV otherwise
+function StrataEdUnit(const AUnit: String): String;
+
+// Ed, kept in eV, expressed in AUnit
+function StrataEdInUnit(AEdeV: Double; const AUnit: String): Double;
+
 // The units offered for AQuantity, separated by single spaces
 function StrataUnitsOffered(AQuantity: TStrataQuantity): String;
 
@@ -322,6 +329,19 @@ begin
     if (kStrataUnits[i].Quantity = AQuantity)
        and (kStrataUnits[i].Symbol = want) then
       Exit(kStrataUnits[i].Factor);
+end;
+
+function StrataEdUnit(const AUnit: String): String;
+begin
+  if StrataUnitFactor(sqEnergy, AUnit) > 0 then
+    Result := StrataG4UnitSpelling(AUnit)
+  else
+    Result := 'eV';
+end;
+
+function StrataEdInUnit(AEdeV: Double; const AUnit: String): Double;
+begin
+  Result := AEdeV*StrataUnitFactor(sqEnergy, 'eV')/StrataUnitFactor(sqEnergy, StrataEdUnit(AUnit));
 end;
 
 function StrataUnitsOffered(AQuantity: TStrataQuantity): String;
@@ -814,6 +834,8 @@ begin
         sub := Elem(node, 'material');
         Attr(sub, 'name', Damage[i].Material);
         AttrNum(sub, 'ed', Damage[i].Ed);
+        if StrataEdUnit(Damage[i].EdUnit) <> 'eV' then
+          Attr(sub, 'edUnit', StrataEdUnit(Damage[i].EdUnit));
         if Damage[i].HasArc then
         begin
           AttrNum(sub, 'b', Damage[i].ArcB);
@@ -1145,6 +1167,7 @@ begin
           if i >= 0 then
           begin
             Damage[i].Ed := GetNum(TDOMElement(child), 'ed', 0);
+            Damage[i].EdUnit := StrataEdUnit(Get(TDOMElement(child), 'edUnit', 'eV'));
             Damage[i].HasArc := TDOMElement(child).hasAttribute('b');
             Damage[i].ArcB := GetNum(TDOMElement(child), 'b', 0);
             Damage[i].ArcC := GetNum(TDOMElement(child), 'c', 1);
@@ -1283,6 +1306,7 @@ begin
   SetLength(Damage, Result + 1);
   Damage[Result].Material := AMaterial;
   Damage[Result].Ed := 0;
+  Damage[Result].EdUnit := 'eV';
   Damage[Result].HasArc := False;
   Damage[Result].ArcB := 0;
   Damage[Result].ArcC := 1;
@@ -1489,8 +1513,9 @@ begin
       for i := 0 to High(Damage) do
       begin
         if Damage[i].Ed > 0 then
-          lines.Add(Format('/strata/damage/setEd %s %s eV',
-                           [Damage[i].Material, StrataNumToText(Damage[i].Ed)]));
+          lines.Add(Format('/strata/damage/setEd %s %s %s',
+                           [Damage[i].Material, StrataNumToText(StrataEdInUnit(Damage[i].Ed, Damage[i].EdUnit)),
+                            StrataEdUnit(Damage[i].EdUnit)]));
         if Damage[i].HasArc then
           lines.Add(Format('/strata/damage/setArc %s %s %s',
                            [Damage[i].Material, StrataNumToText(Damage[i].ArcB),
@@ -1839,6 +1864,7 @@ begin
         if WordAt(w, 3) <> '' then
           factor := StrataUnitFactor(sqEnergy, WordAt(w, 3))/StrataUnitFactor(sqEnergy, 'eV');
         Damage[idx].Ed := StrataTextToNum(WordAt(w, 2), 0)*factor;
+        Damage[idx].EdUnit := StrataEdUnit(WordAt(w, 3));
       end
 
       else if (cmd = '/strata/damage/setArc') and (WordAt(w, 1) <> '') then

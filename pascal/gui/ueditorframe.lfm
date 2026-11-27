@@ -86,6 +86,20 @@ object EditorFrame: TEditorFrame
           BorderSpacing.Around = 6
           ImageIndex = 20
         end
+        object btnEdExportAllHistograms: TSpeedButton
+          AnchorSideLeft.Control = btnEdExportHistogram
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnEdExportHistogram
+          AnchorSideTop.Side = asrCenter
+          Left = 111
+          Height = 26
+          Top = 6
+          Width = 79
+          Action = actEdExportAllHistograms
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 43
+        end
         object lbEdHistograms: TListBox
           AnchorSideLeft.Control = pnlEdHistograms
           AnchorSideTop.Control = btnEdExportHistogram
@@ -261,6 +275,13 @@ object EditorFrame: TEditorFrame
       Hint = 'Export histogram|Export histogram to CSV file'
       ImageIndex = 20
       OnExecute = actEdExportHistogramExecute
+    end
+    object actEdExportAllHistograms: TAction
+      Category = 'Histograms'
+      Caption = 'Export all'
+      Hint = 'Export all histograms|Export every active histogram to its own CSV file'
+      ImageIndex = 43
+      OnExecute = actEdExportAllHistogramsExecute
     end
     object actEdClearLog: TAction
       Category = 'Log'

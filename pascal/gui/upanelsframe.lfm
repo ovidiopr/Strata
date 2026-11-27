@@ -1762,6 +1762,20 @@ object PanelsFrame: TPanelsFrame
           BorderSpacing.Around = 6
           ImageIndex = 20
         end
+        object btnExportAllHistograms: TSpeedButton
+          AnchorSideLeft.Control = btnExportHistogram
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnExportHistogram
+          AnchorSideTop.Side = asrCenter
+          Left = 154
+          Height = 26
+          Top = 6
+          Width = 79
+          Action = actExportAllHistograms
+          AutoSize = True
+          BorderSpacing.Around = 6
+          ImageIndex = 43
+        end
         object lbHistogram: TListBox
           AnchorSideLeft.Control = pnlHistograms
           AnchorSideTop.Control = chkOnlyActiveHistograms
@@ -2839,6 +2853,13 @@ object PanelsFrame: TPanelsFrame
       Hint = 'Export histogram|Export histogram to CSV file'
       ImageIndex = 20
       OnExecute = actExportHistogramExecute
+    end
+    object actExportAllHistograms: TAction
+      Category = 'Histograms'
+      Caption = 'Export all'
+      Hint = 'Export all histograms|Export every active histogram to its own CSV file'
+      ImageIndex = 43
+      OnExecute = actExportAllHistogramsExecute
     end
   end
   object StrataTableDlg: TSciPeriodicTableDlg
