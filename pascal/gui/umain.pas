@@ -45,6 +45,7 @@ type
     mnuEditPaste: TMenuItem;
     mnuEditSep2: TMenuItem;
     mnuEditSelectAll: TMenuItem;
+    mnuSep8: TMenuItem;
     tbSepEdit: TToolButton;
     tbEditCut: TToolButton;
     tbEditCopy: TToolButton;
@@ -153,6 +154,7 @@ type
     tbDatasets: TToolButton;
     tbNewConfig: TToolButton;
     tbSaveConfig: TToolButton;
+    tbSepUI: TToolButton;
 
     procedure actOpenDocumentAccept(Sender: TObject);
     procedure actOpenDocumentBeforeExecute(Sender: TObject);

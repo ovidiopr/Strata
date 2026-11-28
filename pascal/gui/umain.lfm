@@ -116,6 +116,20 @@ object MainForm: TMainForm
               Align = alClient
               ClientHeight = 579
               ClientWidth = 1030
+              inherited sgVoxels: TStringGrid
+                Height = 579
+                Width = 574
+              end
+              inherited pnlSummary: TPanel
+                Height = 579
+                ClientHeight = 579
+                inherited sgSummary: TStringGrid
+                  Height = 579
+                end
+              end
+              inherited spltResults: TSplitter
+                Height = 579
+              end
             end
           end
         end
@@ -191,38 +205,38 @@ object MainForm: TMainForm
       Action = actEditPaste
     end
     object tbSwitchMode: TToolButton
-      Left = 212
+      Left = 220
       Top = 2
       Action = actSwitchMode
     end
     object tbSep1: TToolButton
-      Left = 241
+      Left = 249
       Height = 28
       Top = 2
       Caption = 'tbSep1'
       Style = tbsSeparator
     end
     object tbImportMacro: TToolButton
-      Left = 249
+      Left = 257
       Top = 2
       Caption = '&Import settings from macro...'
       ImageIndex = 4
     end
     object tbExportMacro: TToolButton
-      Left = 278
+      Left = 286
       Top = 2
       Caption = '&Export settings as macro...'
       ImageIndex = 5
     end
     object tbSep2: TToolButton
-      Left = 307
+      Left = 315
       Height = 28
       Top = 2
       Caption = 'tbSep2'
       Style = tbsSeparator
     end
     object tbThreads: TBCTrackbarUpdown
-      Left = 315
+      Left = 323
       Height = 28
       Hint = 'Worker threads|Number of worker threads for Geant4'
       Top = 2
@@ -299,25 +313,25 @@ object MainForm: TMainForm
       UseDockManager = False
     end
     object tbStartEngine: TToolButton
-      Left = 374
+      Left = 382
       Top = 2
       Action = actStartEngine
     end
     object tbInitialize: TToolButton
-      Left = 403
+      Left = 411
       Top = 2
       Caption = 'Initialize'
       ImageIndex = 42
     end
     object tbSep3: TToolButton
-      Left = 432
+      Left = 440
       Height = 28
       Top = 2
       Caption = 'tbSep3'
       Style = tbsSeparator
     end
     object tbEvents: TBCTrackbarUpdown
-      Left = 440
+      Left = 448
       Height = 28
       Hint = 'Events|Total number of events to simulate'
       Top = 2
@@ -393,81 +407,81 @@ object MainForm: TMainForm
       UseDockManager = False
     end
     object tbBeamOn: TToolButton
-      Left = 606
+      Left = 614
       Top = 2
       Caption = 'Beam on'
       ImageIndex = 7
     end
     object tbEdStep: TToolButton
-      Left = 635
+      Left = 643
       Top = 2
       Caption = 'Step'
       ImageIndex = 39
     end
     object tbEdRunToCursor: TToolButton
-      Left = 664
+      Left = 672
       Top = 2
       Caption = 'Run to cursor'
       ImageIndex = 40
     end
     object tbAbortRun: TToolButton
-      Left = 693
+      Left = 701
       Top = 2
       Action = actAbortRun
     end
     object tbSep4: TToolButton
-      Left = 722
+      Left = 730
       Height = 28
       Top = 2
       Caption = 'tbSep4'
       Style = tbsSeparator
     end
     object tbNewSession: TToolButton
-      Left = 730
+      Left = 738
       Top = 2
       Action = actNewSession
     end
     object tbVisualize: TToolButton
-      Left = 759
+      Left = 767
       Top = 2
       Action = actVisualize
     end
     object tbPreviewGeometry: TToolButton
-      Left = 788
+      Left = 796
       Top = 2
       Action = actPreviewGeometry
     end
     object tbSep5: TToolButton
-      Left = 875
+      Left = 883
       Height = 28
       Top = 2
       Caption = 'tbSep5'
       Style = tbsSeparator
     end
     object tbAbout: TToolButton
-      Left = 920
+      Left = 928
       Top = 2
       Action = actAbout
     end
     object tbSep6: TToolButton
-      Left = 912
+      Left = 920
       Height = 28
       Top = 2
       Caption = 'tbSep6'
       Style = tbsSeparator
     end
     object tbOptions: TToolButton
-      Left = 883
+      Left = 891
       Top = 2
       Action = actOptions
     end
     object tbTerminal: TToolButton
-      Left = 817
+      Left = 825
       Top = 2
       Action = actTerminal
     end
     object tbDatasets: TToolButton
-      Left = 846
+      Left = 854
       Top = 2
       Action = actDatasets
     end
@@ -482,6 +496,13 @@ object MainForm: TMainForm
       Top = 2
       Caption = '&Save configuration'
       ImageIndex = 2
+    end
+    object tbSepUI: TToolButton
+      Left = 212
+      Height = 28
+      Top = 2
+      Caption = 'tbSepUI'
+      Style = tbsSeparator
     end
   end
   object tmrPoll: TTimer
@@ -510,6 +531,9 @@ object MainForm: TMainForm
       object mnuSaveConfigAs: TMenuItem
         Caption = 'Save configuration &as ...'
         ImageIndex = 3
+      end
+      object mnuSep8: TMenuItem
+        Caption = '-'
       end
       object mnuSwitchMode: TMenuItem
         Action = actSwitchMode
