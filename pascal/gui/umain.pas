@@ -376,7 +376,11 @@ begin
     FEngine.WaitForRun(30000);
   end;
 
-  CanClose := fraPanels.MayReplaceConfig and fraEditor.MayReplaceMacro;
+  // Only the document the window shows; the other one is not on screen
+  if FEditing then
+    CanClose := fraEditor.MayReplaceMacro
+  else
+    CanClose := fraPanels.MayReplaceConfig;
 end;
 
 procedure TMainForm.HandleException(Sender: TObject; E: Exception);
