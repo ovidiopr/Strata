@@ -16,7 +16,7 @@
 #=============================================================================
 
 APP            := Strata
-VERSION        ?= 1.0.0
+VERSION        ?= 1.1.0
 PKGROOT        := strata_$(VERSION)
 
 UNAME_S        := $(shell uname -s)

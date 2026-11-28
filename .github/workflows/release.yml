@@ -66,7 +66,7 @@ jobs:
         if [ -n "$TAG" ]; then
           VER="${TAG#v}"
         else
-          VER=$(make -s print_version 2>/dev/null || echo 1.0.0)
+          VER=$(make -s print_version 2>/dev/null || echo 1.1.0)
         fi
         echo "STRATA_VER=$VER" >> $GITHUB_ENV
         echo "Packaging Strata $VER"

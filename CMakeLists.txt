@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
-project(Strata VERSION 1.0.0)
+project(Strata VERSION 1.1.0)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -144,7 +144,7 @@ if (STRATA_BUILD_SHARED)
             POSITION_INDEPENDENT_CODE ON
             CXX_VISIBILITY_PRESET hidden
             VISIBILITY_INLINES_HIDDEN ON
-            VERSION 1.0.0
+            VERSION 1.1.0
             SOVERSION 1
             PUBLIC_HEADER ${PROJECT_SOURCE_DIR}/api/strata_api.h)
     install(TARGETS libstrata

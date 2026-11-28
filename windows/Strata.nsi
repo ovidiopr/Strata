@@ -16,13 +16,13 @@ Unicode True
 ;  Geant4 abort when the physics tables are built.
 ;
 ;  Build with:
-;      makensis /DPRODUCT_VERSION=1.0.0 windows\Strata.nsi
+;      makensis /DPRODUCT_VERSION=1.1.0 windows\Strata.nsi
 ;  Any of PRODUCT_VERSION, PRODUCT_ARCH and BUILD_DIR may be overridden the
 ;  same way; the defaults below are what the Makefile passes.
 ;=============================================================================
 
 !ifndef PRODUCT_VERSION
-  !define PRODUCT_VERSION "1.0.0"
+  !define PRODUCT_VERSION "1.1.0"
 !endif
 !ifndef PRODUCT_ARCH
   !define PRODUCT_ARCH "win64-x86_64"

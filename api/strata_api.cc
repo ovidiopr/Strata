@@ -88,7 +88,7 @@ void SetEnv(const char* name, const char* value) {
 //==============================================================================
 namespace {
 
-constexpr const char* kStrataVersion = "1.0.0";
+constexpr const char* kStrataVersion = "1.1.0";
 
 /// Upper bound on the log ring buffer
 constexpr std::size_t kMaxLogLines = 50000;

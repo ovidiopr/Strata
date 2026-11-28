@@ -18,7 +18,7 @@ correct, but **use it at your own risk**.
 
 ## Installing
 
-1. **Geant4.** Strata 1.0.0 needs Geant4 11.4.3, from the
+1. **Geant4.** Strata 1.1.0 needs Geant4 11.4.3, from the
    [Geant4 installers](https://github.com/ovidiopr/geant4-installers/releases). The installer asks which data files to download;
    the preselected ones are the ones Geant4 cannot run without.
 2. **Strata.** From the [releases](https://github.com/ovidiopr/strata/releases):
