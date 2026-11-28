@@ -315,6 +315,7 @@ object EditorFrame: TEditorFrame
     end
   end
   object EditorActions: TActionList
+    Images = MainForm.StrataSVGImageList
     Left = 40
     Top = 536
     object actNewMacro: TAction

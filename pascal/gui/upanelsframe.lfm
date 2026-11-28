@@ -2622,6 +2622,7 @@ object PanelsFrame: TPanelsFrame
     end
   end
   object PanelsActions: TActionList
+    Images = MainForm.StrataSVGImageList
     Left = 40
     Top = 528
     object actNewConfig: TAction
