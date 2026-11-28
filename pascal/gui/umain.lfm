@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 283
+  Left = 268
   Height = 687
-  Top = 165
+  Top = 137
   Width = 1040
   Caption = 'Strata'
   ClientHeight = 687
@@ -56,7 +56,7 @@ object MainForm: TMainForm
   end
   object nbMain: TNotebook
     Left = 0
-    Height = 632
+    Height = 613
     Top = 32
     Width = 1040
     PageIndex = 0
@@ -64,38 +64,1014 @@ object MainForm: TMainForm
     TabOrder = 2
     object pgPanels: TPage
       inline fraPanels: TPanelsFrame
-        Left = 0
-        Top = 0
         Align = alClient
-        TabOrder = 0
         DesignTop = 200
+        inherited pcMain: TPageControl
+          inherited tabGeometry: TTabSheet
+            ClientHeight = 579
+            ClientWidth = 1030
+            inherited gbVoxels: TGroupBox
+              Height = 579
+              Width = 577
+              ClientHeight = 552
+              ClientWidth = 567
+              inherited lblVoxelCount: TLabel
+                Height = 16
+                Top = 8
+                Width = 118
+              end
+              inherited seVoxelCount: TSpinEdit
+                Left = 124
+                Height = 20
+              end
+              inherited lblVoxelHint: TLabel
+                Left = 210
+                Height = 16
+                Top = 8
+                Width = 649
+              end
+              inherited sgVoxelDefs: TStringGrid
+                Height = 520
+                Top = 32
+                Width = 567
+              end
+            end
+            inherited pnlGeometry: TPanel
+              Height = 579
+              ClientHeight = 579
+              inherited gbLayers: TGroupBox
+                Height = 459
+                Top = 120
+                ClientHeight = 432
+                ClientWidth = 438
+                inherited sgLayers: TStringGrid
+                  Height = 409
+                  Top = 23
+                  Width = 438
+                end
+                inherited lblLayerCount: TLabel
+                  Height = 16
+                  Top = 2
+                  Width = 103
+                end
+                inherited seLayerCount: TSpinEdit
+                  Left = 111
+                  Height = 20
+                end
+              end
+              inherited gbTarget: TGroupBox
+                Height = 120
+                ClientHeight = 93
+                ClientWidth = 438
+                inherited lblWorldMaterial: TLabel
+                  Height = 16
+                  Width = 88
+                end
+                inherited lblSizeYZ: TLabel
+                  Height = 16
+                  Width = 94
+                end
+                inherited btnApplyGeometry: TSpeedButton
+                  Left = 326
+                  Height = 26
+                  Width = 106
+                end
+                inherited seSizeYZ: TSciEdit
+                  Left = 106
+                  Height = 21
+                  Top = 39
+                  Width = 214
+                end
+                inherited lblTemperature: TLabel
+                  Height = 16
+                  Top = 68
+                  Width = 77
+                end
+                inherited seTemperature: TSciEdit
+                  Left = 89
+                  Height = 21
+                  Width = 337
+                end
+                inherited edWorldMaterial: TLabel
+                  Left = 100
+                  Top = 11
+                  Width = 226
+                end
+                inherited btnWorldMaterial: TSpeedButton
+                  Left = 332
+                  Height = 26
+                  Width = 100
+                end
+              end
+            end
+            inherited spltGeometry: TSplitter
+              Height = 579
+            end
+          end
+          inherited tabBeamPhysics: TTabSheet
+            ClientHeight = 579
+            ClientWidth = 1030
+            inherited pnlBeam: TPanel
+              Height = 579
+              ClientHeight = 579
+              inherited gbBeam: TGroupBox
+                Height = 190
+                ClientHeight = 163
+                ClientWidth = 505
+                inherited lblParticle: TLabel
+                  Height = 16
+                  Top = 7
+                  Width = 46
+                end
+                inherited cbParticle: TComboBox
+                  Left = 58
+                  Height = 19
+                  Width = 353
+                end
+                inherited lblEnergy: TLabel
+                  Height = 16
+                  Top = 33
+                  Width = 42
+                end
+                inherited lblBeamRadius: TLabel
+                  Height = 16
+                  Top = 60
+                  Width = 62
+                end
+                inherited seBeamRadius: TSciEdit
+                  Left = 74
+                  Height = 21
+                  Top = 58
+                  Width = 425
+                end
+                inherited lblBeamAngle: TLabel
+                  Height = 16
+                  Top = 87
+                  Width = 71
+                end
+                inherited seBeamAngle: TSciEdit
+                  Left = 83
+                  Height = 21
+                  Top = 85
+                  Width = 416
+                end
+                inherited lblIon: TLabel
+                  Height = 16
+                  Top = 117
+                  Width = 107
+                end
+                inherited lblIonHint: TLabel
+                  Left = 262
+                  Height = 16
+                  Top = 141
+                  Width = 150
+                end
+                inherited btnApplyBeam: TSpeedButton
+                  Left = 417
+                  Height = 26
+                  Top = 2
+                  Width = 82
+                end
+                inherited seEnergy: TSciEdit
+                  Left = 54
+                  Height = 21
+                  Top = 31
+                  Width = 445
+                end
+                inherited btnSelectIon: TSpeedButton
+                  Left = 418
+                  Height = 26
+                  Top = 112
+                  Width = 81
+                end
+                inherited pnlIon: TPanel
+                  Left = 119
+                  Height = 20
+                  Top = 115
+                  Width = 293
+                  ClientHeight = 20
+                  ClientWidth = 293
+                  inherited seIonZ: TSpinEdit
+                    Height = 20
+                    Width = 96
+                  end
+                  inherited seIonA: TSpinEdit
+                    Left = 99
+                    Height = 20
+                    Width = 95
+                  end
+                  inherited seIonQ: TSpinEdit
+                    Left = 197
+                    Height = 20
+                    Width = 96
+                  end
+                end
+              end
+              inherited gbField: TGroupBox
+                Height = 112
+                Top = 190
+                ClientHeight = 85
+                ClientWidth = 505
+                inherited lblFieldB: TLabel
+                  Height = 16
+                  Top = 2
+                  Width = 56
+                end
+                inherited lblFieldMinStep: TLabel
+                  Height = 16
+                  Top = 28
+                  Width = 85
+                end
+                inherited seFieldMinStep: TSciEdit
+                  Left = 97
+                  Height = 21
+                  Top = 26
+                end
+                inherited lblFieldStepper: TLabel
+                  Left = 209
+                  Height = 16
+                  Top = 28
+                  Width = 48
+                end
+                inherited cbFieldStepper: TComboBox
+                  Left = 263
+                  Height = 19
+                  Top = 27
+                  Width = 236
+                end
+                inherited btnFieldApply: TSpeedButton
+                  Left = 425
+                  Height = 26
+                  Top = 53
+                  Width = 74
+                end
+                inherited lblFieldHint: TLabel
+                  Left = 126
+                  Height = 16
+                  Top = 58
+                  Width = 293
+                end
+                inherited pnlBField: TPanel
+                  Left = 68
+                  Height = 21
+                  Width = 437
+                  ClientHeight = 21
+                  ClientWidth = 437
+                  inherited seFieldBx: TSciEdit
+                    Height = 21
+                    Width = 138
+                  end
+                  inherited seFieldBy: TSciEdit
+                    Left = 150
+                    Height = 21
+                    Width = 137
+                  end
+                  inherited seFieldBz: TSciEdit
+                    Left = 293
+                    Height = 21
+                    Width = 138
+                  end
+                end
+              end
+              inherited gbEField: TGroupBox
+                Height = 112
+                ClientHeight = 85
+                ClientWidth = 505
+                inherited lblEFieldE: TLabel
+                  Height = 16
+                  Top = 2
+                  Width = 55
+                end
+                inherited lblEFieldMinStep: TLabel
+                  Height = 16
+                  Top = 28
+                  Width = 85
+                end
+                inherited seEFieldMinStep: TSciEdit
+                  Left = 97
+                  Height = 21
+                  Top = 26
+                end
+                inherited lblEFieldStepper: TLabel
+                  Left = 209
+                  Height = 16
+                  Top = 28
+                  Width = 48
+                end
+                inherited cbEFieldStepper: TComboBox
+                  Left = 263
+                  Height = 19
+                  Top = 27
+                  Width = 236
+                end
+                inherited btnEFieldApply: TSpeedButton
+                  Left = 425
+                  Height = 26
+                  Top = 53
+                  Width = 74
+                end
+                inherited lblEFieldHint: TLabel
+                  Left = 126
+                  Height = 16
+                  Top = 58
+                  Width = 293
+                end
+                inherited pnlEField: TPanel
+                  Left = 67
+                  Height = 21
+                  Width = 438
+                  ClientHeight = 21
+                  ClientWidth = 438
+                  inherited seEFieldEx: TSciEdit
+                    Height = 21
+                    Width = 138
+                  end
+                  inherited seEFieldEy: TSciEdit
+                    Left = 150
+                    Height = 21
+                    Width = 138
+                  end
+                  inherited seEFieldEz: TSciEdit
+                    Left = 294
+                    Height = 21
+                    Width = 138
+                  end
+                end
+              end
+              inherited gbRBS: TGroupBox
+                Height = 135
+                Top = 414
+                ClientHeight = 108
+                ClientWidth = 505
+                inherited chkRBS: TCheckBox
+                  Height = 18
+                  Width = 229
+                end
+                inherited lblRBSAngle: TLabel
+                  Height = 16
+                  Top = 32
+                  Width = 62
+                end
+                inherited seRBSAngle: TSciEdit
+                  Left = 74
+                  Height = 21
+                  Top = 30
+                  Width = 165
+                end
+                inherited lblRBSSolidAngle: TLabel
+                  Left = 266
+                  Height = 16
+                  Top = 32
+                  Width = 67
+                end
+                inherited seRBSSolidAngle: TSciEdit
+                  Left = 339
+                  Height = 21
+                  Top = 30
+                  Width = 160
+                end
+                inherited lblRBSResolution: TLabel
+                  Height = 16
+                  Top = 59
+                  Width = 64
+                end
+                inherited seRBSResolution: TSciEdit
+                  Left = 76
+                  Height = 21
+                  Top = 57
+                  Width = 163
+                end
+                inherited lblRBSTilt: TLabel
+                  Left = 266
+                  Height = 16
+                  Top = 59
+                  Width = 58
+                end
+                inherited seRBSTilt: TSciEdit
+                  Left = 330
+                  Height = 21
+                  Top = 57
+                  Width = 169
+                end
+                inherited chkRBSScreening: TCheckBox
+                  Height = 18
+                  Top = 84
+                  Width = 201
+                end
+                inherited divRBS: TDividerBevel
+                  Left = 245
+                  Height = 48
+                  Top = 30
+                  Width = 15
+                end
+              end
+            end
+            inherited spltBeamMaterials: TSplitter
+              Height = 579
+            end
+            inherited pnlPhysics: TPanel
+              Height = 579
+              Width = 510
+              ClientHeight = 579
+              ClientWidth = 510
+              inherited lblPhysicsList: TLabel
+                Height = 16
+                Top = 10
+                Width = 51
+              end
+              inherited cbPhysicsList: TComboBox
+                Left = 63
+                Height = 19
+                Top = 9
+                Width = 278
+              end
+              inherited btnApplyPhysics: TSpeedButton
+                Left = 347
+              end
+              inherited gbOptionalPhysics: TGroupBox
+                Height = 340
+                Width = 498
+                ClientHeight = 313
+                ClientWidth = 488
+                inherited clbOptionalPhysics: TCheckListBox
+                  Height = 313
+                  Width = 488
+                end
+              end
+              inherited gbDamage: TGroupBox
+                Top = 383
+                Width = 498
+                ClientHeight = 163
+                ClientWidth = 488
+                inherited chkDamage: TCheckBox
+                  Height = 18
+                  Width = 146
+                end
+                inherited sgDamage: TStringGrid
+                  Height = 139
+                  Top = 24
+                  Width = 488
+                end
+              end
+            end
+          end
+          inherited tabMaterials: TTabSheet
+            ClientHeight = 579
+            ClientWidth = 1030
+            inherited gbDefinedMaterials: TGroupBox
+              Height = 579
+              Width = 382
+              ClientHeight = 552
+              ClientWidth = 372
+              inherited lbDefinedMaterials: TListBox
+                Height = 508
+                Width = 360
+              end
+              inherited btnMatRefresh: TSpeedButton
+                Height = 26
+                Top = 520
+                Width = 57
+              end
+              inherited btnMatPrint: TSpeedButton
+                Left = 69
+                Height = 26
+                Top = 520
+                Width = 76
+              end
+            end
+            inherited pnlNewMaterial: TPanel
+              Height = 579
+              ClientHeight = 579
+              inherited gbNewMaterial: TGroupBox
+                Height = 579
+                ClientHeight = 552
+                ClientWidth = 633
+                inherited lblMatName: TLabel
+                  Height = 16
+                  Top = 8
+                  Width = 35
+                end
+                inherited edMatName: TEdit
+                  Left = 47
+                  Height = 21
+                  Width = 256
+                end
+                inherited lblMatDensity: TLabel
+                  Left = 330
+                  Height = 16
+                  Top = 8
+                  Width = 46
+                end
+                inherited seMatDensity: TSciEdit
+                  Left = 382
+                  Height = 21
+                  Width = 245
+                end
+                inherited rgMatMode: TRadioGroup
+                  Top = 33
+                  ClientHeight = 21
+                  ClientWidth = 610
+                end
+                inherited sgConstituents: TStringGrid
+                  Height = 427
+                  Top = 87
+                  Width = 621
+                end
+                inherited btnMatAddRow: TSpeedButton
+                  Height = 26
+                  Top = 520
+                  Width = 86
+                end
+                inherited btnMatDelRow: TSpeedButton
+                  Left = 98
+                  Height = 26
+                  Top = 520
+                  Width = 110
+                end
+                inherited lblMatSum: TLabel
+                  Left = 214
+                  Height = 16
+                  Top = 525
+                  Width = 37
+                end
+                inherited btnMatCreate: TSpeedButton
+                  Left = 525
+                  Height = 26
+                  Top = 520
+                  Width = 102
+                end
+                inherited divMaterials: TDividerBevel
+                  Left = 309
+                  Height = 27
+                  Width = 15
+                end
+              end
+            end
+            inherited spltMaterials: TSplitter
+              Height = 579
+            end
+          end
+          inherited tabHistograms: TTabSheet
+            ClientHeight = 579
+            ClientWidth = 1030
+            inherited pnlHistogramSetup: TPanel
+              Height = 38
+              Width = 1030
+              ClientHeight = 38
+              ClientWidth = 1030
+              inherited lblH1Bins: TLabel
+                Height = 16
+                Width = 26
+              end
+              inherited seH1Bins: TSpinEdit
+                Left = 38
+                Height = 20
+                Top = 9
+              end
+              inherited lblH1Min: TLabel
+                Left = 124
+                Height = 16
+                Width = 22
+              end
+              inherited seH1Min: TSciEdit
+                Left = 152
+                Height = 21
+                Top = 9
+              end
+              inherited lblH1Max: TLabel
+                Left = 288
+                Height = 16
+                Width = 25
+              end
+              inherited seH1Max: TSciEdit
+                Left = 319
+                Height = 21
+                Top = 9
+              end
+              inherited btnH1Apply: TSpeedButton
+                Left = 574
+                Height = 26
+                Width = 112
+              end
+              inherited btnH1Off: TSpeedButton
+                Left = 692
+                Height = 26
+                Width = 75
+              end
+              inherited lblH1Hint: TLabel
+                Left = 773
+                Height = 16
+                Width = 186
+              end
+              inherited chbH1Log: TCheckBox
+                Left = 455
+                Height = 18
+                Top = 10
+                Width = 93
+              end
+            end
+            inherited chtHistogram: TChart
+              Height = 541
+              Top = 38
+              Width = 702
+            end
+            inherited pnlHistograms: TPanel
+              Height = 541
+              Top = 38
+              ClientHeight = 541
+              inherited chkOnlyActiveHistograms: TCheckBox
+                Height = 18
+                Top = 38
+              end
+              inherited btnRefreshHistograms: TSpeedButton
+                Height = 26
+                Width = 57
+              end
+              inherited btnExportHistogram: TSpeedButton
+                Left = 69
+                Height = 26
+                Width = 79
+              end
+              inherited btnExportAllHistograms: TSpeedButton
+                Left = 154
+                Height = 26
+                Width = 67
+              end
+              inherited lbHistogram: TListBox
+                Height = 473
+              end
+            end
+            inherited spltHistograms: TSplitter
+              Height = 541
+              Top = 38
+            end
+          end
+          inherited tabOptions: TTabSheet
+            ClientHeight = 579
+            ClientWidth = 1030
+            inherited pnlOptions: TPanel
+              Height = 579
+              ClientHeight = 579
+              inherited gbRandom: TGroupBox
+                Height = 89
+                ClientWidth = 492
+                inherited lblRndEngine: TLabel
+                  Height = 16
+                  Top = 7
+                  Width = 61
+                end
+                inherited cbRndEngine: TComboBox
+                  Left = 73
+                  Height = 19
+                  Top = 6
+                  Width = 160
+                end
+                inherited chkRandomize: TCheckBox
+                  Left = 260
+                  Height = 18
+                  Width = 164
+                end
+                inherited lblRndSeeds: TLabel
+                  Height = 16
+                  Top = 35
+                  Width = 38
+                end
+                inherited seRndSeed1: TSpinEdit
+                  Left = 50
+                  Height = 20
+                  Top = 33
+                end
+                inherited seRndSeed2: TSpinEdit
+                  Left = 166
+                  Height = 20
+                  Top = 33
+                end
+                inherited divRandom: TDividerBevel
+                  Left = 239
+                  Height = 18
+                  Width = 15
+                end
+                inherited btnUseLastSeeds: TSpeedButton
+                  Left = 282
+                  Height = 26
+                  Top = 30
+                  Width = 188
+                end
+              end
+              inherited gbOutput: TGroupBox
+                Height = 134
+                Top = 90
+                ClientHeight = 107
+                ClientWidth = 492
+                inherited lblOutputBase: TLabel
+                  Height = 16
+                  Top = 8
+                  Width = 58
+                end
+                inherited edOutputBase: TEdit
+                  Left = 70
+                  Height = 21
+                end
+                inherited lblOutputHint: TLabel
+                  Left = 256
+                  Height = 16
+                  Top = 8
+                  Width = 144
+                end
+                inherited chkSavePrimaries: TCheckBox
+                  Height = 18
+                  Top = 33
+                  Width = 124
+                end
+                inherited edPrimariesName: TEdit
+                  Left = 136
+                  Height = 21
+                  Top = 32
+                  Width = 350
+                end
+                inherited chkSaveCascades: TCheckBox
+                  Height = 18
+                  Top = 59
+                  Width = 125
+                end
+                inherited edCascadesName: TEdit
+                  Left = 137
+                  Height = 21
+                  Top = 58
+                  Width = 349
+                end
+                inherited lblTracksHint: TLabel
+                  Height = 16
+                  Top = 85
+                  Width = 405
+                end
+              end
+              inherited gbDeexcitation: TGroupBox
+                Height = 103
+                Top = 224
+                ClientHeight = 76
+                ClientWidth = 492
+                inherited chkEmFluo: TCheckBox
+                  Height = 18
+                  Width = 102
+                end
+                inherited chkEmAuger: TCheckBox
+                  Left = 114
+                  Height = 18
+                  Width = 116
+                end
+                inherited chkEmAugerCascade: TCheckBox
+                  Left = 236
+                  Height = 18
+                  Width = 111
+                end
+                inherited chkEmPixe: TCheckBox
+                  Left = 353
+                  Height = 18
+                  Width = 53
+                end
+                inherited chkEmDeexIgnoreCut: TCheckBox
+                  Height = 18
+                  Top = 30
+                  Width = 250
+                end
+                inherited lblDeexHint: TLabel
+                  Height = 16
+                  Top = 54
+                  Width = 438
+                end
+              end
+              inherited gbCuts: TGroupBox
+                Height = 103
+                Top = 327
+                ClientHeight = 76
+                ClientWidth = 492
+                inherited chkCut: TCheckBox
+                  Height = 18
+                  Top = 7
+                  Width = 110
+                end
+                inherited seCut: TSciEdit
+                  Left = 122
+                  Height = 21
+                  Width = 364
+                end
+                inherited pnlCuts: TPanel
+                  Height = 37
+                  Top = 33
+                  Width = 480
+                  ClientHeight = 37
+                  ClientWidth = 480
+                  inherited lblCutGamma: TLabel
+                    Height = 16
+                    Width = 116
+                  end
+                  inherited lblCutElectron: TLabel
+                    Left = 122
+                    Height = 16
+                    Width = 115
+                  end
+                  inherited lblCutPositron: TLabel
+                    Left = 243
+                    Height = 16
+                    Width = 116
+                  end
+                  inherited lblCutProton: TLabel
+                    Left = 365
+                    Height = 16
+                    Width = 115
+                  end
+                  inherited seCutGamma: TSciEdit
+                    Height = 21
+                    Top = 16
+                    Width = 116
+                  end
+                  inherited seCutElectron: TSciEdit
+                    Left = 122
+                    Height = 21
+                    Top = 16
+                    Width = 115
+                  end
+                  inherited seCutPositron: TSciEdit
+                    Left = 243
+                    Height = 21
+                    Top = 16
+                    Width = 116
+                  end
+                  inherited seCutProton: TSciEdit
+                    Left = 365
+                    Height = 21
+                    Top = 16
+                    Width = 115
+                  end
+                end
+              end
+              inherited gbTracking: TGroupBox
+                Height = 59
+                Top = 430
+                ClientHeight = 32
+                ClientWidth = 492
+                inherited chkStepMax: TCheckBox
+                  Height = 18
+                  Top = 6
+                  Width = 148
+                end
+                inherited seStepMax: TSciEdit
+                  Left = 160
+                  Height = 21
+                  Top = 5
+                end
+                inherited lblKillSecondaries: TLabel
+                  Left = 276
+                  Height = 16
+                  Top = 7
+                  Width = 75
+                end
+                inherited cbKillSecondaries: TComboBox
+                  Left = 357
+                  Height = 19
+                  Width = 129
+                end
+              end
+            end
+            inherited spltOptions: TSplitter
+              Height = 579
+            end
+            inherited pnlEditors: TPanel
+              Height = 579
+              Width = 521
+              ClientHeight = 579
+              ClientWidth = 521
+              inherited gbCmdGeometry: TGroupBox
+                Height = 145
+                Width = 521
+                ClientHeight = 118
+                ClientWidth = 511
+                inherited memCmdGeometry: TMemo
+                  Height = 118
+                  Width = 511
+                end
+              end
+              inherited gbCmdPreInit: TGroupBox
+                Height = 144
+                Top = 145
+                Width = 521
+                ClientHeight = 117
+                ClientWidth = 511
+                inherited memCmdPreInit: TMemo
+                  Height = 117
+                  Width = 511
+                end
+              end
+              inherited gbCmdBeam: TGroupBox
+                Height = 145
+                Top = 289
+                Width = 521
+                ClientHeight = 118
+                ClientWidth = 511
+                inherited memCmdBeam: TMemo
+                  Height = 118
+                  Width = 511
+                end
+              end
+              inherited gbCmdRun: TGroupBox
+                Height = 145
+                Top = 434
+                Width = 521
+                ClientHeight = 118
+                ClientWidth = 511
+                inherited memCmdRun: TMemo
+                  Height = 118
+                  Width = 511
+                end
+              end
+            end
+          end
+          inherited tabResults: TTabSheet
+            ClientHeight = 579
+            ClientWidth = 1030
+            inherited sgVoxels: TStringGrid
+              Height = 579
+              Width = 574
+            end
+            inherited pnlSummary: TPanel
+              Height = 579
+              ClientHeight = 579
+              inherited sgSummary: TStringGrid
+                Height = 579
+              end
+            end
+            inherited spltResults: TSplitter
+              Height = 579
+            end
+          end
+          inherited tabLog: TTabSheet
+            ClientHeight = 579
+            ClientWidth = 1030
+            inherited pnlCommand: TPanel
+              Height = 38
+              Width = 1030
+              ClientHeight = 38
+              ClientWidth = 1030
+              inherited edCommand: TEdit
+                Height = 21
+                Top = 9
+                Width = 879
+              end
+              inherited btnSendCommand: TSpeedButton
+                Left = 891
+                Height = 26
+                Width = 41
+              end
+              inherited btnRunMacro: TSpeedButton
+                Left = 938
+                Height = 26
+                Width = 86
+              end
+            end
+            inherited pnlLogButtons: TPanel
+              Height = 38
+              Top = 541
+              Width = 1030
+              ClientHeight = 38
+              ClientWidth = 1030
+              inherited btnClearLog: TSpeedButton
+                Height = 26
+                Width = 42
+              end
+              inherited btnSaveLog: TSpeedButton
+                Left = 54
+                Height = 26
+                Width = 68
+              end
+            end
+            inherited mLog: TMemo
+              Height = 503
+              Top = 38
+              Width = 1030
+            end
+          end
+        end
+        inherited StrataTableDlg: TSciPeriodicTableDlg
+          Left = 768
+          Top = 552
+        end
+        inherited dlgExportHistogram: TSaveDialog
+          Left = 200
+          Top = 552
+        end
       end
     end
     object pgEditor: TPage
       inline fraEditor: TEditorFrame
-        Left = 0
-        Top = 0
         Align = alClient
-        TabOrder = 0
-        inherited pcEditor: TPageControl
-          inherited tabEdHistograms: TTabSheet
-            inherited pnlEdHistograms: TPanel
-              inherited btnEdExportHistogram: TSpeedButton
-                Width = 79
-              end
-            end
-          end
-          inherited tabEdLog: TTabSheet
-            inherited pnlEdLogButtons: TPanel
-              inherited btnEdClearLog: TSpeedButton
-                Width = 42
-              end
-              inherited btnEdSaveLog: TSpeedButton
-                Left = 54
-                Width = 68
-              end
-            end
-          end
+        inherited EditorActions: TActionList
+          Left = 48
+          Top = 560
+        end
+        inherited dlgEdExportHistogram: TSaveDialog
+          Left = 160
+          Top = 560
         end
       end
     end

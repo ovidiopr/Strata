@@ -7,8 +7,8 @@ object PanelsFrame: TPanelsFrame
   ClientWidth = 1040
   LCLVersion = '4.8.0.0'
   TabOrder = 0
-  DesignLeft = 300
-  DesignTop = 33
+  DesignLeft = 258
+  DesignTop = 168
   object pcMain: TPageControl
     Left = 0
     Height = 613
@@ -21,27 +21,27 @@ object PanelsFrame: TPanelsFrame
     OnChange = pcMainChange
     object tabGeometry: TTabSheet
       Caption = 'Geometry'
-      ClientHeight = 585
-      ClientWidth = 1032
+      ClientHeight = 579
+      ClientWidth = 1030
       object gbVoxels: TGroupBox
         Left = 453
-        Height = 585
+        Height = 579
         Top = 0
-        Width = 579
+        Width = 577
         Align = alClient
         Anchors = [akLeft, akRight, akBottom]
         Caption = 'Test volumes for the dose (boxes scored inside the target)'
-        ClientHeight = 565
-        ClientWidth = 575
+        ClientHeight = 552
+        ClientWidth = 567
         TabOrder = 1
         object lblVoxelCount: TLabel
           AnchorSideLeft.Control = gbVoxels
           AnchorSideTop.Control = seVoxelCount
           AnchorSideTop.Side = asrCenter
           Left = 0
-          Height = 15
-          Top = 10
-          Width = 106
+          Height = 16
+          Top = 8
+          Width = 118
           Caption = 'Number of volumes'
           ParentColor = False
         end
@@ -49,8 +49,8 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Control = lblVoxelCount
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gbVoxels
-          Left = 112
-          Height = 23
+          Left = 124
+          Height = 20
           Top = 6
           Width = 80
           BorderSpacing.Around = 6
@@ -63,10 +63,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = seVoxelCount
           AnchorSideTop.Side = asrCenter
-          Left = 198
-          Height = 15
-          Top = 10
-          Width = 564
+          Left = 210
+          Height = 16
+          Top = 8
+          Width = 649
           BorderSpacing.Around = 6
           Caption = 'Position = centre of the box in the target frame (the beam enters at -X/2); each box must fit inside one layer'
           ParentColor = False
@@ -80,9 +80,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideBottom.Control = gbVoxels
           AnchorSideBottom.Side = asrBottom
           Left = 0
-          Height = 530
-          Top = 35
-          Width = 575
+          Height = 520
+          Top = 32
+          Width = 567
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Top = 6
           ColCount = 7
@@ -95,23 +95,23 @@ object PanelsFrame: TPanelsFrame
       end
       object pnlGeometry: TPanel
         Left = 0
-        Height = 585
+        Height = 579
         Top = 0
         Width = 448
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 585
+        ClientHeight = 579
         ClientWidth = 448
         TabOrder = 0
         object gbLayers: TGroupBox
           Left = 0
-          Height = 470
-          Top = 115
+          Height = 459
+          Top = 120
           Width = 448
           Align = alClient
           Caption = 'Layers (beam enters at layer 0)'
-          ClientHeight = 450
-          ClientWidth = 444
+          ClientHeight = 432
+          ClientWidth = 438
           TabOrder = 1
           object sgLayers: TStringGrid
             AnchorSideLeft.Control = gbLayers
@@ -122,9 +122,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideBottom.Control = gbLayers
             AnchorSideBottom.Side = asrBottom
             Left = 0
-            Height = 424
-            Top = 26
-            Width = 444
+            Height = 409
+            Top = 23
+            Width = 438
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Top = 3
             ColCount = 4
@@ -140,9 +140,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seLayerCount
             AnchorSideTop.Side = asrCenter
             Left = 0
-            Height = 15
-            Top = 4
-            Width = 91
+            Height = 16
+            Top = 2
+            Width = 103
             Caption = 'Number of layers'
             ParentColor = False
           end
@@ -151,8 +151,8 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbLayers
             AnchorSideRight.Side = asrBottom
-            Left = 99
-            Height = 23
+            Left = 111
+            Height = 20
             Top = 0
             Width = 80
             BorderSpacing.Left = 8
@@ -165,23 +165,23 @@ object PanelsFrame: TPanelsFrame
         end
         object gbTarget: TGroupBox
           Left = 0
-          Height = 115
+          Height = 120
           Top = 0
           Width = 448
           Align = alTop
           AutoSize = True
           Caption = 'World and target'
-          ClientHeight = 95
-          ClientWidth = 444
+          ClientHeight = 93
+          ClientWidth = 438
           TabOrder = 0
           object lblWorldMaterial: TLabel
             AnchorSideLeft.Control = gbTarget
             AnchorSideTop.Control = btnWorldMaterial
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
+            Height = 16
             Top = 11
-            Width = 78
+            Width = 88
             BorderSpacing.Around = 6
             Caption = 'World material'
             ParentColor = False
@@ -191,9 +191,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnApplyGeometry
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
+            Height = 16
             Top = 41
-            Width = 77
+            Width = 94
             BorderSpacing.Around = 6
             Caption = 'Transverse size'
             ParentColor = False
@@ -202,10 +202,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbTarget
             AnchorSideRight.Side = asrBottom
-            Left = 343
-            Height = 25
+            Left = 326
+            Height = 26
             Top = 36
-            Width = 95
+            Width = 106
             Action = actApplyGeometry
             Anchors = [akTop, akRight]
             AutoSize = True
@@ -218,11 +218,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnApplyGeometry
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = btnApplyGeometry
-            Left = 89
-            Height = 23
+            Left = 106
+            Height = 21
             Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
-            Top = 37
-            Width = 248
+            Top = 39
+            Width = 214
             Text = '20.000 um'
             UnitFamily = ufLength
             Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -236,9 +236,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seTemperature
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 70
-            Width = 67
+            Height = 16
+            Top = 68
+            Width = 77
             BorderSpacing.Around = 6
             Caption = 'Temperature'
             ParentColor = False
@@ -250,11 +250,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = btnApplyGeometry
             AnchorSideRight.Side = asrBottom
-            Left = 79
-            Height = 23
+            Left = 89
+            Height = 21
             Hint = 'Temperature [K] (Equivalents: °C, °F, °R)'
             Top = 66
-            Width = 353
+            Width = 337
             Text = '293.15 K'
             UnitFamily = ufTemperature
             Options = [seoKeepTypedUnits]
@@ -269,10 +269,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnWorldMaterial
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = btnWorldMaterial
-            Left = 90
+            Left = 100
             Height = 16
-            Top = 10
-            Width = 255
+            Top = 11
+            Width = 226
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
             BorderSpacing.Around = 6
@@ -282,10 +282,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = gbTarget
             AnchorSideRight.Control = gbTarget
             AnchorSideRight.Side = asrBottom
-            Left = 351
-            Height = 25
+            Left = 332
+            Height = 26
             Top = 6
-            Width = 87
+            Width = 100
             Action = actSelectMaterial
             Anchors = [akTop, akRight]
             AutoSize = True
@@ -296,44 +296,44 @@ object PanelsFrame: TPanelsFrame
       end
       object spltGeometry: TSplitter
         Left = 448
-        Height = 585
+        Height = 579
         Top = 0
         Width = 5
       end
     end
     object tabBeamPhysics: TTabSheet
       Caption = 'Beam/Physics'
-      ClientHeight = 585
-      ClientWidth = 1032
+      ClientHeight = 579
+      ClientWidth = 1030
       object pnlBeam: TPanel
         Left = 0
-        Height = 585
+        Height = 579
         Top = 0
         Width = 515
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 585
+        ClientHeight = 579
         ClientWidth = 515
         TabOrder = 0
         object gbBeam: TGroupBox
           Left = 0
-          Height = 193
+          Height = 190
           Top = 0
           Width = 515
           Align = alTop
           AutoSize = True
           Caption = 'Primary generator'
-          ClientHeight = 173
-          ClientWidth = 511
+          ClientHeight = 163
+          ClientWidth = 505
           TabOrder = 0
           object lblParticle: TLabel
             AnchorSideLeft.Control = gbBeam
             AnchorSideTop.Control = cbParticle
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 10
-            Width = 39
+            Height = 16
+            Top = 7
+            Width = 46
             BorderSpacing.Around = 6
             Caption = 'Particle'
             ParentColor = False
@@ -343,10 +343,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbBeam
             AnchorSideRight.Control = btnApplyBeam
-            Left = 51
-            Height = 23
+            Left = 58
+            Height = 19
             Top = 6
-            Width = 374
+            Width = 353
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             ItemHeight = 15
@@ -359,9 +359,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seEnergy
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 39
-            Width = 36
+            Height = 16
+            Top = 33
+            Width = 42
             BorderSpacing.Around = 6
             Caption = 'Energy'
             ParentColor = False
@@ -371,9 +371,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seBeamRadius
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 68
-            Width = 52
+            Height = 16
+            Top = 60
+            Width = 62
             BorderSpacing.Around = 6
             Caption = 'Beam size'
             ParentColor = False
@@ -385,11 +385,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbBeam
             AnchorSideRight.Side = asrBottom
-            Left = 64
-            Height = 23
+            Left = 74
+            Height = 21
             Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
-            Top = 64
-            Width = 441
+            Top = 58
+            Width = 425
             Text = '0.0000 m'
             UnitFamily = ufLength
             Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -403,9 +403,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seBeamAngle
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 97
-            Width = 62
+            Height = 16
+            Top = 87
+            Width = 71
             BorderSpacing.Around = 6
             Caption = 'Beam angle'
             ParentColor = False
@@ -417,11 +417,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbBeam
             AnchorSideRight.Side = asrBottom
-            Left = 74
-            Height = 23
+            Left = 83
+            Height = 21
             Hint = 'Angle [rad] (Equivalents: deg, °)'
-            Top = 93
-            Width = 431
+            Top = 85
+            Width = 416
             Text = '0.0000 deg'
             UnitFamily = ufAngle
             Options = [seoKeepTypedUnits]
@@ -435,9 +435,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnSelectIon
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 127
-            Width = 96
+            Height = 16
+            Top = 117
+            Width = 107
             BorderSpacing.Around = 6
             Caption = 'Ion  Z / A / charge'
             ParentColor = False
@@ -447,10 +447,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = pnlIon
             AnchorSideRight.Side = asrBottom
-            Left = 298
-            Height = 15
-            Top = 152
-            Width = 131
+            Left = 262
+            Height = 16
+            Top = 141
+            Width = 150
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 6
             BorderSpacing.Bottom = 6
@@ -462,10 +462,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = gbBeam
             AnchorSideRight.Side = asrBottom
-            Left = 431
-            Height = 25
-            Top = 5
-            Width = 74
+            Left = 417
+            Height = 26
+            Top = 2
+            Width = 82
             Action = actApplyBeam
             Anchors = [akTop, akRight]
             AutoSize = True
@@ -479,11 +479,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbBeam
             AnchorSideRight.Side = asrBottom
-            Left = 48
-            Height = 23
+            Left = 54
+            Height = 21
             Hint = 'Energy [J] (Equivalents: N*m, W*s, kg*m^2/s^2, eV, Wh)'
-            Top = 35
-            Width = 457
+            Top = 31
+            Width = 445
             Text = '1.0000000 MeV'
             UnitFamily = ufEnergy
             SignificantDigits = 8
@@ -499,10 +499,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbBeam
             AnchorSideRight.Side = asrBottom
-            Left = 435
-            Height = 25
-            Top = 122
-            Width = 70
+            Left = 418
+            Height = 26
+            Top = 112
+            Width = 81
             Action = actSelectIon
             Anchors = [akTop, akRight]
             AutoSize = True
@@ -515,10 +515,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnSelectIon
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = btnSelectIon
-            Left = 108
-            Height = 23
-            Top = 123
-            Width = 321
+            Left = 119
+            Height = 20
+            Top = 115
+            Width = 293
             Anchors = [akTop, akLeft, akRight]
             AutoSize = True
             BorderSpacing.Around = 6
@@ -528,34 +528,34 @@ object PanelsFrame: TPanelsFrame
             ChildSizing.ShrinkHorizontal = crsSameSize
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 3
-            ClientHeight = 23
-            ClientWidth = 321
+            ClientHeight = 20
+            ClientWidth = 293
             TabOrder = 4
             object seIonZ: TSpinEdit
               Left = 0
-              Height = 23
+              Height = 20
               Top = 0
-              Width = 105
+              Width = 96
               MaxValue = 118
               MinValue = 1
               TabOrder = 0
               Value = 14
             end
             object seIonA: TSpinEdit
-              Left = 108
-              Height = 23
+              Left = 99
+              Height = 20
               Top = 0
-              Width = 105
+              Width = 95
               MaxValue = 300
               MinValue = 1
               TabOrder = 1
               Value = 28
             end
             object seIonQ: TSpinEdit
-              Left = 216
-              Height = 23
+              Left = 197
+              Height = 20
               Top = 0
-              Width = 105
+              Width = 96
               MaxValue = 118
               MinValue = -1
               TabOrder = 2
@@ -565,23 +565,23 @@ object PanelsFrame: TPanelsFrame
         end
         object gbField: TGroupBox
           Left = 0
-          Height = 109
-          Top = 193
+          Height = 112
+          Top = 190
           Width = 515
           Align = alTop
           AutoSize = True
           Caption = 'Magnetic field'
-          ClientHeight = 89
-          ClientWidth = 511
+          ClientHeight = 85
+          ClientWidth = 505
           TabOrder = 1
           object lblFieldB: TLabel
             AnchorSideLeft.Control = gbField
             AnchorSideTop.Control = pnlBField
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 4
-            Width = 46
+            Height = 16
+            Top = 2
+            Width = 56
             BorderSpacing.Around = 6
             Caption = 'B (x, y, z)'
             ParentColor = False
@@ -591,9 +591,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seFieldMinStep
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 33
-            Width = 78
+            Height = 16
+            Top = 28
+            Width = 85
             BorderSpacing.Around = 6
             Caption = 'Minimum step'
             ParentColor = False
@@ -603,10 +603,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbFieldStepper
             AnchorSideTop.Side = asrCenter
-            Left = 90
-            Height = 23
+            Left = 97
+            Height = 21
             Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
-            Top = 29
+            Top = 26
             Width = 106
             Text = '1.0000 mm'
             UnitFamily = ufLength
@@ -620,10 +620,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbFieldStepper
             AnchorSideTop.Side = asrCenter
-            Left = 202
-            Height = 15
-            Top = 33
-            Width = 40
+            Left = 209
+            Height = 16
+            Top = 28
+            Width = 48
             BorderSpacing.Around = 6
             Caption = 'Stepper'
             ParentColor = False
@@ -635,11 +635,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbField
             AnchorSideRight.Side = asrBottom
-            Left = 248
-            Height = 23
+            Left = 263
+            Height = 19
             Hint = 'Integrator for the equation of motion'
-            Top = 29
-            Width = 257
+            Top = 27
+            Width = 236
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             ItemHeight = 15
@@ -651,10 +651,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbField
             AnchorSideRight.Side = asrBottom
-            Left = 438
-            Height = 25
-            Top = 58
-            Width = 67
+            Left = 425
+            Height = 26
+            Top = 53
+            Width = 74
             Action = actApplyField
             Anchors = [akTop, akRight]
             AutoSize = True
@@ -666,10 +666,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnFieldApply
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = btnFieldApply
-            Left = 178
-            Height = 15
-            Top = 63
-            Width = 254
+            Left = 126
+            Height = 16
+            Top = 58
+            Width = 293
             Anchors = [akTop, akRight]
             BorderSpacing.Around = 6
             Caption = 'Only after Initialise, and it applies to the next run'
@@ -681,10 +681,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = gbField
             AnchorSideRight.Control = gbField
             AnchorSideRight.Side = asrBottom
-            Left = 58
-            Height = 23
+            Left = 68
+            Height = 21
             Top = 0
-            Width = 453
+            Width = 437
             Anchors = [akTop, akLeft, akRight]
             AutoSize = True
             BevelOuter = bvNone
@@ -692,15 +692,15 @@ object PanelsFrame: TPanelsFrame
             ChildSizing.ShrinkHorizontal = crsSameSize
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 3
-            ClientHeight = 23
-            ClientWidth = 453
+            ClientHeight = 21
+            ClientWidth = 437
             TabOrder = 0
             object seFieldBx: TSciEdit
               Left = 6
-              Height = 23
+              Height = 21
               Hint = 'Magnetic Field [T] (Equivalents: Wb/m^2, G)'
               Top = 0
-              Width = 143
+              Width = 138
               Text = '0.0000 T'
               UnitFamily = ufMagneticField
               Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -711,11 +711,11 @@ object PanelsFrame: TPanelsFrame
               TabOrder = 0
             end
             object seFieldBy: TSciEdit
-              Left = 155
-              Height = 23
+              Left = 150
+              Height = 21
               Hint = 'Magnetic Field [T] (Equivalents: Wb/m^2, G)'
               Top = 0
-              Width = 143
+              Width = 137
               Text = '0.0000 T'
               UnitFamily = ufMagneticField
               Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -727,11 +727,11 @@ object PanelsFrame: TPanelsFrame
             end
             object seFieldBz: TSciEdit
               AnchorSideRight.Side = asrBottom
-              Left = 304
-              Height = 23
+              Left = 293
+              Height = 21
               Hint = 'Magnetic Field [T] (Equivalents: Wb/m^2, G)'
               Top = 0
-              Width = 143
+              Width = 138
               Text = '0.0000 T'
               UnitFamily = ufMagneticField
               Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -745,23 +745,23 @@ object PanelsFrame: TPanelsFrame
         end
         object gbEField: TGroupBox
           Left = 0
-          Height = 109
+          Height = 112
           Top = 302
           Width = 515
           Align = alTop
           AutoSize = True
           Caption = 'Electric field'
-          ClientHeight = 89
-          ClientWidth = 511
+          ClientHeight = 85
+          ClientWidth = 505
           TabOrder = 2
           object lblEFieldE: TLabel
             AnchorSideLeft.Control = gbEField
             AnchorSideTop.Control = pnlEField
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 4
-            Width = 45
+            Height = 16
+            Top = 2
+            Width = 55
             BorderSpacing.Around = 6
             Caption = 'E (x, y, z)'
             ParentColor = False
@@ -771,9 +771,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seEFieldMinStep
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 33
-            Width = 78
+            Height = 16
+            Top = 28
+            Width = 85
             BorderSpacing.Around = 6
             Caption = 'Minimum step'
             ParentColor = False
@@ -783,10 +783,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbEFieldStepper
             AnchorSideTop.Side = asrCenter
-            Left = 90
-            Height = 23
+            Left = 97
+            Height = 21
             Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
-            Top = 29
+            Top = 26
             Width = 106
             Text = '1.0000 mm'
             UnitFamily = ufLength
@@ -800,10 +800,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbEFieldStepper
             AnchorSideTop.Side = asrCenter
-            Left = 202
-            Height = 15
-            Top = 33
-            Width = 40
+            Left = 209
+            Height = 16
+            Top = 28
+            Width = 48
             BorderSpacing.Around = 6
             Caption = 'Stepper'
             ParentColor = False
@@ -815,11 +815,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbEField
             AnchorSideRight.Side = asrBottom
-            Left = 248
-            Height = 23
+            Left = 263
+            Height = 19
             Hint = 'Integrator for the equation of motion'
-            Top = 29
-            Width = 257
+            Top = 27
+            Width = 236
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             ItemHeight = 15
@@ -831,10 +831,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbEField
             AnchorSideRight.Side = asrBottom
-            Left = 438
-            Height = 25
-            Top = 58
-            Width = 67
+            Left = 425
+            Height = 26
+            Top = 53
+            Width = 74
             Action = actApplyEField
             Anchors = [akTop, akRight]
             AutoSize = True
@@ -846,10 +846,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnEFieldApply
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = btnEFieldApply
-            Left = 178
-            Height = 15
-            Top = 63
-            Width = 254
+            Left = 126
+            Height = 16
+            Top = 58
+            Width = 293
             Anchors = [akTop, akRight]
             BorderSpacing.Around = 6
             Caption = 'Only after Initialise, and it applies to the next run'
@@ -861,10 +861,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = gbEField
             AnchorSideRight.Control = gbEField
             AnchorSideRight.Side = asrBottom
-            Left = 57
-            Height = 23
+            Left = 67
+            Height = 21
             Top = 0
-            Width = 454
+            Width = 438
             Anchors = [akTop, akLeft, akRight]
             AutoSize = True
             BevelOuter = bvNone
@@ -872,14 +872,14 @@ object PanelsFrame: TPanelsFrame
             ChildSizing.ShrinkHorizontal = crsSameSize
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 3
-            ClientHeight = 23
-            ClientWidth = 454
+            ClientHeight = 21
+            ClientWidth = 438
             TabOrder = 0
             object seEFieldEx: TSciEdit
               Left = 6
-              Height = 23
+              Height = 21
               Top = 0
-              Width = 143
+              Width = 138
               Text = '0.0000 kV/m'
               UnitFamily = ufCustom
               CustomUnits = 'V/m'
@@ -893,10 +893,10 @@ object PanelsFrame: TPanelsFrame
             end
             object seEFieldEy: TSciEdit
               AnchorSideLeft.Side = asrBottom
-              Left = 155
-              Height = 23
+              Left = 150
+              Height = 21
               Top = 0
-              Width = 144
+              Width = 138
               Text = '0.0000 kV/m'
               UnitFamily = ufCustom
               CustomUnits = 'V/m'
@@ -911,10 +911,10 @@ object PanelsFrame: TPanelsFrame
             object seEFieldEz: TSciEdit
               AnchorSideLeft.Side = asrBottom
               AnchorSideRight.Side = asrBottom
-              Left = 305
-              Height = 23
+              Left = 294
+              Height = 21
               Top = 0
-              Width = 143
+              Width = 138
               Text = '0.0000 kV/m'
               UnitFamily = ufCustom
               CustomUnits = 'V/m'
@@ -930,22 +930,22 @@ object PanelsFrame: TPanelsFrame
         end
         object gbRBS: TGroupBox
           Left = 0
-          Height = 134
-          Top = 411
+          Height = 135
+          Top = 414
           Width = 515
           Align = alTop
           AutoSize = True
           Caption = 'Backscattering detector'
-          ClientHeight = 114
-          ClientWidth = 511
+          ClientHeight = 108
+          ClientWidth = 505
           TabOrder = 3
           object chkRBS: TCheckBox
             AnchorSideLeft.Control = gbRBS
             AnchorSideTop.Control = gbRBS
             Left = 6
-            Height = 19
+            Height = 18
             Top = 6
-            Width = 205
+            Width = 229
             BorderSpacing.Around = 6
             Caption = 'Record a spectrum of detected ions'
             TabOrder = 0
@@ -956,9 +956,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seRBSAngle
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 35
-            Width = 53
+            Height = 16
+            Top = 32
+            Width = 62
             BorderSpacing.Around = 6
             Caption = 'Scattering'
             ParentColor = False
@@ -969,11 +969,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = chkRBS
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = divRBS
-            Left = 65
-            Height = 23
+            Left = 74
+            Height = 21
             Hint = 'Angle [rad] (Equivalents: deg, °)'
-            Top = 31
-            Width = 175
+            Top = 30
+            Width = 165
             Text = '165.00 deg'
             UnitFamily = ufAngle
             Options = [seoKeepTypedUnits]
@@ -988,10 +988,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = seRBSSolidAngle
             AnchorSideTop.Side = asrCenter
-            Left = 270
-            Height = 15
-            Top = 35
-            Width = 58
+            Left = 266
+            Height = 16
+            Top = 32
+            Width = 67
             BorderSpacing.Around = 6
             Caption = 'Solid angle'
             ParentColor = False
@@ -1003,10 +1003,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbRBS
             AnchorSideRight.Side = asrBottom
-            Left = 334
-            Height = 23
-            Top = 31
-            Width = 171
+            Left = 339
+            Height = 21
+            Top = 30
+            Width = 160
             Text = '1.0000 msr'
             UnitFamily = ufCustom
             CustomUnits = 'sr'
@@ -1022,9 +1022,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seRBSResolution
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 64
-            Width = 56
+            Height = 16
+            Top = 59
+            Width = 64
             BorderSpacing.Around = 6
             Caption = 'Resolution'
             ParentColor = False
@@ -1035,11 +1035,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seRBSAngle
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = divRBS
-            Left = 68
-            Height = 23
+            Left = 76
+            Height = 21
             Hint = 'Energy [J] (Equivalents: N*m, W*s, kg*m^2/s^2, eV, Wh)'
-            Top = 60
-            Width = 172
+            Top = 57
+            Width = 163
             Text = '15.000 keV'
             UnitFamily = ufEnergy
             Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -1054,10 +1054,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = seRBSTilt
             AnchorSideTop.Side = asrCenter
-            Left = 270
-            Height = 15
-            Top = 64
-            Width = 50
+            Left = 266
+            Height = 16
+            Top = 59
+            Width = 58
             BorderSpacing.Around = 6
             Caption = 'Target tilt'
             ParentColor = False
@@ -1069,11 +1069,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbRBS
             AnchorSideRight.Side = asrBottom
-            Left = 326
-            Height = 23
+            Left = 330
+            Height = 21
             Hint = 'Angle [rad] (Equivalents: deg, °)'
-            Top = 60
-            Width = 179
+            Top = 57
+            Width = 169
             Text = '0.0000 deg'
             UnitFamily = ufAngle
             Options = [seoKeepTypedUnits]
@@ -1088,9 +1088,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seRBSResolution
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 19
-            Top = 89
-            Width = 179
+            Height = 18
+            Top = 84
+            Width = 201
             BorderSpacing.Around = 6
             Caption = 'Andersen screening correction'
             Checked = True
@@ -1103,10 +1103,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = chkRBS
             AnchorSideTop.Side = asrBottom
             AnchorSideBottom.Control = chkRBSScreening
-            Left = 246
-            Height = 52
-            Top = 31
-            Width = 18
+            Left = 245
+            Height = 48
+            Top = 30
+            Width = 15
             Anchors = [akTop, akLeft, akBottom]
             BorderSpacing.Top = 6
             BorderSpacing.Bottom = 6
@@ -1118,28 +1118,28 @@ object PanelsFrame: TPanelsFrame
       end
       object spltBeamMaterials: TSplitter
         Left = 515
-        Height = 585
+        Height = 579
         Top = 0
         Width = 5
       end
       object pnlPhysics: TPanel
         Left = 520
-        Height = 585
+        Height = 579
         Top = 0
-        Width = 512
+        Width = 510
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 585
-        ClientWidth = 512
+        ClientHeight = 579
+        ClientWidth = 510
         TabOrder = 2
         object lblPhysicsList: TLabel
           AnchorSideLeft.Control = pnlPhysics
           AnchorSideTop.Control = btnApplyPhysics
           AnchorSideTop.Side = asrCenter
           Left = 6
-          Height = 15
-          Top = 11
-          Width = 42
+          Height = 16
+          Top = 10
+          Width = 51
           BorderSpacing.Around = 6
           Caption = 'Base list'
           ParentColor = False
@@ -1150,10 +1150,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideTop.Control = btnApplyPhysics
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnApplyPhysics
-          Left = 54
-          Height = 23
-          Top = 7
-          Width = 289
+          Left = 63
+          Height = 19
+          Top = 9
+          Width = 278
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Around = 6
           ItemHeight = 15
@@ -1164,7 +1164,7 @@ object PanelsFrame: TPanelsFrame
           AnchorSideTop.Control = pnlPhysics
           AnchorSideRight.Control = pnlPhysics
           AnchorSideRight.Side = asrBottom
-          Left = 349
+          Left = 347
           Height = 25
           Top = 6
           Width = 150
@@ -1181,20 +1181,20 @@ object PanelsFrame: TPanelsFrame
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = gbDamage
           Left = 6
-          Height = 346
+          Height = 340
           Top = 37
-          Width = 500
+          Width = 498
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Around = 6
           Caption = 'Optional components'
-          ClientHeight = 326
-          ClientWidth = 496
+          ClientHeight = 313
+          ClientWidth = 488
           TabOrder = 1
           object clbOptionalPhysics: TCheckListBox
             Left = 0
-            Height = 326
+            Height = 313
             Top = 0
-            Width = 496
+            Width = 488
             Align = alClient
             ItemHeight = 0
             TabOrder = 0
@@ -1208,21 +1208,21 @@ object PanelsFrame: TPanelsFrame
           AnchorSideBottom.Side = asrBottom
           Left = 6
           Height = 190
-          Top = 389
-          Width = 500
+          Top = 383
+          Width = 498
           Anchors = [akLeft, akRight, akBottom]
           BorderSpacing.Around = 6
           Caption = 'Displacement damage'
-          ClientHeight = 170
-          ClientWidth = 496
+          ClientHeight = 163
+          ClientWidth = 488
           TabOrder = 2
           object chkDamage: TCheckBox
             AnchorSideLeft.Control = gbDamage
             AnchorSideTop.Control = gbDamage
             Left = 6
-            Height = 19
+            Height = 18
             Top = 3
-            Width = 130
+            Width = 146
             BorderSpacing.Left = 6
             BorderSpacing.Top = 3
             Caption = 'Count displacements'
@@ -1238,9 +1238,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideBottom.Control = gbDamage
             AnchorSideBottom.Side = asrBottom
             Left = 0
-            Height = 145
-            Top = 25
-            Width = 496
+            Height = 139
+            Top = 24
+            Width = 488
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Top = 3
             ColCount = 4
@@ -1255,17 +1255,17 @@ object PanelsFrame: TPanelsFrame
     end
     object tabMaterials: TTabSheet
       Caption = 'Materials'
-      ClientHeight = 585
-      ClientWidth = 1032
+      ClientHeight = 579
+      ClientWidth = 1030
       object gbDefinedMaterials: TGroupBox
         Left = 648
-        Height = 585
+        Height = 579
         Top = 0
-        Width = 384
+        Width = 382
         Align = alClient
         Caption = 'Materials currently defined'
-        ClientHeight = 565
-        ClientWidth = 380
+        ClientHeight = 552
+        ClientWidth = 372
         TabOrder = 0
         object lbDefinedMaterials: TListBox
           AnchorSideLeft.Control = gbDefinedMaterials
@@ -1274,9 +1274,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnMatRefresh
           Left = 6
-          Height = 522
+          Height = 508
           Top = 6
-          Width = 368
+          Width = 360
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Around = 6
           ItemHeight = 0
@@ -1288,9 +1288,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideBottom.Control = gbDefinedMaterials
           AnchorSideBottom.Side = asrBottom
           Left = 6
-          Height = 25
-          Top = 534
-          Width = 49
+          Height = 26
+          Top = 520
+          Width = 57
           Action = actRefreshMaterials
           Anchors = [akLeft, akBottom]
           AutoSize = True
@@ -1302,10 +1302,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideBottom.Control = btnMatRefresh
           AnchorSideBottom.Side = asrCenter
-          Left = 61
-          Height = 25
-          Top = 533
-          Width = 69
+          Left = 69
+          Height = 26
+          Top = 520
+          Width = 76
           Action = actPrintMaterials
           Anchors = [akLeft, akBottom]
           AutoSize = True
@@ -1315,32 +1315,32 @@ object PanelsFrame: TPanelsFrame
       end
       object pnlNewMaterial: TPanel
         Left = 0
-        Height = 585
+        Height = 579
         Top = 0
         Width = 643
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 585
+        ClientHeight = 579
         ClientWidth = 643
         TabOrder = 1
         object gbNewMaterial: TGroupBox
           Left = 0
-          Height = 585
+          Height = 579
           Top = 0
           Width = 643
           Align = alClient
           Caption = 'Define a material'
-          ClientHeight = 565
-          ClientWidth = 639
+          ClientHeight = 552
+          ClientWidth = 633
           TabOrder = 0
           object lblMatName: TLabel
             AnchorSideLeft.Control = gbNewMaterial
             AnchorSideTop.Control = seMatDensity
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 10
-            Width = 32
+            Height = 16
+            Top = 8
+            Width = 35
             BorderSpacing.Around = 6
             Caption = 'Name'
             ParentColor = False
@@ -1351,10 +1351,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = seMatDensity
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = divMaterials
-            Left = 44
-            Height = 23
+            Left = 47
+            Height = 21
             Top = 6
-            Width = 260
+            Width = 256
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             TabOrder = 0
@@ -1364,10 +1364,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = seMatDensity
             AnchorSideTop.Side = asrCenter
-            Left = 334
-            Height = 15
-            Top = 10
-            Width = 39
+            Left = 330
+            Height = 16
+            Top = 8
+            Width = 46
             BorderSpacing.Around = 6
             Caption = 'Density'
             ParentColor = False
@@ -1378,11 +1378,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = gbNewMaterial
             AnchorSideRight.Control = gbNewMaterial
             AnchorSideRight.Side = asrBottom
-            Left = 379
-            Height = 23
+            Left = 382
+            Height = 21
             Hint = 'Density [kg/m^3] (Equivalents: g/cm^3, kg/L, lb/ft^3)'
             Top = 6
-            Width = 254
+            Width = 245
             Text = '1.0000 g/cm^3'
             UnitFamily = ufDensity
             Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -1399,7 +1399,7 @@ object PanelsFrame: TPanelsFrame
             AnchorSideRight.Side = asrBottom
             Left = 6
             Height = 48
-            Top = 35
+            Top = 33
             Width = 620
             AutoFill = True
             BorderSpacing.Around = 6
@@ -1411,8 +1411,8 @@ object PanelsFrame: TPanelsFrame
             ChildSizing.ShrinkVertical = crsScaleChilds
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 2
-            ClientHeight = 28
-            ClientWidth = 616
+            ClientHeight = 21
+            ClientWidth = 610
             Columns = 2
             ItemIndex = 0
             Items.Strings = (
@@ -1430,9 +1430,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Control = btnMatCreate
             Left = 6
-            Height = 439
-            Top = 89
-            Width = 627
+            Height = 427
+            Top = 87
+            Width = 621
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Around = 6
             ColCount = 3
@@ -1449,9 +1449,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnMatCreate
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 25
-            Top = 534
-            Width = 78
+            Height = 26
+            Top = 520
+            Width = 86
             Action = actAddElement
             AutoSize = True
             BorderSpacing.Around = 6
@@ -1462,10 +1462,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = btnMatCreate
             AnchorSideTop.Side = asrCenter
-            Left = 90
-            Height = 25
-            Top = 534
-            Width = 99
+            Left = 98
+            Height = 26
+            Top = 520
+            Width = 110
             Action = actRemoveElement
             AutoSize = True
             BorderSpacing.Around = 6
@@ -1476,10 +1476,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = btnMatCreate
             AnchorSideTop.Side = asrCenter
-            Left = 195
-            Height = 15
-            Top = 539
-            Width = 32
+            Left = 214
+            Height = 16
+            Top = 525
+            Width = 37
             BorderSpacing.Around = 6
             Caption = 'sum 0'
             ParentColor = False
@@ -1489,10 +1489,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Control = gbNewMaterial
             AnchorSideBottom.Side = asrBottom
-            Left = 543
-            Height = 25
-            Top = 534
-            Width = 90
+            Left = 525
+            Height = 26
+            Top = 520
+            Width = 102
             Action = actCreateMaterial
             Anchors = [akRight, akBottom]
             AutoSize = True
@@ -1505,10 +1505,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = gbNewMaterial
             AnchorSideBottom.Control = seMatDensity
             AnchorSideBottom.Side = asrBottom
-            Left = 310
-            Height = 29
+            Left = 309
+            Height = 27
             Top = 0
-            Width = 18
+            Width = 15
             Anchors = [akTop, akLeft, akBottom]
             Orientation = trVertical
           end
@@ -1516,34 +1516,34 @@ object PanelsFrame: TPanelsFrame
       end
       object spltMaterials: TSplitter
         Left = 643
-        Height = 585
+        Height = 579
         Top = 0
         Width = 5
       end
     end
     object tabHistograms: TTabSheet
       Caption = 'Histograms'
-      ClientHeight = 585
-      ClientWidth = 1032
+      ClientHeight = 579
+      ClientWidth = 1030
       object pnlHistogramSetup: TPanel
         Left = 0
-        Height = 37
+        Height = 38
         Top = 0
-        Width = 1032
+        Width = 1030
         Align = alTop
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 37
-        ClientWidth = 1032
+        ClientHeight = 38
+        ClientWidth = 1030
         TabOrder = 0
         object lblH1Bins: TLabel
           AnchorSideLeft.Control = pnlHistogramSetup
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
           Left = 6
-          Height = 15
+          Height = 16
           Top = 11
-          Width = 22
+          Width = 26
           BorderSpacing.Around = 6
           Caption = 'Bins'
           ParentColor = False
@@ -1553,9 +1553,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 34
-          Height = 23
-          Top = 7
+          Left = 38
+          Height = 20
+          Top = 9
           Width = 80
           BorderSpacing.Around = 6
           MaxValue = 1000000
@@ -1568,10 +1568,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 120
-          Height = 15
+          Left = 124
+          Height = 16
           Top = 11
-          Width = 21
+          Width = 22
           BorderSpacing.Around = 6
           Caption = 'Min'
           ParentColor = False
@@ -1581,9 +1581,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 147
-          Height = 23
-          Top = 7
+          Left = 152
+          Height = 21
+          Top = 9
           Width = 130
           Text = '0.0000'
           Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -1596,10 +1596,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 283
-          Height = 15
+          Left = 288
+          Height = 16
           Top = 11
-          Width = 22
+          Width = 25
           BorderSpacing.Around = 6
           Caption = 'Max'
           ParentColor = False
@@ -1609,9 +1609,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 311
-          Height = 23
-          Top = 7
+          Left = 319
+          Height = 21
+          Top = 9
           Width = 130
           Text = '1.0000'
           Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -1624,10 +1624,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 555
-          Height = 25
+          Left = 574
+          Height = 26
           Top = 6
-          Width = 101
+          Width = 112
           Action = actActivateHistogram
           AutoSize = True
           BorderSpacing.Left = 20
@@ -1638,10 +1638,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Control = btnH1Apply
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = pnlHistogramSetup
-          Left = 662
-          Height = 25
+          Left = 692
+          Height = 26
           Top = 6
-          Width = 65
+          Width = 75
           Action = actDeactivateHistogram
           AutoSize = True
           BorderSpacing.Around = 6
@@ -1652,10 +1652,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 733
-          Height = 15
+          Left = 773
+          Height = 16
           Top = 11
-          Width = 162
+          Width = 186
           BorderSpacing.Around = 6
           Caption = 'may be changed between runs'
           ParentColor = False
@@ -1665,10 +1665,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnH1Off
           AnchorSideTop.Side = asrCenter
-          Left = 447
-          Height = 19
-          Top = 9
-          Width = 82
+          Left = 455
+          Height = 18
+          Top = 10
+          Width = 93
           BorderSpacing.Around = 6
           Caption = 'Logarithmic'
           TabOrder = 3
@@ -1676,9 +1676,9 @@ object PanelsFrame: TPanelsFrame
       end
       object chtHistogram: TChart
         Left = 328
-        Height = 548
-        Top = 37
-        Width = 704
+        Height = 541
+        Top = 38
+        Width = 702
         AxisList = <        
           item
             Grid.Color = clSilver
@@ -1711,12 +1711,12 @@ object PanelsFrame: TPanelsFrame
       end
       object pnlHistograms: TPanel
         Left = 0
-        Height = 548
-        Top = 37
+        Height = 541
+        Top = 38
         Width = 323
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 548
+        ClientHeight = 541
         ClientWidth = 323
         TabOrder = 2
         object chkOnlyActiveHistograms: TCheckBox
@@ -1726,8 +1726,8 @@ object PanelsFrame: TPanelsFrame
           AnchorSideRight.Control = pnlHistograms
           AnchorSideRight.Side = asrBottom
           Left = 6
-          Height = 19
-          Top = 37
+          Height = 18
+          Top = 38
           Width = 311
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Around = 6
@@ -1741,9 +1741,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideTop.Control = btnExportHistogram
           AnchorSideTop.Side = asrCenter
           Left = 6
-          Height = 25
+          Height = 26
           Top = 6
-          Width = 49
+          Width = 57
           Action = actRefreshHistograms
           AutoSize = True
           BorderSpacing.Around = 6
@@ -1753,10 +1753,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Control = btnRefreshHistograms
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = pnlHistograms
-          Left = 61
-          Height = 25
+          Left = 69
+          Height = 26
           Top = 6
-          Width = 67
+          Width = 79
           Action = actExportHistogram
           AutoSize = True
           BorderSpacing.Around = 6
@@ -1767,10 +1767,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnExportHistogram
           AnchorSideTop.Side = asrCenter
-          Left = 134
-          Height = 25
+          Left = 154
+          Height = 26
           Top = 6
-          Width = 58
+          Width = 67
           Action = actExportAllHistograms
           AutoSize = True
           BorderSpacing.Around = 6
@@ -1785,7 +1785,7 @@ object PanelsFrame: TPanelsFrame
           AnchorSideBottom.Control = pnlHistograms
           AnchorSideBottom.Side = asrBottom
           Left = 6
-          Height = 480
+          Height = 473
           Top = 62
           Width = 311
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1797,44 +1797,44 @@ object PanelsFrame: TPanelsFrame
       end
       object spltHistograms: TSplitter
         Left = 323
-        Height = 548
-        Top = 37
+        Height = 541
+        Top = 38
         Width = 5
       end
     end
     object tabOptions: TTabSheet
       Caption = 'Options'
-      ClientHeight = 585
-      ClientWidth = 1032
+      ClientHeight = 579
+      ClientWidth = 1030
       object pnlOptions: TPanel
         Left = 0
-        Height = 585
+        Height = 579
         Top = 0
         Width = 504
         Align = alLeft
-        ClientHeight = 585
+        ClientHeight = 579
         ClientWidth = 504
         TabOrder = 0
         object gbRandom: TGroupBox
           AnchorSideBottom.Side = asrBottom
           Left = 1
-          Height = 82
+          Height = 89
           Top = 1
           Width = 502
           Align = alTop
           AutoSize = True
           Caption = 'Random numbers'
           ClientHeight = 62
-          ClientWidth = 498
+          ClientWidth = 492
           TabOrder = 0
           object lblRndEngine: TLabel
             AnchorSideLeft.Control = gbRandom
             AnchorSideTop.Control = chkRandomize
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 8
-            Width = 52
+            Height = 16
+            Top = 7
+            Width = 61
             BorderSpacing.Around = 6
             Caption = 'Generator'
             ParentColor = False
@@ -1845,10 +1845,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = chkRandomize
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = divRandom
-            Left = 64
-            Height = 23
-            Top = 4
-            Width = 170
+            Left = 73
+            Height = 19
+            Top = 6
+            Width = 160
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             ItemHeight = 15
@@ -1859,10 +1859,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Control = divRandom
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbRandom
-            Left = 264
-            Height = 19
+            Left = 260
+            Height = 18
             Top = 6
-            Width = 144
+            Width = 164
             BorderSpacing.Around = 6
             Caption = 'New seeds for every run'
             Checked = True
@@ -1875,9 +1875,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = btnUseLastSeeds
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 36
-            Width = 30
+            Height = 16
+            Top = 35
+            Width = 38
             BorderSpacing.Around = 6
             Caption = 'Seeds'
             ParentColor = False
@@ -1887,9 +1887,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = btnUseLastSeeds
             AnchorSideTop.Side = asrCenter
-            Left = 42
-            Height = 23
-            Top = 32
+            Left = 50
+            Height = 20
+            Top = 33
             Width = 110
             BorderSpacing.Around = 6
             MaxValue = 2147483562
@@ -1902,9 +1902,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = btnUseLastSeeds
             AnchorSideTop.Side = asrCenter
-            Left = 158
-            Height = 23
-            Top = 32
+            Left = 166
+            Height = 20
+            Top = 33
             Width = 110
             BorderSpacing.Around = 6
             MaxValue = 2147483562
@@ -1918,10 +1918,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = chkRandomize
             AnchorSideBottom.Control = chkRandomize
             AnchorSideBottom.Side = asrBottom
-            Left = 240
-            Height = 19
+            Left = 239
+            Height = 18
             Top = 6
-            Width = 18
+            Width = 15
             Anchors = [akTop, akLeft, akBottom]
             Font.Style = [fsBold]
             Orientation = trVertical
@@ -1932,10 +1932,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = chkRandomize
             AnchorSideTop.Side = asrBottom
-            Left = 274
-            Height = 25
-            Top = 31
-            Width = 162
+            Left = 282
+            Height = 26
+            Top = 30
+            Width = 188
             AutoSize = True
             BorderSpacing.Around = 6
             Caption = 'Take the seeds of the last run'
@@ -1945,23 +1945,23 @@ object PanelsFrame: TPanelsFrame
         end
         object gbOutput: TGroupBox
           Left = 1
-          Height = 130
-          Top = 83
+          Height = 134
+          Top = 90
           Width = 502
           Align = alTop
           AutoSize = True
           Caption = 'Output'
-          ClientHeight = 110
-          ClientWidth = 498
+          ClientHeight = 107
+          ClientWidth = 492
           TabOrder = 1
           object lblOutputBase: TLabel
             AnchorSideLeft.Control = gbOutput
             AnchorSideTop.Control = edOutputBase
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 15
-            Top = 10
-            Width = 51
+            Height = 16
+            Top = 8
+            Width = 58
             BorderSpacing.Around = 6
             Caption = 'File name'
             ParentColor = False
@@ -1970,8 +1970,8 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Control = lblOutputBase
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbOutput
-            Left = 63
-            Height = 23
+            Left = 70
+            Height = 21
             Top = 6
             Width = 180
             BorderSpacing.Around = 6
@@ -1983,10 +1983,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = edOutputBase
             AnchorSideTop.Side = asrCenter
-            Left = 249
-            Height = 15
-            Top = 10
-            Width = 125
+            Left = 256
+            Height = 16
+            Top = 8
+            Width = 144
             BorderSpacing.Around = 6
             Caption = 'applied before each run'
             ParentColor = False
@@ -1996,9 +1996,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = edOutputBase
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 19
-            Top = 35
-            Width = 108
+            Height = 18
+            Top = 33
+            Width = 124
             BorderSpacing.Around = 6
             Caption = 'Save primaries to'
             TabOrder = 1
@@ -2011,10 +2011,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = gbOutput
             AnchorSideRight.Side = asrBottom
-            Left = 120
-            Height = 23
-            Top = 33
-            Width = 372
+            Left = 136
+            Height = 21
+            Top = 32
+            Width = 350
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             TabOrder = 2
@@ -2025,9 +2025,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = edPrimariesName
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 19
-            Top = 62
-            Width = 106
+            Height = 18
+            Top = 59
+            Width = 125
             BorderSpacing.Around = 6
             Caption = 'Save cascades to'
             TabOrder = 3
@@ -2040,10 +2040,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = gbOutput
             AnchorSideRight.Side = asrBottom
-            Left = 118
-            Height = 23
-            Top = 60
-            Width = 374
+            Left = 137
+            Height = 21
+            Top = 58
+            Width = 349
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             TabOrder = 4
@@ -2054,9 +2054,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = edCascadesName
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 15
-            Top = 89
-            Width = 350
+            Height = 16
+            Top = 85
+            Width = 405
             BorderSpacing.Around = 6
             Caption = 'One step per line, both ends: about 10 kB per event, in event order.'
             ParentColor = False
@@ -2064,22 +2064,22 @@ object PanelsFrame: TPanelsFrame
         end
         object gbDeexcitation: TGroupBox
           Left = 1
-          Height = 97
-          Top = 213
+          Height = 103
+          Top = 224
           Width = 502
           Align = alTop
           AutoSize = True
           Caption = 'Atomic de-excitation'
-          ClientHeight = 77
-          ClientWidth = 498
+          ClientHeight = 76
+          ClientWidth = 492
           TabOrder = 2
           object chkEmFluo: TCheckBox
             AnchorSideLeft.Control = gbDeexcitation
             AnchorSideTop.Control = gbDeexcitation
             Left = 6
-            Height = 19
+            Height = 18
             Top = 6
-            Width = 87
+            Width = 102
             BorderSpacing.Around = 6
             Caption = 'Fluorescence'
             TabOrder = 0
@@ -2088,10 +2088,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Control = chkEmFluo
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbDeexcitation
-            Left = 99
-            Height = 19
+            Left = 114
+            Height = 18
             Top = 6
-            Width = 101
+            Width = 116
             BorderSpacing.Around = 6
             Caption = 'Auger electrons'
             TabOrder = 1
@@ -2100,10 +2100,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Control = chkEmAuger
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbDeexcitation
-            Left = 206
-            Height = 19
+            Left = 236
+            Height = 18
             Top = 6
-            Width = 95
+            Width = 111
             BorderSpacing.Around = 6
             Caption = 'Auger cascade'
             TabOrder = 2
@@ -2112,10 +2112,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Control = chkEmAugerCascade
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = gbDeexcitation
-            Left = 307
-            Height = 19
+            Left = 353
+            Height = 18
             Top = 6
-            Width = 41
+            Width = 53
             BorderSpacing.Around = 6
             Caption = 'PIXE'
             TabOrder = 3
@@ -2125,9 +2125,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = chkEmFluo
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 19
-            Top = 31
-            Width = 230
+            Height = 18
+            Top = 30
+            Width = 250
             BorderSpacing.Around = 6
             Caption = 'Produce them below the production cut'
             TabOrder = 4
@@ -2137,9 +2137,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = chkEmDeexIgnoreCut
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 15
-            Top = 56
-            Width = 377
+            Height = 16
+            Top = 54
+            Width = 438
             BorderSpacing.Around = 6
             Caption = 'All off in Geant4''s defaults, so spectra 60 to 71 stay empty without them'
             ParentColor = False
@@ -2147,23 +2147,23 @@ object PanelsFrame: TPanelsFrame
         end
         object gbCuts: TGroupBox
           Left = 1
-          Height = 99
-          Top = 310
+          Height = 103
+          Top = 327
           Width = 502
           Align = alTop
           AutoSize = True
           Caption = 'Production cuts'
-          ClientHeight = 79
-          ClientWidth = 498
+          ClientHeight = 76
+          ClientWidth = 492
           TabOrder = 3
           object chkCut: TCheckBox
             AnchorSideLeft.Control = gbCuts
             AnchorSideTop.Control = seCut
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 19
-            Top = 8
-            Width = 97
+            Height = 18
+            Top = 7
+            Width = 110
             BorderSpacing.Around = 6
             Caption = 'Production cut'
             TabOrder = 0
@@ -2175,11 +2175,11 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = gbCuts
             AnchorSideRight.Control = gbCuts
             AnchorSideRight.Side = asrBottom
-            Left = 109
-            Height = 23
+            Left = 122
+            Height = 21
             Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
             Top = 6
-            Width = 383
+            Width = 364
             Text = '1.0000 nm'
             UnitFamily = ufLength
             Options = [seoScientificNotation, seoKeepTypedUnits]
@@ -2196,9 +2196,9 @@ object PanelsFrame: TPanelsFrame
             AnchorSideRight.Control = gbCuts
             AnchorSideRight.Side = asrBottom
             Left = 6
-            Height = 38
-            Top = 35
-            Width = 486
+            Height = 37
+            Top = 33
+            Width = 480
             Anchors = [akTop, akLeft, akRight]
             AutoSize = True
             BorderSpacing.Around = 6
@@ -2208,48 +2208,48 @@ object PanelsFrame: TPanelsFrame
             ChildSizing.ShrinkHorizontal = crsSameSize
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 4
-            ClientHeight = 38
-            ClientWidth = 486
+            ClientHeight = 37
+            ClientWidth = 480
             TabOrder = 2
             object lblCutGamma: TLabel
               Left = 0
-              Height = 15
+              Height = 16
               Top = 0
-              Width = 117
+              Width = 116
               Caption = 'gamma'
               ParentColor = False
             end
             object lblCutElectron: TLabel
-              Left = 123
-              Height = 15
+              Left = 122
+              Height = 16
               Top = 0
-              Width = 117
+              Width = 115
               Caption = 'e-'
               ParentColor = False
             end
             object lblCutPositron: TLabel
-              Left = 246
-              Height = 15
+              Left = 243
+              Height = 16
               Top = 0
-              Width = 117
+              Width = 116
               Caption = 'e+'
               ParentColor = False
             end
             object lblCutProton: TLabel
-              Left = 369
-              Height = 15
+              Left = 365
+              Height = 16
               Top = 0
-              Width = 117
+              Width = 115
               Caption = 'proton'
               ParentColor = False
             end
             object seCutGamma: TSciEdit
               AnchorSideRight.Side = asrBottom
               Left = 0
-              Height = 23
+              Height = 21
               Hint = 'Cut length for gamma particles, blank keeps the cut above'
-              Top = 15
-              Width = 117
+              Top = 16
+              Width = 116
               UnitFamily = ufLength
               Options = [seoScientificNotation, seoKeepTypedUnits]
               TrackBarFactor = 2
@@ -2257,11 +2257,11 @@ object PanelsFrame: TPanelsFrame
             end
             object seCutElectron: TSciEdit
               AnchorSideRight.Side = asrBottom
-              Left = 123
-              Height = 23
+              Left = 122
+              Height = 21
               Hint = 'Cut length for electrons, blank keeps the cut above'
-              Top = 15
-              Width = 117
+              Top = 16
+              Width = 115
               UnitFamily = ufLength
               Options = [seoScientificNotation, seoKeepTypedUnits]
               TrackBarFactor = 2
@@ -2269,11 +2269,11 @@ object PanelsFrame: TPanelsFrame
             end
             object seCutPositron: TSciEdit
               AnchorSideRight.Side = asrBottom
-              Left = 246
-              Height = 23
+              Left = 243
+              Height = 21
               Hint = 'Cut length for positrons, blank keeps the cut above'
-              Top = 15
-              Width = 117
+              Top = 16
+              Width = 116
               UnitFamily = ufLength
               Options = [seoScientificNotation, seoKeepTypedUnits]
               TrackBarFactor = 2
@@ -2281,11 +2281,11 @@ object PanelsFrame: TPanelsFrame
             end
             object seCutProton: TSciEdit
               AnchorSideRight.Side = asrBottom
-              Left = 369
-              Height = 23
+              Left = 365
+              Height = 21
               Hint = 'Cut length for protons, blank keeps the cut above'
-              Top = 15
-              Width = 117
+              Top = 16
+              Width = 115
               UnitFamily = ufLength
               Options = [seoScientificNotation, seoKeepTypedUnits]
               TrackBarFactor = 2
@@ -2295,23 +2295,23 @@ object PanelsFrame: TPanelsFrame
         end
         object gbTracking: TGroupBox
           Left = 1
-          Height = 55
-          Top = 409
+          Height = 59
+          Top = 430
           Width = 502
           Align = alTop
           AutoSize = True
           Caption = 'Tracking'
-          ClientHeight = 35
-          ClientWidth = 498
+          ClientHeight = 32
+          ClientWidth = 492
           TabOrder = 4
           object chkStepMax: TCheckBox
             AnchorSideLeft.Control = gbTracking
             AnchorSideTop.Control = cbKillSecondaries
             AnchorSideTop.Side = asrCenter
             Left = 6
-            Height = 19
-            Top = 8
-            Width = 134
+            Height = 18
+            Top = 6
+            Width = 148
             BorderSpacing.Around = 6
             Caption = 'Maximum step length'
             TabOrder = 0
@@ -2322,10 +2322,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbKillSecondaries
             AnchorSideTop.Side = asrCenter
-            Left = 146
-            Height = 23
+            Left = 160
+            Height = 21
             Hint = 'Length [m] (Equivalents: in, ft, yd, mi, NM, ly)'
-            Top = 6
+            Top = 5
             Width = 110
             Text = '1.0000 um'
             UnitFamily = ufLength
@@ -2340,10 +2340,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbKillSecondaries
             AnchorSideTop.Side = asrCenter
-            Left = 262
-            Height = 15
-            Top = 10
-            Width = 63
+            Left = 276
+            Height = 16
+            Top = 7
+            Width = 75
             BorderSpacing.Around = 6
             Caption = 'Secondaries'
             ParentColor = False
@@ -2354,10 +2354,10 @@ object PanelsFrame: TPanelsFrame
             AnchorSideTop.Control = gbTracking
             AnchorSideRight.Control = gbTracking
             AnchorSideRight.Side = asrBottom
-            Left = 331
-            Height = 23
+            Left = 357
+            Height = 19
             Top = 6
-            Width = 161
+            Width = 129
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Around = 6
             ItemHeight = 15
@@ -2375,38 +2375,38 @@ object PanelsFrame: TPanelsFrame
       end
       object spltOptions: TSplitter
         Left = 504
-        Height = 585
+        Height = 579
         Top = 0
         Width = 5
       end
       object pnlEditors: TPanel
         Left = 509
-        Height = 585
+        Height = 579
         Top = 0
-        Width = 523
+        Width = 521
         Align = alClient
         BevelOuter = bvNone
         ChildSizing.EnlargeHorizontal = crsScaleChilds
         ChildSizing.EnlargeVertical = crsScaleChilds
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 1
-        ClientHeight = 585
-        ClientWidth = 523
+        ClientHeight = 579
+        ClientWidth = 521
         TabOrder = 2
         object gbCmdGeometry: TGroupBox
           Left = 0
-          Height = 146
+          Height = 145
           Top = 0
-          Width = 523
+          Width = 521
           Caption = 'After the geometry, before the physics is chosen'
-          ClientHeight = 126
-          ClientWidth = 519
+          ClientHeight = 118
+          ClientWidth = 511
           TabOrder = 0
           object memCmdGeometry: TMemo
             Left = 0
-            Height = 126
+            Height = 118
             Top = 0
-            Width = 519
+            Width = 511
             Align = alClient
             Font.Name = 'Courier'
             ParentFont = False
@@ -2417,18 +2417,18 @@ object PanelsFrame: TPanelsFrame
         end
         object gbCmdPreInit: TGroupBox
           Left = 0
-          Height = 146
-          Top = 146
-          Width = 523
+          Height = 144
+          Top = 145
+          Width = 521
           Caption = 'Before initialisation: cuts, EM options'
-          ClientHeight = 126
-          ClientWidth = 519
+          ClientHeight = 117
+          ClientWidth = 511
           TabOrder = 1
           object memCmdPreInit: TMemo
             Left = 0
-            Height = 126
+            Height = 117
             Top = 0
-            Width = 519
+            Width = 511
             Align = alClient
             Font.Name = 'Courier'
             ParentFont = False
@@ -2439,18 +2439,18 @@ object PanelsFrame: TPanelsFrame
         end
         object gbCmdBeam: TGroupBox
           Left = 0
-          Height = 147
-          Top = 292
-          Width = 523
+          Height = 145
+          Top = 289
+          Width = 521
           Caption = 'After initialisation, before the gun is set up'
-          ClientHeight = 127
-          ClientWidth = 519
+          ClientHeight = 118
+          ClientWidth = 511
           TabOrder = 2
           object memCmdBeam: TMemo
             Left = 0
-            Height = 127
+            Height = 118
             Top = 0
-            Width = 519
+            Width = 511
             Align = alClient
             Font.Name = 'Courier'
             ParentFont = False
@@ -2461,18 +2461,18 @@ object PanelsFrame: TPanelsFrame
         end
         object gbCmdRun: TGroupBox
           Left = 0
-          Height = 146
-          Top = 439
-          Width = 523
+          Height = 145
+          Top = 434
+          Width = 521
           Caption = 'Last thing before the run starts'
-          ClientHeight = 126
-          ClientWidth = 519
+          ClientHeight = 118
+          ClientWidth = 511
           TabOrder = 3
           object memCmdRun: TMemo
             Left = 0
-            Height = 126
+            Height = 118
             Top = 0
-            Width = 519
+            Width = 511
             Align = alClient
             Font.Name = 'Courier'
             ParentFont = False
@@ -2485,13 +2485,13 @@ object PanelsFrame: TPanelsFrame
     end
     object tabResults: TTabSheet
       Caption = 'Results'
-      ClientHeight = 585
-      ClientWidth = 1032
+      ClientHeight = 579
+      ClientWidth = 1030
       object sgVoxels: TStringGrid
         Left = 456
-        Height = 585
+        Height = 579
         Top = 0
-        Width = 576
+        Width = 574
         Align = alClient
         FixedCols = 0
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
@@ -2500,17 +2500,17 @@ object PanelsFrame: TPanelsFrame
       end
       object pnlSummary: TPanel
         Left = 0
-        Height = 585
+        Height = 579
         Top = 0
         Width = 451
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 585
+        ClientHeight = 579
         ClientWidth = 451
         TabOrder = 1
         object sgSummary: TStringGrid
           Left = 0
-          Height = 585
+          Height = 579
           Top = 0
           Width = 451
           Align = alClient
@@ -2524,25 +2524,25 @@ object PanelsFrame: TPanelsFrame
       end
       object spltResults: TSplitter
         Left = 451
-        Height = 585
+        Height = 579
         Top = 0
         Width = 5
       end
     end
     object tabLog: TTabSheet
       Caption = 'Log'
-      ClientHeight = 585
-      ClientWidth = 1032
+      ClientHeight = 579
+      ClientWidth = 1030
       object pnlCommand: TPanel
         Left = 0
-        Height = 37
+        Height = 38
         Top = 0
-        Width = 1032
+        Width = 1030
         Align = alTop
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 37
-        ClientWidth = 1032
+        ClientHeight = 38
+        ClientWidth = 1030
         TabOrder = 0
         object edCommand: TEdit
           AnchorSideLeft.Control = pnlCommand
@@ -2550,9 +2550,9 @@ object PanelsFrame: TPanelsFrame
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnSendCommand
           Left = 6
-          Height = 23
-          Top = 7
-          Width = 895
+          Height = 21
+          Top = 9
+          Width = 879
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Around = 6
           TabOrder = 0
@@ -2563,10 +2563,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideTop.Control = btnRunMacro
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnRunMacro
-          Left = 907
-          Height = 25
+          Left = 891
+          Height = 26
           Top = 6
-          Width = 36
+          Width = 41
           Action = actSendCommand
           Anchors = [akTop, akRight]
           AutoSize = True
@@ -2577,10 +2577,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideTop.Control = pnlCommand
           AnchorSideRight.Control = pnlCommand
           AnchorSideRight.Side = asrBottom
-          Left = 949
-          Height = 25
+          Left = 938
+          Height = 26
           Top = 6
-          Width = 77
+          Width = 86
           Action = actRunMacro
           Anchors = [akTop, akRight]
           AutoSize = True
@@ -2590,22 +2590,22 @@ object PanelsFrame: TPanelsFrame
       end
       object pnlLogButtons: TPanel
         Left = 0
-        Height = 37
-        Top = 548
-        Width = 1032
+        Height = 38
+        Top = 541
+        Width = 1030
         Align = alBottom
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 37
-        ClientWidth = 1032
+        ClientHeight = 38
+        ClientWidth = 1030
         TabOrder = 1
         object btnClearLog: TSpeedButton
           AnchorSideLeft.Control = pnlLogButtons
           AnchorSideTop.Control = pnlLogButtons
           Left = 6
-          Height = 25
+          Height = 26
           Top = 6
-          Width = 37
+          Width = 42
           Action = actClearLog
           AutoSize = True
           BorderSpacing.Around = 6
@@ -2616,10 +2616,10 @@ object PanelsFrame: TPanelsFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnClearLog
           AnchorSideTop.Side = asrCenter
-          Left = 49
-          Height = 25
+          Left = 54
+          Height = 26
           Top = 6
-          Width = 57
+          Width = 68
           Action = actSaveLog
           AutoSize = True
           BorderSpacing.Around = 6
@@ -2628,9 +2628,9 @@ object PanelsFrame: TPanelsFrame
       end
       object mLog: TMemo
         Left = 0
-        Height = 511
-        Top = 37
-        Width = 1032
+        Height = 503
+        Top = 38
+        Width = 1030
         Align = alClient
         Font.Name = 'Courier'
         ParentFont = False
@@ -2642,8 +2642,8 @@ object PanelsFrame: TPanelsFrame
     end
   end
   object PanelsActions: TActionList
-    Left = 48
-    Top = 560
+    Left = 40
+    Top = 528
     object actNewConfig: TAction
       Category = 'File'
       Caption = '&New configuration'
@@ -2868,11 +2868,11 @@ object PanelsFrame: TPanelsFrame
     Table.Top = 0
     Table.Width = 576
     Table.ParentColor = False
-    Left = 792
-    Top = 586
+    Left = 232
+    Top = 528
   end
   object dlgExportHistogram: TSaveDialog
-    Left = 160
-    Top = 520
+    Left = 136
+    Top = 528
   end
 end

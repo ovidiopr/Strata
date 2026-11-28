@@ -1,7 +1,7 @@
 object OptionsDlg: TOptionsDlg
-  Left = 429
+  Left = 418
   Height = 347
-  Top = 345
+  Top = 232
   Width = 473
   AutoSize = True
   BorderStyle = bsDialog

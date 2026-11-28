@@ -1,7 +1,7 @@
 object MaterialsDlg: TMaterialsDlg
-  Left = 350
+  Left = 336
   Height = 450
-  Top = 150
+  Top = 180
   Width = 650
   BorderStyle = bsSizeToolWin
   Caption = 'Select Material'
