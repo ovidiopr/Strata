@@ -2487,46 +2487,26 @@ object PanelsFrame: TPanelsFrame
       Caption = 'Results'
       ClientHeight = 579
       ClientWidth = 1030
-      object sgVoxels: TStringGrid
-        Left = 456
+      inline fraResults: TResultsFrame
         Height = 579
-        Top = 0
-        Width = 574
+        Width = 1030
         Align = alClient
-        FixedCols = 0
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
-        RowCount = 2
-        TabOrder = 0
-      end
-      object pnlSummary: TPanel
-        Left = 0
-        Height = 579
-        Top = 0
-        Width = 451
-        Align = alLeft
-        BevelOuter = bvNone
         ClientHeight = 579
-        ClientWidth = 451
-        TabOrder = 1
-        object sgSummary: TStringGrid
-          Left = 0
+        ClientWidth = 1030
+        inherited sgVoxels: TStringGrid
           Height = 579
-          Top = 0
-          Width = 451
-          Align = alClient
-          Anchors = [akTop, akLeft, akRight]
-          ColCount = 2
-          FixedCols = 0
-          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
-          RowCount = 2
-          TabOrder = 0
+          Width = 574
         end
-      end
-      object spltResults: TSplitter
-        Left = 451
-        Height = 579
-        Top = 0
-        Width = 5
+        inherited pnlSummary: TPanel
+          Height = 579
+          ClientHeight = 579
+          inherited sgSummary: TStringGrid
+            Height = 579
+          end
+        end
+        inherited spltResults: TSplitter
+          Height = 579
+        end
       end
     end
     object tabLog: TTabSheet
@@ -2868,11 +2848,11 @@ object PanelsFrame: TPanelsFrame
     Table.Top = 0
     Table.Width = 576
     Table.ParentColor = False
-    Left = 232
+    Left = 248
     Top = 528
   end
   object dlgExportHistogram: TSaveDialog
-    Left = 136
+    Left = 144
     Top = 528
   end
 end

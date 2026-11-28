@@ -231,6 +231,32 @@ object EditorFrame: TEditorFrame
         end
       end
     end
+    object tabEdResults: TTabSheet
+      Caption = 'Results'
+      ClientHeight = 579
+      ClientWidth = 1030
+      inline fraEdResults: TResultsFrame
+        Height = 579
+        Width = 1030
+        Align = alClient
+        ClientHeight = 579
+        ClientWidth = 1030
+        inherited sgVoxels: TStringGrid
+          Height = 579
+          Width = 574
+        end
+        inherited pnlSummary: TPanel
+          Height = 579
+          ClientHeight = 579
+          inherited sgSummary: TStringGrid
+            Height = 579
+          end
+        end
+        inherited spltResults: TSplitter
+          Height = 579
+        end
+      end
+    end
     object tabEdLog: TTabSheet
       Caption = 'Log'
       ClientHeight = 579

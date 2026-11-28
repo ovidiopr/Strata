@@ -181,13 +181,18 @@ Commands in an imported macro that have no place in the panels are listed
 in the Log tab.
 
 Opening or saving a file makes its folder the working folder, so results
-are written next to it.
+are written next to it. When the open file is changed by another program,
+Strata offers to read it again on returning to the window.
+
+The **Edit** menu (Undo, Redo, Cut, Copy, Paste, Select all) and the
+Cut/Copy/Paste buttons act on the field, text or table that has the focus.
 
 ---
 
 ## The macro editor
 
-The editor has its own **Macro**, **Histograms** and **Log** tabs.
+The editor has its own **Macro**, **Histograms**, **Results** and **Log**
+tabs.
 
 * **Run** starts a new engine, with the threads on the toolbar, in the
   macro's folder, and sends the macro one command at a time. A command

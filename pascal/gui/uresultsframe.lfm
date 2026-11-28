@@ -1,0 +1,52 @@
+object ResultsFrame: TResultsFrame
+  Left = 0
+  Height = 585
+  Top = 0
+  Width = 1032
+  ClientHeight = 585
+  ClientWidth = 1032
+  LCLVersion = '4.8.0.0'
+  TabOrder = 0
+  DesignLeft = 297
+  DesignTop = 175
+  object sgVoxels: TStringGrid
+    Left = 456
+    Height = 585
+    Top = 0
+    Width = 576
+    Align = alClient
+    FixedCols = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+    RowCount = 2
+    TabOrder = 0
+  end
+  object pnlSummary: TPanel
+    Left = 0
+    Height = 585
+    Top = 0
+    Width = 451
+    Align = alLeft
+    BevelOuter = bvNone
+    ClientHeight = 585
+    ClientWidth = 451
+    TabOrder = 1
+    object sgSummary: TStringGrid
+      Left = 0
+      Height = 585
+      Top = 0
+      Width = 451
+      Align = alClient
+      ColCount = 2
+      FixedCols = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+      RowCount = 2
+      TabOrder = 0
+    end
+  end
+  object spltResults: TSplitter
+    Left = 451
+    Height = 585
+    Top = 0
+    Width = 5
+  end
+end

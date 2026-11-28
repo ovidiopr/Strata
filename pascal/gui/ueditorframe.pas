@@ -16,7 +16,7 @@ uses
   ComCtrls, ActnList, StdActns, Buttons, ImgList, SynEdit, TAGraph, TASeries,
   uStrataApi, uStrataEngine, uStrataApp, uStrataMacro, SynEditMiscClasses,
   SynEditTypes, SynEditKeyCmds, SynCompletion, LCLType, uStrataCommands,
-  uSynStrataMacro, uStrataWidgets;
+  uSynStrataMacro, uStrataWidgets, uResultsFrame;
 
 type
   // Starts an engine of its own for a run, False when it could not
@@ -56,6 +56,8 @@ type
     synMacro: TSynEdit;
     tabEdHistograms: TTabSheet;
     tabEdLog: TTabSheet;
+    tabEdResults: TTabSheet;
+    fraEdResults: TResultsFrame;
     tabMacro: TTabSheet;
     procedure actEdClearLogExecute(Sender: TObject);
     procedure actEdExportHistogramExecute(Sender: TObject);
@@ -105,6 +107,9 @@ type
     FKnownMaterials: TStringList;    // what the engine offers
     FMaterials: TStringList;         // those plus the ones the macro creates
     FReadFailed: Boolean;            // reading the tree failed; '/' stops trying
+    FStampFile: String;              // the file FDiskStamp belongs to
+    FDiskStamp: String;              // its time and size when last read or written
+    FCheckingDisk: Boolean;          // the reload question is showing
     procedure DoStatus(const AText: String);
     procedure DoLog(const AText: String);
     procedure DoDocumentChanged;
@@ -156,6 +161,7 @@ type
     procedure LivePoll;
     property Busy: Boolean read FBusy;
     function MacroText: String;
+    procedure CheckDiskFile;
     function DocumentCaption: String;
     property FileName: String read FFileName;
     property Engine: TStrataEngine read FEngine write FEngine;
@@ -521,6 +527,8 @@ begin
   FFileName := AFileName;
   FProposedName := '';
   FSavedText := synMacro.Text;
+  FStampFile := AFileName;
+  FDiskStamp := StrataFileStamp(AFileName);
   DoDocumentChanged;
   DoStatus('Loaded ' + ExtractFileName(AFileName));
   Result := True;
@@ -534,6 +542,36 @@ begin
   FProposedName := AProposedName;
   FSavedText := '';
   DoDocumentChanged;
+end;
+
+// Another program changed the file: offer to read it again, once per change
+procedure TEditorFrame.CheckDiskFile;
+var
+  stamp, question: String;
+begin
+  if (FFileName = '') or FCheckingDisk or FBusy then Exit;
+  stamp := StrataFileStamp(FFileName);
+  if FStampFile <> FFileName then
+  begin
+    FStampFile := FFileName;
+    FDiskStamp := stamp;
+    Exit;
+  end;
+  if (stamp = '') or (stamp = FDiskStamp) then Exit;
+  FDiskStamp := stamp;
+  if Modified then
+    question := ExtractFileName(FFileName) + ' has changed on disk, and the '
+                + 'changes made here are not saved.' + LineEnding + LineEnding
+                + 'Reload it and lose them?'
+  else
+    question := ExtractFileName(FFileName) + ' has changed on disk. Reload it?';
+  FCheckingDisk := True;
+  try
+    if MessageDlg('Strata', question, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      OpenFile(FFileName, False);
+  finally
+    FCheckingDisk := False;
+  end;
 end;
 
 function TEditorFrame.MacroText: String;
@@ -566,6 +604,8 @@ begin
   FFileName := AFileName;
   FProposedName := '';
   FSavedText := synMacro.Text;
+  FStampFile := AFileName;
+  FDiskStamp := StrataFileStamp(AFileName);
   DoDocumentChanged;
   DoStatus('Saved ' + ExtractFileName(AFileName));
   Result := True;
@@ -678,6 +718,7 @@ end;
 function TEditorFrame.StartSession: Boolean;
 begin
   Result := False;
+  CheckDiskFile;
   FCommands := StrataParseMacro(synMacro.Lines);
   if Length(FCommands) = 0 then
   begin
@@ -691,6 +732,7 @@ begin
   // Relative paths in the macro mean what they would beside the file
   if FFileName <> '' then SetCurrentDir(ExtractFilePath(FFileName));
   if (not Assigned(FOnStartEngine)) or (not FOnStartEngine()) then Exit;
+  fraEdResults.Clear;
   RefreshHistogramList;
   ShowHistogram;
   FBusy := True;
@@ -847,6 +889,7 @@ begin
   synMacro.Invalidate;
   RefreshHistogramList;
   ShowHistogram;
+  fraEdResults.ShowResults(FEngine);
   if not FBusy then Exit;
   if FStopRequested then
     FinishRun('Run aborted, the rest of the macro was not sent')

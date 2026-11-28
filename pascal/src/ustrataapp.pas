@@ -77,6 +77,9 @@ const
 // Splits a command line the way a shell would
 procedure SplitCommand(const ALine: String; AList: TStrings);
 
+// Modification time and size of a file, empty when it does not exist
+function StrataFileStamp(const AFileName: String): String;
+
 implementation
 
 {$IFDEF UNIX}
@@ -88,6 +91,20 @@ uses
 function SetEnvironmentVariableW(lpName, lpValue: PWideChar): LongBool; stdcall;
   external 'kernel32.dll' name 'SetEnvironmentVariableW';
 {$ENDIF}
+
+function StrataFileStamp(const AFileName: String): String;
+var
+  sr: TSearchRec;
+begin
+  Result := '';
+  if AFileName = '' then Exit;
+  if FindFirst(AFileName, faAnyFile, sr) = 0 then
+  try
+    Result := IntToStr(sr.Time) + ':' + IntToStr(sr.Size);
+  finally
+    FindClose(sr);
+  end;
+end;
 
 procedure SplitCommand(const ALine: String; AList: TStrings);
 var

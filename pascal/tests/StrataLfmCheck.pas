@@ -65,33 +65,47 @@ end;
 procedure ParseLfm(const AFileName: string; AComponents, AHandlers, AInlines: TStrings);
 var
   lines: TStringList;
-  i, eq: Integer;
+  i, eq, indent, partsIndent: Integer;
   line, rest, name, cls, prop, value: string;
 begin
   lines := TStringList.Create;
   try
     lines.LoadFromFile(AFileName);
+    partsIndent := -1;
     for i := 0 to lines.Count - 1 do
     begin
       line := Trim(lines[i]);
       if line = '' then Continue;
+      indent := Length(lines[i]) - Length(TrimLeft(lines[i]));
+      if (partsIndent >= 0) and (indent <= partsIndent) then partsIndent := -1;
+
+      { The gutter parts the IDE writes inside a SynEdit are the editor's own }
+      if (partsIndent >= 0) and (StartsStr('object ', line) or StartsStr('inline ', line)) then
+        Continue;
 
       if StartsStr('object ', line) then
       begin
         rest := Trim(Copy(line, Length('object ') + 1, MaxInt));
         if SplitDecl(rest, name, cls) then
+        begin
           AComponents.Values[name] := cls;
+          if cls = 'TSynEdit' then partsIndent := indent;
+        end;
         Continue;
       end;
 
-      { A frame placed on a form; what is inside it belongs to the frame }
+      { A frame placed on a form; what is inside it belongs to the frame.  The
+        IDE writes a SynEdit as inline too, and that one is no frame }
       if StartsStr('inline ', line) then
       begin
         rest := Trim(Copy(line, Length('inline ') + 1, MaxInt));
         if SplitDecl(rest, name, cls) then
         begin
           AComponents.Values[name] := cls;
-          AInlines.Values[name] := cls;
+          if cls = 'TSynEdit' then
+            partsIndent := indent
+          else
+            AInlines.Values[name] := cls;
         end;
         Continue;
       end;
@@ -240,7 +254,7 @@ const
     'TBCTrackbarUpdown', 'TFileOpen', 'TFileSaveAs',
     'TSynEdit');
 
-  AlwaysEnabled: array[0..21] of string = (
+  AlwaysEnabled: array[0..27] of string = (
     'mLog',                { the log is a view, not a control  }
     'sgSummary',           { results table, read only          }
     'sgVoxels',            { dose table, read only             }
@@ -264,7 +278,13 @@ const
     'actEdClearLog',
     'btnEdClearLog',
     'actEdSaveLog',
-    'btnEdSaveLog');
+    'btnEdSaveLog',
+    'actEditUndo',         { the edit commands act on whatever }
+    'actEditRedo',         { control has the focus             }
+    'actEditCut',
+    'actEditCopy',
+    'actEditPaste',
+    'actEditSelectAll');
 
   function IsInteractive(const AClass: string): Boolean;
   var
@@ -543,10 +563,11 @@ type
   end;
 
 const
-  Checked: array[0..2] of TChecked = (
+  Checked: array[0..3] of TChecked = (
     (UnitName: 'umain';            ClassName: 'TMainForm';        State: 'UpdateControlState'),
     (UnitName: 'upanelsframe';     ClassName: 'TPanelsFrame';     State: 'UpdateState'),
-    (UnitName: 'ueditorframe';     ClassName: 'TEditorFrame';     State: 'UpdateState'));
+    (UnitName: 'ueditorframe';     ClassName: 'TEditorFrame';     State: 'UpdateState'),
+    (UnitName: 'uresultsframe';    ClassName: 'TResultsFrame';    State: ''));
 
 function CheckedIndex(const AClass: string): Integer;
 var

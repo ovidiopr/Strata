@@ -18,7 +18,7 @@ uses
   ComCtrls, Grids, Spin, CheckLst, Menus, ActnList, StdActns, Buttons, LCLType,
   ImgList, uSciEdit, uSciPeriodicTableDlg, uStrataConfig, DividerBevel,
   BCTrackbarUpdown, uStrataApi, uStrataEngine, uStrataApp, uUnitParser,
-  uSciGrid, uMaterials, uStrataWidgets, TAGraph, TASeries, FileUtil;
+  uSciGrid, uMaterials, uStrataWidgets, uResultsFrame, TAGraph, TASeries, FileUtil;
 
 type
   // A yes/no question the window answers
@@ -252,10 +252,7 @@ type
     seH1Max: TSciEdit;
     seH1Min: TSciEdit;
     spltHistograms: TSplitter;
-    pnlSummary: TPanel;
-    sgSummary: TStringGrid;
-    sgVoxels: TStringGrid;
-    spltResults: TSplitter;
+    fraResults: TResultsFrame;
     procedure actActivateHistogramExecute(Sender: TObject);
     procedure actDeactivateHistogramExecute(Sender: TObject);
     procedure actExportHistogramExecute(Sender: TObject);
@@ -339,6 +336,9 @@ type
     FPhysicsApplied: Boolean;
     FConfigFile: String;             // the file it came from, empty when untitled
     FConfigSaved: String;            // its text when it was last read or written
+    FStampFile: String;              // the file FDiskStamp belongs to
+    FDiskStamp: String;              // its time and size when last read or written
+    FCheckingDisk: Boolean;          // the reload question is showing
     FMaterialNames: TStringList;     // union of defined and NIST, for picking
     FDefinedMaterials: TStringList;  // only what the material table holds
     FElementNames: TStringList;      // NIST element symbols
@@ -433,6 +433,7 @@ type
     function DocumentCaption: String;
 
     function MayReplaceConfig: Boolean;
+    procedure CheckDiskFile;
     function OpenConfigFile(const AFileName: String; AAskFirst: Boolean = True): Boolean;
     function ImportMacro(const AFileName, ADocument: String; AAskFirst: Boolean = True): Boolean;
     function ConfigAsMacro: String;
@@ -666,19 +667,6 @@ begin
   lbDefinedMaterials.OnDrawItem := @lbDefinedMaterialsDrawItem;
   lbHistogram.Style := lbOwnerDrawFixed;
   lbHistogram.OnDrawItem := @lbHistogramDrawItem;
-
-  sgSummary.ColCount := 2;
-  sgSummary.FixedRows := 1;
-  sgSummary.Cells[0, 0] := 'Quantity';
-  sgSummary.Cells[1, 0] := 'Value';
-
-  sgVoxels.ColCount := 5;
-  sgVoxels.FixedRows := 1;
-  sgVoxels.Cells[0, 0] := 'Voxel';
-  sgVoxels.Cells[1, 0] := 'Edep (MeV)';
-  sgVoxels.Cells[2, 0] := 'Fraction (%)';
-  sgVoxels.Cells[3, 0] := 'Dose (Gy)';
-  sgVoxels.Cells[4, 0] := 'Mass (g)';
 
   PopulateCatalogues;
 
@@ -2872,7 +2860,39 @@ end;
 procedure TPanelsFrame.MarkConfigSaved;
 begin
   FConfigSaved := ConfigText;
+  FStampFile := FConfigFile;
+  FDiskStamp := StrataFileStamp(FConfigFile);
   DoDocumentChanged;
+end;
+
+// Another program changed the file: offer to read it again, once per change
+procedure TPanelsFrame.CheckDiskFile;
+var
+  stamp, question: String;
+begin
+  if (FConfigFile = '') or FCheckingDisk or RunningOrAborting then Exit;
+  stamp := StrataFileStamp(FConfigFile);
+  if FStampFile <> FConfigFile then
+  begin
+    FStampFile := FConfigFile;
+    FDiskStamp := stamp;
+    Exit;
+  end;
+  if (stamp = '') or (stamp = FDiskStamp) then Exit;
+  FDiskStamp := stamp;
+  if ConfigModified then
+    question := ExtractFileName(FConfigFile) + ' has changed on disk, and the '
+                + 'changes made here are not saved.' + LineEnding + LineEnding
+                + 'Reload it and lose them?'
+  else
+    question := ExtractFileName(FConfigFile) + ' has changed on disk. Reload it?';
+  FCheckingDisk := True;
+  try
+    if MessageDlg('Strata', question, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      OpenConfigFile(FConfigFile, False);
+  finally
+    FCheckingDisk := False;
+  end;
 end;
 
 // Offers to write the configuration before it is replaced; False means stop
@@ -3551,56 +3571,8 @@ begin
 end;
 
 procedure TPanelsFrame.RefreshResults;
-var
-  s: TStrataRunStatsC;
-  v: TStrataVoxelDoseArray;
-  i: Integer;
-
-  procedure Put(ARow: Integer; const AName, AValue: String);
-  begin
-    sgSummary.Cells[0, ARow] := AName;
-    sgSummary.Cells[1, ARow] := AValue;
-  end;
-
-  function Pm(AValue, ARms: Double; const AUnit: String): String;
-  begin
-    Result := Format('%.5g +- %.3g %s', [AValue, ARms, AUnit]);
-  end;
-
 begin
-  if not FEngine.HasResults then Exit;
-  s := FEngine.Stats;
-
-  sgSummary.RowCount := 19;
-  Put(1, 'Primary', FEngine.ParticleName);
-  Put(2, 'Beam energy', Format('%.5g MeV', [s.beamEnergy]));
-  Put(3, 'Events', IntToStr(s.events));
-  Put(4, 'Target thickness', Format('%.5g mm', [s.targetThickness]));
-  Put(5, 'Energy deposited/event', Pm(s.edep, s.edepRms, 'MeV'));
-  Put(6, 'NIEL/event', Pm(s.niel, s.nielRms, 'MeV'));
-  Put(7, 'Energy balance', Format('%.5g MeV', [s.energyBalance]));
-  Put(8, 'Projected range', Pm(s.projRange, s.projRangeRms, 'mm'));
-  Put(9, 'Primary steps/event', Format('%.4g', [s.meanPrimarySteps]));
-  Put(10, 'Track length (charged)', Pm(s.trakLenCharged, s.trakLenChargedRms, 'mm'));
-  Put(11, 'Track length (neutral)', Pm(s.trakLenNeutral, s.trakLenNeutralRms, 'mm'));
-  Put(12, 'Secondaries/event', Format('%.4g e-, %.4g gamma, %.4g e+', [s.electronPerEvent, s.gammaPerEvent, s.positronPerEvent]));
-  Put(13, 'Transmitted',Format('%.4g %% primary, %.4g %% any', [s.transmitPrimary, s.transmitAny]));
-  Put(14, 'Reflected', Format('%.4g %% primary, %.4g %% any', [s.reflectPrimary, s.reflectAny]));
-  Put(15, 'Mean dE/dx (simulated)', Format('%.5g MeV/mm', [s.meanDEdx]));
-  Put(16, 'dE/dx restricted (table)', Format('%.5g MeV/mm', [s.dedxRestricted]));
-  Put(17, 'dE/dx full (table)', Format('%.5g MeV/mm', [s.dedxFull]));
-  Put(18, 'MSC theta0 (Highland)', Format('%.5g mrad', [s.mscHighland*1000.0]));
-
-  v := FEngine.VoxelDoses;
-  sgVoxels.RowCount := Max(2, Length(v) + 1);
-  for i := 0 to High(v) do
-  begin
-    sgVoxels.Cells[0, i + 1] := IntToStr(i);
-    sgVoxels.Cells[1, i + 1] := Format('%.6g', [v[i].Edep]);
-    sgVoxels.Cells[2, i + 1] := Format('%.4g', [v[i].Ratio]);
-    sgVoxels.Cells[3, i + 1] := Format('%.6g', [v[i].Dose]);
-    sgVoxels.Cells[4, i + 1] := Format('%.6g', [v[i].Mass]);
-  end;
+  fraResults.ShowResults(FEngine);
 end;
 
 end.

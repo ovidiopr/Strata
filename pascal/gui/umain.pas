@@ -21,7 +21,8 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
   ComCtrls, Menus, ActnList, StdActns, Buttons, LCLType, uSciRestorer,
   uExtSVGImageList, BCTrackbarUpdown, uStrataApi, uStrataEngine, uStrataApp,
-  uOptions, uDatasets, uPanelsFrame, uEditorFrame, LCLIntf;
+  uOptions, uDatasets, uPanelsFrame, uEditorFrame, LCLIntf, Clipbrd, Grids,
+  SynEdit;
 
 type
 
@@ -29,6 +30,25 @@ type
 
   TMainForm = class(TForm)
     nbMain: TNotebook;
+    actEditUndo: TAction;
+    actEditRedo: TAction;
+    actEditCut: TAction;
+    actEditCopy: TAction;
+    actEditPaste: TAction;
+    actEditSelectAll: TAction;
+    mnuEdit: TMenuItem;
+    mnuEditUndo: TMenuItem;
+    mnuEditRedo: TMenuItem;
+    mnuEditSep1: TMenuItem;
+    mnuEditCut: TMenuItem;
+    mnuEditCopy: TMenuItem;
+    mnuEditPaste: TMenuItem;
+    mnuEditSep2: TMenuItem;
+    mnuEditSelectAll: TMenuItem;
+    tbSepEdit: TToolButton;
+    tbEditCut: TToolButton;
+    tbEditCopy: TToolButton;
+    tbEditPaste: TToolButton;
     pgPanels: TPage;
     pgEditor: TPage;
     fraPanels: TPanelsFrame;
@@ -139,6 +159,14 @@ type
     procedure actSwitchModeExecute(Sender: TObject);
     procedure actAbortRunExecute(Sender: TObject);
     procedure actAboutExecute(Sender: TObject);
+    procedure actEditUndoExecute(Sender: TObject);
+    procedure actEditRedoExecute(Sender: TObject);
+    procedure actEditCutExecute(Sender: TObject);
+    procedure actEditCopyExecute(Sender: TObject);
+    procedure actEditPasteExecute(Sender: TObject);
+    procedure actEditSelectAllExecute(Sender: TObject);
+    procedure tbThreadsChange(Sender: TObject; AByUser: Boolean);
+    procedure AppActivated(Sender: TObject);
     procedure actOptionsExecute(Sender: TObject);
     procedure actNewSessionExecute(Sender: TObject);
     procedure actStartEngineExecute(Sender: TObject);
@@ -228,8 +256,19 @@ begin
     FToolOrder[j] := c;
   end;
   FLogPending := TStringList.Create;
+  // Cmd on macOS, Ctrl elsewhere
+  actEditUndo.ShortCut := ShortCut(VK_Z, [ssModifier]);
+  actEditRedo.ShortCut := ShortCut(VK_Z, [ssModifier, ssShift]);
+  {$IFNDEF DARWIN}
+  actEditRedo.SecondaryShortCuts.Add('Ctrl+Y');
+  {$ENDIF}
+  actEditCut.ShortCut := ShortCut(VK_X, [ssModifier]);
+  actEditCopy.ShortCut := ShortCut(VK_C, [ssModifier]);
+  actEditPaste.ShortCut := ShortCut(VK_V, [ssModifier]);
+  actEditSelectAll.ShortCut := ShortCut(VK_A, [ssModifier]);
 
   Application.OnException := @HandleException;
+  Application.AddOnActivateHandler(@AppActivated);
 
   FEngine := TStrataEngine.Create;
   FApp := TStrataApp.Create(StrataRestorer.FullIniFileName);
@@ -313,6 +352,7 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
+  Application.RemoveOnActivateHandler(@AppActivated);
   tmrPoll.Enabled := False;
   FreeAndNil(FEngine);
   FreeAndNil(FApp);
@@ -564,6 +604,108 @@ end;
 procedure TMainForm.actAboutExecute(Sender: TObject);
 begin
   AboutBox.ShowModal;
+end;
+
+//------------------------------------------------------------------------------
+// Edit commands: they act on whatever control has the focus
+
+function FocusedReadOnly(c: TWinControl): Boolean;
+begin
+  if c is TCustomSynEdit then Result := TCustomSynEdit(c).ReadOnly
+  else if c is TCustomEdit then Result := TCustomEdit(c).ReadOnly
+  else Result := False;
+end;
+
+// Back from another program: the document may have been changed there
+procedure TMainForm.AppActivated(Sender: TObject);
+begin
+  if FEditing then
+    fraEditor.CheckDiskFile
+  else
+    fraPanels.CheckDiskFile;
+end;
+
+procedure TMainForm.tbThreadsChange(Sender: TObject; AByUser: Boolean);
+begin
+  if (not AByUser) or (not FEngine.IsOpen) then Exit;
+  if tbThreads.Value = FEngine.ThreadCount then Exit;
+  if FEditing then
+    Status(Format('The next Run starts an engine with %d worker threads', [tbThreads.Value]))
+  else if not RestartEngine(Format('The engine runs %d worker threads, and Geant4 '
+                                   + 'fixes their number when the engine starts.',
+                                   [FEngine.ThreadCount])) then
+    tbThreads.Value := FEngine.ThreadCount;
+end;
+
+procedure TMainForm.actEditUndoExecute(Sender: TObject);
+var
+  c: TWinControl;
+begin
+  c := Screen.ActiveControl;
+  if FocusedReadOnly(c) then Exit;
+  if c is TCustomSynEdit then TCustomSynEdit(c).Undo
+  else if c is TCustomEdit then TCustomEdit(c).Undo;
+end;
+
+procedure TMainForm.actEditRedoExecute(Sender: TObject);
+var
+  c: TWinControl;
+begin
+  c := Screen.ActiveControl;
+  if FocusedReadOnly(c) then Exit;
+  if c is TCustomSynEdit then TCustomSynEdit(c).Redo;
+end;
+
+procedure TMainForm.actEditCutExecute(Sender: TObject);
+var
+  c: TWinControl;
+begin
+  c := Screen.ActiveControl;
+  // A view that cannot change gives a copy instead
+  if FocusedReadOnly(c) then
+  begin
+    actEditCopyExecute(Sender);
+    Exit;
+  end;
+  if c is TCustomSynEdit then TCustomSynEdit(c).CutToClipboard
+  else if c is TCustomEdit then TCustomEdit(c).CutToClipboard
+  else if c is TCustomComboBox then
+  begin
+    Clipboard.AsText := TCustomComboBox(c).SelText;
+    TCustomComboBox(c).SelText := '';
+  end;
+end;
+
+procedure TMainForm.actEditCopyExecute(Sender: TObject);
+var
+  c: TWinControl;
+begin
+  c := Screen.ActiveControl;
+  if c is TCustomSynEdit then TCustomSynEdit(c).CopyToClipboard
+  else if c is TCustomEdit then TCustomEdit(c).CopyToClipboard
+  else if c is TCustomComboBox then Clipboard.AsText := TCustomComboBox(c).SelText
+  else if c is TCustomStringGrid then TCustomStringGrid(c).CopyToClipboard(True);
+end;
+
+procedure TMainForm.actEditPasteExecute(Sender: TObject);
+var
+  c: TWinControl;
+begin
+  c := Screen.ActiveControl;
+  if FocusedReadOnly(c) then Exit;
+  if c is TCustomSynEdit then TCustomSynEdit(c).PasteFromClipboard
+  else if c is TCustomEdit then TCustomEdit(c).PasteFromClipboard
+  else if c is TCustomComboBox then TCustomComboBox(c).SelText := Clipboard.AsText;
+end;
+
+procedure TMainForm.actEditSelectAllExecute(Sender: TObject);
+var
+  c: TWinControl;
+begin
+  c := Screen.ActiveControl;
+  if c is TCustomSynEdit then TCustomSynEdit(c).SelectAll
+  else if c is TCustomEdit then TCustomEdit(c).SelectAll
+  else if c is TCustomComboBox then TCustomComboBox(c).SelectAll;
 end;
 
 procedure TMainForm.UpdateCaption;
@@ -949,8 +1091,9 @@ begin
 
   // The engine itself
   actStartEngine.Enabled := libLoaded and (not open);
-  // The thread count reaches Geant4 when the run manager is built
-  tbThreads.Enabled := libLoaded and (not open);
+  // The thread count reaches Geant4 when an engine starts: the editor starts
+  // one per Run, the panels on a new session
+  tbThreads.Enabled := libLoaded and (not running) and not (FEditing and fraEditor.Busy);
   actNewSession.Enabled := not running;
   actVisualize.Enabled := not running;
   // The point of downloading them is to have Geant4 read them, and that
@@ -1124,6 +1267,7 @@ begin
   BindCommands;
   UpdateCaption;
   UpdateControlState;
+  AppActivated(Self);
 end;
 
 // Each interface runs its own set-up, so an engine built by the other one
