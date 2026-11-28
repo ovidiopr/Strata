@@ -33,4 +33,4 @@
 /analysis/h1/set 11 200 0 700 keV
 #
 /run/printProgress 20000
-/run/beamOn 100000
+/run/beamOn 1000000

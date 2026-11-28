@@ -34,4 +34,4 @@
 /analysis/h1/setAscii 22
 /analysis/h1/setAscii 23
 #
-/run/beamOn 100000
+/run/beamOn 1000000

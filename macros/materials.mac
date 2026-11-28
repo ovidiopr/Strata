@@ -1,4 +1,7 @@
-#==============================================================================
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+#
 # Defining materials from a density and a list of constituents.
 #
 # A definition is opened with create, filled with one add command per
@@ -10,12 +13,11 @@
 # one of Strata's own, or one defined earlier here) or a chemical element.
 # Amounts are either mass fractions, which have to add up to 1, or numbers
 # of atoms.  Geant4 does not allow the two forms in the same material.
-#==============================================================================
 
 /control/verbose 2
 /run/verbose 0
 
-# --- a glass, as a mixture of oxides by weight -------------------------------
+# A glass, as a mixture of oxides by weight
 /strata/material/create Borosilicate 2.23 g/cm3
 /strata/material/addMaterial G4_SILICON_DIOXIDE 0.81
 /strata/material/addMaterial G4_BORON_OXIDE 0.13
@@ -23,13 +25,13 @@
 /strata/material/addMaterial G4_ALUMINUM_OXIDE 0.02
 /strata/material/build
 
-# --- a compound from its formula, Si3N4 --------------------------------------
+# A compound from its formula, Si3N4
 /strata/material/create SiliconNitride 3.17 g/cm3
 /strata/material/addElementByAtoms Si 3
 /strata/material/addElementByAtoms N 4
 /strata/material/build
 
-# --- an alloy from elements by weight, AISI 304 stainless --------------------
+# An alloy from elements by weight, AISI 304 stainless
 /strata/material/create Steel304 7.9 g/cm3
 /strata/material/addElement Fe 0.70
 /strata/material/addElement Cr 0.19
@@ -39,14 +41,17 @@
 
 /strata/material/list
 
-# --- and then use one as a target layer --------------------------------------
-/strata/physics/addPhysics standardNR
+# And then use one as a target layer
 /strata/geometry/layerNumber 2
 /strata/geometry/layerMaterial 0 SiliconNitride
 /strata/geometry/layerThickness 0 500 nm
 /strata/geometry/layerMaterial 1 Borosilicate
 /strata/geometry/layerThickness 1 20 um
+
+/strata/physics/addPhysics standardNR
+
 /run/initialize
+
 /run/setCut 10 nm
 
 /gun/particle proton

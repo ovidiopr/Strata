@@ -1,6 +1,7 @@
 #
 # Macro file for  Strata.cc
 # (can be run in batch, without graphic)
+#
 # N. Li et al., J. Appl. Phys. 105 (2009) 123522
 # https://doi.org/10.1063/1.3138804
 #
@@ -61,7 +62,11 @@
 #
 # save histograms in an ascii file
 /analysis/setFileName li_multilayer
+/analysis/h1/set 1 100 0 800 nm
+/analysis/h1/set 2 100 0 800 nm
 /analysis/h1/set 3 100 0 800 nm
+/analysis/h1/setAscii 1
+/analysis/h1/setAscii 2
 /analysis/h1/setAscii 3
 #
 /run/printProgress 10000

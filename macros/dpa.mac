@@ -1,8 +1,12 @@
+#
+# macro file for Strata.cc
+#
 # Displacement damage from a self-ion irradiation
 #
 # 1 MeV iron into iron, which is one of the six materials whose constants
-# are built in.  standardNR is required: without nuclear recoils there are
-# no knock-on atoms to count.
+# are built in K. Nordlund et al., Nat. Commun. 9 (2018) 1084.
+# standardNR is required: without nuclear recoils there are no knock-on
+# atoms to count.
 #
 /control/verbose 0
 /run/verbose 0
@@ -30,9 +34,9 @@
 /analysis/h1/set 4 100 0 1 um
 /analysis/h1/set 5 100 0 1 um
 # The knock-on atoms the projectile makes, which is what both are built on
-/analysis/h1/set 6 200 0 100 keV
+/analysis/h1/set 6 200 0 10 keV
 # The non-ionizing part of the energy deposit, for comparison
 /analysis/h1/set 2 100 0 1 um
 #
 /run/printProgress 500
-/run/beamOn 2000
+/run/beamOn 20000

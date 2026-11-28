@@ -22,7 +22,7 @@
 /strata/geometry/voxelPosition 2  0.  0. 0. um
 /strata/geometry/voxelPosition 3  5.  0. 0. um
 #
-/strata/physics/addPhysics standard_opt3
+/strata/physics/addPhysics standardNR
 #/strata/physics/addPhysics ionGasModels
 #
 /run/initialize

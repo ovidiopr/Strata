@@ -1,3 +1,7 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+#
 # The gas stripper of a tandem accelerator
 #
 # The acceleration itself cannot be simulated here. What is simulated is

@@ -1,7 +1,11 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+#
 # Rutherford backscattering from a gold film on silicon
 #
 # 2 MeV He on 30 nm of gold over bulk silicon, seen by a detector at 165
-# degrees subtending a millisteradian.
+# degrees subtending a millisteradian
 #
 /control/verbose 0
 /run/verbose 0

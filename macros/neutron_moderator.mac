@@ -1,17 +1,14 @@
+#
+# Macro file for  Strata.cc
+# (can be run in batch, without graphic)
+#
 # Fast neutrons into a hydrogenous moderator
 #
 # 2 MeV neutrons, the fission average, into 20 cm of polyethylene.
 #
 # neutron_hp is the list to use for this: an EM list for the recoil protons,
-# elastic scattering off nuclei that are bound rather than free, HP inelastic
-# and capture, and the decay of what the captures activate.  The bound kernel
-# is what makes the thermal end right, and it is not a small correction --
-# through 2 cm of polyethylene at 0.0253 eV it takes the transmitted fraction
-# from 34.8% to 19.5%, because bound hydrogen scatters far more strongly than
-# free hydrogen does.
-#
-# It needs G4NDL, which the installers do not select by default because it is
-# 1.1 GB.  Without it the lists refuse to load and say so.
+# elastic scattering off nuclei that are bound rather than free, HP
+# inelastic and capture, and the decay of what the captures activate.
 #
 /control/verbose 0
 /run/verbose 0
@@ -31,31 +28,22 @@
 /strata/gun/rndBeam 0 mm
 #
 # The neutrons that got through, and the ones that came back out of the
-# face they went in at.  A moderator this thick sends most of them back
+# face they went in at; a moderator this thick sends most of them back
 /analysis/h1/set 34 200 0 2.5 MeV
 /analysis/h1/set 54 200 0 2.5 MeV
 #
 # The neutral spectra beside them hold the gammas, which in polyethylene
 # means the 2.223 MeV line of H(n,gamma)D: roughly half of what reaches
-# either face, and the reason neutrons are no longer counted here
+# either face
 /analysis/h1/set 30 200 0 2.5 MeV
 /analysis/h1/set 50 200 0 2.5 MeV
 #
-# How the moderation actually happens.  Every scatter off a hydrogen
-# nucleus can hand over the whole of the neutron's energy, and the recoil
-# proton carries it off; this is the spectrum of those protons, and the
-# energy deposited with them.  It spans decades, so the log-binned twin is
-# the one to read for the slow end
+# Every scatter off a hydrogen nucleus can hand over the whole of the
+# neutron's energy, and the recoil proton carries it off; this is the
+# spectrum of those protons, and the energy deposited with them
 /analysis/h1/set 11 200 0 2 MeV
 /analysis/h1/set 10 200 0 2 MeV
 /analysis/h1/set 13 200 1e-9 2 MeV log10
-#
-# Not h1[17] and h1[18]: those count neutrons *created* during the run,
-# and there are none here.  The beam itself is never counted there, and an
-# elastic scatter continues the same track rather than starting a new one,
-# so nothing makes a neutron in 2 MeV neutrons on hydrogen and carbon --
-# (n,2n) needs some ten times this energy.  They are for a source that
-# produces neutrons: (p,n), a photoneutron target, fission
-#
+
 /run/printProgress 2000
 /run/beamOn 10000

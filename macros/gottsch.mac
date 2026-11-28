@@ -33,4 +33,4 @@
 #
 /strata/stack/killSecondaries
 #
-/run/beamOn 100000
+/run/beamOn 1000000

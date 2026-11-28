@@ -1,5 +1,5 @@
 #
-# macro file for TestEm5.cc
+# macro file for Strata.cc
 #
 # to control dE/dx calculation
 #
@@ -28,4 +28,4 @@
 /analysis/h1/set 10 100 0. 10. keV #energy in absorber
 /analysis/h1/setAscii 10
 #
-/run/beamOn 10000
+/run/beamOn 100000
