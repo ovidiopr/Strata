@@ -110,6 +110,28 @@ MaterialMessenger::MaterialMessenger() {
     Configure(fAddAtomsCmd);
 
     //--------------------------------------------------------------------
+    fAddIsotopeCmd = new G4UIcommand("/strata/material/addIsotope", this);
+    fAddIsotopeCmd->SetGuidance("Add one isotope of an element as a constituent, "
+                                "by mass fraction.");
+    fAddIsotopeCmd->SetGuidance("  addIsotope <symbol> <A> <massFraction>");
+    fAddIsotopeCmd->SetGuidance("Li 6 1 gives pure 6Li; B 10 0.2 and B 11 0.8 "
+                                "give enriched boron.  The density is the "
+                                "material's own, given to create.");
+    {
+        auto* symbol = new G4UIparameter("symbol", 's', false);
+        symbol->SetGuidance("Element symbol, for instance Li or B.");
+        fAddIsotopeCmd->SetParameter(symbol);
+
+        auto* a = new G4UIparameter("A", 'i', false);
+        a->SetGuidance("Mass number of the isotope.");
+        fAddIsotopeCmd->SetParameter(a);
+
+        auto* fraction = new G4UIparameter("massFraction", 'd', false);
+        fAddIsotopeCmd->SetParameter(fraction);
+    }
+    Configure(fAddIsotopeCmd);
+
+    //--------------------------------------------------------------------
     fBuildCmd = new G4UIcmdWithoutParameter("/strata/material/build", this);
     fBuildCmd->SetGuidance("Check the open definition and create the "
                            "material.");
@@ -138,6 +160,7 @@ MaterialMessenger::~MaterialMessenger() {
     delete fListCmd;
     delete fCancelCmd;
     delete fBuildCmd;
+    delete fAddIsotopeCmd;
     delete fAddAtomsCmd;
     delete fAddElementCmd;
     delete fAddMaterialCmd;
@@ -178,6 +201,14 @@ void MaterialMessenger::SetNewValue(G4UIcommand* command, G4String value) {
         std::istringstream is(value);
         is >> symbol >> atoms;
         builder->AddElementByAtoms(symbol, atoms);
+
+    } else if (command == fAddIsotopeCmd) {
+        G4String symbol;
+        G4int a = 0;
+        G4double fraction = 0.;
+        std::istringstream is(value);
+        is >> symbol >> a >> fraction;
+        builder->AddIsotope(symbol, a, fraction);
 
     } else if (command == fBuildCmd) {
         builder->Build();

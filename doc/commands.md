@@ -64,6 +64,7 @@ list of constituents:
 /strata/material/addMaterial       <material> <massFraction>
 /strata/material/addElement        <symbol> <massFraction>
 /strata/material/addElementByAtoms <symbol> <atoms>
+/strata/material/addIsotope        <symbol> <A> <massFraction>
 /strata/material/build
 ```
 
@@ -72,6 +73,8 @@ lists everything defined and `/strata/material/print <name>` shows one.
 
 Constituents are given either as mass fractions, which add up to 1, or as
 numbers of atoms, as in a chemical formula, but not both in one material.
+Elements are at natural isotopic abundance; `addIsotope` adds a single
+isotope instead, by mass fraction, with its mass from Geant4's tables.
 
 ```
 # a glass, by weight
@@ -86,6 +89,12 @@ numbers of atoms, as in a chemical formula, but not both in one material.
 /strata/material/create SiliconNitride 3.17 g/cm3
 /strata/material/addElementByAtoms Si 3
 /strata/material/addElementByAtoms N 4
+/strata/material/build
+
+# boron enriched to 20 % (by mass) in 10B
+/strata/material/create EnrichedBoron 2.35 g/cm3
+/strata/material/addIsotope B 10 0.2
+/strata/material/addIsotope B 11 0.8
 /strata/material/build
 ```
 

@@ -8,6 +8,7 @@
 #include <cmath>
 
 #include "G4Element.hh"
+#include "G4Isotope.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 #include "G4SystemOfUnits.hh"
@@ -138,6 +139,49 @@ G4bool MaterialBuilder::AddElementByAtoms(const G4String& symbol, G4int atoms) {
 
 //==============================================================================
 
+G4bool MaterialBuilder::AddIsotope(const G4String& symbol, G4int a, G4double fraction) {
+    if (!CheckOpen()) return false;
+
+    if (fraction <= 0. || fraction > 1.) {
+        return Fail("the mass fraction of '" + symbol + std::to_string(a)
+                    + "' has to lie in (0, 1]");
+    }
+
+    auto* nist = G4NistManager::Instance();
+    const G4Element* element = nist->FindOrBuildElement(symbol);
+    if (element == nullptr) {
+        return Fail("no element with symbol '" + symbol + "' is known");
+    }
+    if (a < element->GetZasInt() || nist->GetIsotopeMass(element->GetZasInt(), a) <= 0.) {
+        return Fail("Geant4 has no isotope " + symbol + std::to_string(a));
+    }
+
+    Constituent part{symbol, fraction, 0, false};
+    part.isotopeA = a;
+    fParts.push_back(part);
+    return true;
+}
+
+//==============================================================================
+
+namespace {
+
+// The element made of one isotope only, named for instance Li6, built once
+G4Element* IsotopeElement(const G4String& symbol, G4int a) {
+    const G4String name = symbol + std::to_string(a);
+    if (G4Element* known = G4Element::GetElement(name, false)) return known;
+    const G4int z = G4NistManager::Instance()->FindOrBuildElement(symbol)->GetZasInt();
+    G4Isotope* isotope = G4Isotope::GetIsotope(name, false);
+    if (isotope == nullptr) isotope = new G4Isotope(name, z, a);
+    auto* element = new G4Element(name, symbol, 1);
+    element->AddIsotope(isotope, 1.0);
+    return element;
+}
+
+}  // namespace
+
+//==============================================================================
+
 G4bool MaterialBuilder::Build() {
     if (!CheckOpen()) return false;
 
@@ -179,6 +223,9 @@ G4bool MaterialBuilder::Build() {
         if (part.isMaterial) {
             material->AddMaterial(nist->FindOrBuildMaterial(part.name),
                                   part.fraction);
+        } else if (part.isotopeA > 0) {
+            material->AddElement(IsotopeElement(part.name, part.isotopeA),
+                                 part.fraction);
         } else if (part.atoms > 0) {
             material->AddElement(nist->FindOrBuildElement(part.name),
                                  part.atoms);

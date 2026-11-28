@@ -7,6 +7,7 @@
 /// be other materials (anything already defined, including the NIST
 /// catalogue and materials built here earlier) or chemical elements, mixed
 /// freely, and are given either as mass fractions or as numbers of atoms.
+/// An element may also be a single isotope, by mass fraction.
 /// The two forms cannot be combined in one material: that is a Geant4
 /// restriction, not one added here.
 ///
@@ -42,6 +43,8 @@ public:
     G4bool AddMaterial(const G4String& name, G4double fraction);
     G4bool AddElement(const G4String& symbol, G4double fraction);
     G4bool AddElementByAtoms(const G4String& symbol, G4int atoms);
+    /// One isotope (mass number a) of an element, by mass fraction
+    G4bool AddIsotope(const G4String& symbol, G4int a, G4double fraction);
 
     /// Validates and creates the material.  On failure nothing is created
     /// and the definition stays open so it can be corrected.
@@ -68,6 +71,7 @@ private:
         G4double fraction = 0.;   ///< mass fraction, when atoms == 0
         G4int    atoms    = 0;    ///< number of atoms, when non-zero
         G4bool   isMaterial = false;
+        G4int    isotopeA = 0;    ///< mass number of a one-isotope element
     };
 
     G4bool Fail(const G4String& reason);

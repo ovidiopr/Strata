@@ -197,7 +197,8 @@ G4ScreenedCoulombCrossSection::SelectRandomUnweightedTarget(
     G4int Z = element->GetZasInt();
 
     G4int nIsotopes = element->GetNumberOfIsotopes();
-    if (0 < nIsotopes) {
+    // An element made of chosen isotopes is sampled from its own; natural ones from the table
+    if (0 < nIsotopes && element->GetNaturalAbundanceFlag()) {
         if (Z <= 92) {
             // we have no detailed material isotopic info available, 
             // so use G4StableIsotopes table up to Z=92

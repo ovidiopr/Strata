@@ -51,6 +51,7 @@ private:
     G4UIcommand*             fAddMaterialCmd;
     G4UIcommand*             fAddElementCmd;
     G4UIcommand*             fAddAtomsCmd;
+    G4UIcommand*             fAddIsotopeCmd;
     G4UIcmdWithoutParameter* fBuildCmd;
     G4UIcmdWithoutParameter* fCancelCmd;
     G4UIcmdWithoutParameter* fListCmd;
