@@ -339,6 +339,8 @@ type
     FStampFile: String;              // the file FDiskStamp belongs to
     FDiskStamp: String;              // its time and size when last read or written
     FCheckingDisk: Boolean;          // the reload question is showing
+    FInitializing: Boolean;          // /run/initialize is running in the engine
+    FWantedParticle: String;         // the particle to select once it exists
     FMaterialNames: TStringList;     // union of defined and NIST, for picking
     FDefinedMaterials: TStringList;  // only what the material table holds
     FElementNames: TStringList;      // NIST element symbols
@@ -416,6 +418,7 @@ type
     procedure FillH1Setup(AId: Integer);
     procedure ApplyStoredSpectra;
     procedure RefreshResults;
+    procedure KernelReady;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -434,6 +437,7 @@ type
 
     function MayReplaceConfig: Boolean;
     procedure CheckDiskFile;
+    procedure CommandFinished(AStatus: Integer);
     function OpenConfigFile(const AFileName: String; AAskFirst: Boolean = True): Boolean;
     function ImportMacro(const AFileName, ADocument: String; AAskFirst: Boolean = True): Boolean;
     function ConfigAsMacro: String;
@@ -930,6 +934,7 @@ end;
 procedure TPanelsFrame.EngineStopped;
 begin
   FPhysicsApplied := False;
+  FInitializing := False;
   RefreshHistogramList;
 end;
 
@@ -1804,8 +1809,6 @@ begin
 end;
 
 procedure TPanelsFrame.actInitializeExecute(Sender: TObject);
-var
-  wanted: String;
 begin
   if FEngine.State = STRATA_STATE_IDLE then
   begin
@@ -1814,18 +1817,38 @@ begin
     actApplyPhysicsExecute(nil);
   end;
 
-  wanted := Trim(cbParticle.Text);
+  FWantedParticle := Trim(cbParticle.Text);
 
   // Cuts and the EM options have to be in force before the tables are built
   ApplyRunOptions(False);
   SendStageCommands(stPreInit);
 
-  Screen.Cursor := crHourGlass;
-  try
-    FEngine.Initialize;
-  finally
-    Screen.Cursor := crDefault;
+  // Geant4 takes its time here; the window stays live and CommandFinished goes on
+  FEngine.StartInitialize;
+  FInitializing := True;
+  DoStatus('Building the geometry and the physics tables...');
+  DoStateChanged;
+end;
+
+// The engine finished a command this frame started
+procedure TPanelsFrame.CommandFinished(AStatus: Integer);
+begin
+  if not FInitializing then Exit;
+  FInitializing := False;
+  if AStatus < STRATA_OK then
+  begin
+    DoLog('/run/initialize failed: ' + FEngine.LastError);
+    DoStatus('Initialize failed: ' + FEngine.LastError);
+    ShowLog;
+    DoStateChanged;
+    Exit;
   end;
+  KernelReady;
+end;
+
+// What follows a successful /run/initialize
+procedure TPanelsFrame.KernelReady;
+begin
   RefreshMaterialCatalogue;
   RefreshGeometryGrid;
   RefreshVoxelGrid;
@@ -1839,7 +1862,7 @@ begin
     cbParticle.Items.Insert(0, 'ion');
   // Whatever was selected wins; then what a configuration asked for and
   // could not have until this moment, because the table did not exist
-  RestoreSelection(cbParticle, wanted, 'proton');
+  RestoreSelection(cbParticle, FWantedParticle, 'proton');
 
   // The gun and the histograms exist only now, so the beam and the spectra
   // are sent here rather than when the configuration was read

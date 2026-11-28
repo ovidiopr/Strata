@@ -78,7 +78,21 @@ int main(int argc, char** argv) {
     /* running before initialising is a state error, not a crash */
     check(strata_beam_on(s, 10) == STRATA_ERR_STATE, "beam_on before initialize");
 
-    check(strata_initialize(s) == STRATA_OK, "strata_initialize");
+    /* a started command reports its result once it is done */
+    check(strata_apply_start(s, "/strata/not/a/command 1") == STRATA_OK, "apply_start");
+    check(strata_command_wait(s, -1) == STRATA_OK, "command_wait");
+    check(strata_command_status(s) == STRATA_ERR_COMMAND, "started unknown command rejected");
+
+    /* initialisation in the background: the engine refuses work meanwhile */
+    check(strata_initialize_start(s) == STRATA_OK, "strata_initialize_start");
+    if (strata_busy(s) == 1) {
+        check(strata_apply(s, "/run/verbose 0") == STRATA_ERR_STATE, "apply refused while busy");
+        check(strata_beam_on(s, 10) == STRATA_ERR_STATE, "beam_on refused while busy");
+        check(strata_initialize_start(s) == STRATA_ERR_STATE, "second start refused while busy");
+    }
+    check(strata_command_wait(s, -1) == STRATA_OK, "initialisation finished");
+    check(strata_busy(s) == 0, "not busy afterwards");
+    check(strata_command_status(s) == STRATA_OK, "initialisation succeeded");
     check(strata_state(s) == STRATA_STATE_INITIALISED, "state == INITIALISED");
 
     /* --- introspection -------------------------------------------------- */

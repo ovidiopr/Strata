@@ -113,6 +113,8 @@ type
   private
     FSession: PStrataSession;
     FWasRunning: Boolean;
+    FWasBusy: Boolean;
+    FOnCommandFinished: TStrataRunEvent;
     FLogBuf: array[0..8191] of AnsiChar;
     FOnLogLine: TStrataLogEvent;
     FOnProgress: TStrataProgressEvent;
@@ -124,8 +126,9 @@ type
     function GetEventsRequested: Int64;
     function GetThreadCount: Integer;
     procedure Check(AStatus: Integer; const AContext: String);
-    function LastError: String;
   public
+    // The backend's message for the last call that failed
+    function LastError: String;
     constructor Create;
     destructor Destroy; override;
 
@@ -142,6 +145,14 @@ type
     // Same, but returns False instead of raising
     function TryApply(const ACommand: String; out AError: String): Boolean;
     procedure ExecuteMacro(const AFileName: String);
+
+    // /run/initialize or one command, started without waiting; OnCommandFinished
+    // fires from Poll when it is done, unless WaitCommand saw it finish first
+    procedure StartInitialize;
+    procedure StartApply(const ACommand: String);
+    function Busy: Boolean;
+    function WaitCommand(ATimeoutMs: Integer): Boolean;
+    function CommandStatus: Integer;
 
     // Starts a run and returns at once
     procedure BeamOn(ANEvents: Int64);
@@ -198,6 +209,7 @@ type
     property OnLogLine: TStrataLogEvent read FOnLogLine write FOnLogLine;
     property OnProgress: TStrataProgressEvent read FOnProgress write FOnProgress;
     property OnRunFinished: TStrataRunEvent read FOnRunFinished write FOnRunFinished;
+    property OnCommandFinished: TStrataRunEvent read FOnCommandFinished write FOnCommandFinished;
   end;
 
 // Version Strings; safe to call before any session exists
@@ -390,6 +402,7 @@ begin
   strata_destroy(FSession);
   FSession := nil;
   FWasRunning := False;
+  FWasBusy := False;
 end;
 
 procedure TStrataEngine.Initialize;
@@ -453,6 +466,36 @@ begin
         'execute ' + AFileName);
 end;
 
+procedure TStrataEngine.StartInitialize;
+begin
+  Check(strata_initialize_start(FSession), '/run/initialize');
+  FWasBusy := True;
+end;
+
+procedure TStrataEngine.StartApply(const ACommand: String);
+begin
+  Check(strata_apply_start(FSession, PAnsiChar(AnsiString(ACommand))), ACommand);
+  FWasBusy := True;
+end;
+
+function TStrataEngine.Busy: Boolean;
+begin
+  Result := (FSession <> nil) and (strata_busy(FSession) = 1);
+end;
+
+// True when the started command is done; its result is then CommandStatus
+function TStrataEngine.WaitCommand(ATimeoutMs: Integer): Boolean;
+begin
+  Result := (FSession = nil) or (strata_command_wait(FSession, ATimeoutMs) = STRATA_OK);
+  if Result then FWasBusy := False;
+end;
+
+function TStrataEngine.CommandStatus: Integer;
+begin
+  if FSession = nil then Exit(STRATA_ERR_HANDLE);
+  Result := strata_command_status(FSession);
+end;
+
 procedure TStrataEngine.BeamOn(ANEvents: Int64);
 begin
   Check(strata_beam_on(FSession, ANEvents), Format('beamOn %d', [ANEvents]));
@@ -498,6 +541,13 @@ begin
     FWasRunning := False;
     if Assigned(FOnRunFinished) then
       FOnRunFinished(Self, strata_run_status(FSession));
+  end;
+
+  if FWasBusy and (not Busy) then
+  begin
+    FWasBusy := False;
+    if Assigned(FOnCommandFinished) then
+      FOnCommandFinished(Self, strata_command_status(FSession));
   end;
 end;
 

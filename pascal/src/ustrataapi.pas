@@ -191,6 +191,11 @@ var
   { Control }
   strata_apply: function(s: PStrataSession; command: PAnsiChar): cint; cdecl;
   strata_execute_macro: function(s: PStrataSession; path: PAnsiChar): cint; cdecl;
+  strata_initialize_start: function(s: PStrataSession): cint; cdecl;
+  strata_apply_start: function(s: PStrataSession; command: PAnsiChar): cint; cdecl;
+  strata_busy: function(s: PStrataSession): cint; cdecl;
+  strata_command_status: function(s: PStrataSession): cint; cdecl;
+  strata_command_wait: function(s: PStrataSession; timeoutMs: cint): cint; cdecl;
   strata_beam_on: function(s: PStrataSession; nEvents: clong): cint; cdecl;
   strata_abort: function(s: PStrataSession): cint; cdecl;
   strata_wait: function(s: PStrataSession; timeoutMs: cint): cint; cdecl;
@@ -318,6 +323,11 @@ begin
 
   Bind(Pointer(strata_apply), 'strata_apply', AMissing);
   Bind(Pointer(strata_execute_macro), 'strata_execute_macro', AMissing);
+  Bind(Pointer(strata_initialize_start), 'strata_initialize_start', AMissing);
+  Bind(Pointer(strata_apply_start), 'strata_apply_start', AMissing);
+  Bind(Pointer(strata_busy), 'strata_busy', AMissing);
+  Bind(Pointer(strata_command_status), 'strata_command_status', AMissing);
+  Bind(Pointer(strata_command_wait), 'strata_command_wait', AMissing);
   Bind(Pointer(strata_beam_on), 'strata_beam_on', AMissing);
   Bind(Pointer(strata_abort), 'strata_abort', AMissing);
   Bind(Pointer(strata_wait), 'strata_wait', AMissing);

@@ -89,6 +89,17 @@ void Dispatch(std::uint32_t op, Reader& in, Writer& out) {
         break;
     }
 
+    case kInitializeStart: out.I32(strata_initialize_start(gSession)); break;
+
+    case kApplyStart: {
+        const std::string cmd = in.Str();
+        out.I32(strata_apply_start(gSession, cmd.c_str()));
+        break;
+    }
+
+    case kBusy:            out.I32(strata_busy(gSession)); break;
+    case kCommandStatus:   out.I32(strata_command_status(gSession)); break;
+    case kCommandWait:     out.I32(strata_command_wait(gSession, in.I32())); break;
     case kBeamOn:          out.I32(strata_beam_on(gSession, in.I64())); break;
     case kAbort:           out.I32(strata_abort(gSession)); break;
     case kWait:            out.I32(strata_wait(gSession, in.I32())); break;

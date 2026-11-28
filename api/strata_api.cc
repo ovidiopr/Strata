@@ -223,6 +223,12 @@ struct StrataSession {
     std::mutex               runMutex;
     std::condition_variable  runCv;
 
+    // A started command: busy until it completes, then its result
+    std::mutex               cmdMutex;
+    std::condition_variable  cmdCv;
+    std::atomic<bool>        busy{false};
+    std::atomic<int>         cmdStatus{STRATA_OK};
+
     // Geant4, only ever touched on the engine thread
     G4RunManager*            runManager = nullptr;
     DetectorConstruction*    detector = nullptr;
@@ -543,9 +549,80 @@ extern "C" void strata_destroy(StrataSession* s) {
     delete s;
 }
 
+namespace {
+
+// A started command still executing refuses everything that would queue behind it
+bool RefuseIfBusy(StrataSession* s) {
+    if (!s->busy.load()) return false;
+    s->SetError("the engine is busy with a command");
+    return true;
+}
+
+int StartCommand(StrataSession* s, const std::string& cmd, bool initialize) {
+    const int st = s->state.load();
+    if (st == STRATA_STATE_RUNNING || st == STRATA_STATE_ABORTING) {
+        s->SetError("a run is in progress");
+        return STRATA_ERR_STATE;
+    }
+    bool expected = false;
+    if (!s->busy.compare_exchange_strong(expected, true)) {
+        s->SetError("the engine is busy with a command");
+        return STRATA_ERR_STATE;
+    }
+    s->cmdStatus.store(STRATA_OK);
+    s->Post([s, cmd, initialize] {
+        const int rc = ApplyOnEngine(s, cmd);
+        if (initialize && rc == STRATA_OK) s->state.store(STRATA_STATE_INITIALISED);
+        s->cmdStatus.store(rc);
+        {
+            std::lock_guard<std::mutex> lock(s->cmdMutex);
+            s->busy.store(false);
+        }
+        s->cmdCv.notify_all();
+    }, false);
+    return STRATA_OK;
+}
+
+}  // namespace
+
+extern "C" int strata_initialize_start(StrataSession* s) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    return StartCommand(s, "/run/initialize", true);
+}
+
+extern "C" int strata_apply_start(StrataSession* s, const char* command) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    if (command == nullptr) return STRATA_ERR_RANGE;
+    return StartCommand(s, command, false);
+}
+
+extern "C" int strata_busy(StrataSession* s) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    return s->busy.load() ? 1 : 0;
+}
+
+extern "C" int strata_command_status(StrataSession* s) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    return s->cmdStatus.load();
+}
+
+extern "C" int strata_command_wait(StrataSession* s, int timeoutMs) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    std::unique_lock<std::mutex> lock(s->cmdMutex);
+    const auto done = [s] { return !s->busy.load(); };
+    if (timeoutMs < 0) {
+        s->cmdCv.wait(lock, done);
+        return STRATA_OK;
+    }
+    return s->cmdCv.wait_for(lock, std::chrono::milliseconds(timeoutMs), done)
+               ? STRATA_OK
+               : STRATA_ERR_STATE;
+}
+
 extern "C" int strata_initialize(StrataSession* s) {
     if (!Valid(s)) return STRATA_ERR_HANDLE;
     if (s->state.load() == STRATA_STATE_RUNNING) return STRATA_ERR_STATE;
+    if (RefuseIfBusy(s)) return STRATA_ERR_STATE;
 
     int rc = STRATA_OK;
     s->Post([&] { rc = ApplyOnEngine(s, "/run/initialize"); }, true);
@@ -569,6 +646,7 @@ extern "C" int strata_apply(StrataSession* s, const char* command) {
         s->SetError("cannot apply a command while a run is in progress");
         return STRATA_ERR_STATE;
     }
+    if (RefuseIfBusy(s)) return STRATA_ERR_STATE;
 
     const std::string cmd(command);
     int rc = STRATA_OK;
@@ -585,6 +663,7 @@ extern "C" int strata_execute_macro(StrataSession* s, const char* path) {
 extern "C" int strata_beam_on(StrataSession* s, long nEvents) {
     if (!Valid(s)) return STRATA_ERR_HANDLE;
     if (nEvents <= 0) return STRATA_ERR_RANGE;
+    if (RefuseIfBusy(s)) return STRATA_ERR_STATE;
 
     int expected = STRATA_STATE_INITIALISED;
     if (!s->state.compare_exchange_strong(expected, STRATA_STATE_RUNNING)) {

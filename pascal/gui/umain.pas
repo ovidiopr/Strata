@@ -190,6 +190,7 @@ type
 
     procedure HandleLogLine(Sender: TObject; const ALine: String; AIsError: Boolean);
     procedure HandleProgress(Sender: TObject; ADone, ATotal: Int64);
+    procedure HandleCommandFinished(Sender: TObject; AStatus: Integer);
     procedure HandleRunFinished(Sender: TObject; AStatus: Integer);
 
 
@@ -277,6 +278,7 @@ begin
   FEngine.OnLogLine := @HandleLogLine;
   FEngine.OnProgress := @HandleProgress;
   FEngine.OnRunFinished := @HandleRunFinished;
+  FEngine.OnCommandFinished := @HandleCommandFinished;
 
   // The panels reach the engine and the window through these
   fraPanels.Engine := FEngine;
@@ -571,6 +573,7 @@ begin
   // The next start sends these again, to the engine the preferences now name
   FApp.DataDirSet := '';
   fraPanels.EngineStopped;
+  fraEditor.EngineStopped;
   UpdateControlState;
   Status('Engine stopped, Start engine when ready');
   Result := True;
@@ -971,6 +974,16 @@ begin
   sbMain.Panels[2].Text := Format('%d/%d events', [ADone, ATotal]);
 end;
 
+// A command started without waiting, such as /run/initialize, is done
+procedure TMainForm.HandleCommandFinished(Sender: TObject; AStatus: Integer);
+begin
+  if FEditing then
+    fraEditor.CommandFinished(AStatus)
+  else
+    fraPanels.CommandFinished(AStatus);
+  UpdateControlState;
+end;
+
 procedure TMainForm.HandleRunFinished(Sender: TObject; AStatus: Integer);
 begin
   pbRun.Position := pbRun.Max;
@@ -1080,12 +1093,15 @@ end;
 
 procedure TMainForm.UpdateControlState;
 var
-  libLoaded, open, ready, running: Boolean;
+  libLoaded, open, ready, running, busy, inRun: Boolean;
 begin
   libLoaded := StrataLibraryLoaded;
   open := libLoaded and FEngine.IsOpen;
   ready := open and (FEngine.State <> STRATA_STATE_IDLE);
-  running := RunningOrAborting;
+  inRun := RunningOrAborting;
+  // A command such as /run/initialize in progress: no other one can be sent
+  busy := open and FEngine.Busy;
+  running := inRun or busy;
 
   sbMain.Panels[0].Text := StageText;
 
@@ -1094,12 +1110,13 @@ begin
   // The thread count reaches Geant4 when an engine starts: the editor starts
   // one per Run, the panels on a new session
   tbThreads.Enabled := libLoaded and (not running) and not (FEditing and fraEditor.Busy);
-  actNewSession.Enabled := not running;
+  // Also the way out of a command that takes too long
+  actNewSession.Enabled := not inRun;
   actVisualize.Enabled := not running;
   // The point of downloading them is to have Geant4 read them, and that
   // cannot be arranged while a run is in flight
   actDatasets.Enabled := not running;
-  actAbortRun.Enabled := running or (FEditing and fraEditor.Paused);
+  actAbortRun.Enabled := inRun or (FEditing and fraEditor.Paused);
   actPreviewGeometry.Enabled := not running;
   tbEvents.Enabled := not running;
 
@@ -1153,6 +1170,7 @@ begin
     end;
     FApp.DataDirSet := '';
     fraPanels.EngineStopped;
+    fraEditor.EngineStopped;
   end;
   Result := StartEngine;
 end;
@@ -1312,6 +1330,7 @@ begin
   end;
   FApp.DataDirSet := '';
   fraPanels.EngineStopped;
+  fraEditor.EngineStopped;
   Status('Engine stopped');
   Result := True;
 end;

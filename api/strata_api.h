@@ -18,7 +18,9 @@
  * owns a private engine thread: strata_create() starts it, the run manager
  * is built there, and every call below is marshalled onto it.  Calls are
  * synchronous (they block until the engine has executed them) except
- * strata_beam_on(), which returns immediately and leaves the run going.
+ * strata_beam_on(), which returns immediately and leaves the run going, and
+ * strata_initialize_start() and strata_apply_start(), which leave the engine
+ * busy with the command.
  *
  * The caller must never touch Geant4 directly, and must not call into this
  * library from more than one thread at a time for a given session.
@@ -224,6 +226,20 @@ STRATA_API int STRATA_CALL strata_apply(StrataSession* s, const char* command);
 
 // Executes a macro file through /control/execute
 STRATA_API int STRATA_CALL strata_execute_macro(StrataSession* s, const char* path);
+
+// Start /run/initialize, or one command, and return immediately; the engine
+// is busy until it finishes, and refuses other commands and runs meanwhile
+STRATA_API int STRATA_CALL strata_initialize_start(StrataSession* s);
+STRATA_API int STRATA_CALL strata_apply_start(StrataSession* s, const char* command);
+
+// 1 while a started command is executing, 0 otherwise
+STRATA_API int STRATA_CALL strata_busy(StrataSession* s);
+
+// What the last started command returned, once it is no longer busy
+STRATA_API int STRATA_CALL strata_command_status(StrataSession* s);
+
+// Waits up to timeoutMs (-1: no limit) for the started command; STRATA_OK when done
+STRATA_API int STRATA_CALL strata_command_wait(StrataSession* s, int timeoutMs);
 
 // Starts a run of nEvents and returns immediately
 STRATA_API int STRATA_CALL strata_beam_on(StrataSession* s, long nEvents);

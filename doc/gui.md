@@ -19,7 +19,9 @@ responsive while it works.
    if needed, fields, displacement damage and the backscattering detector.
    **Apply physics**.
 4. **Initialize** builds the geometry and the physics tables from what the
-   pages show. Pressing the Apply buttons first is optional.
+   pages show. Pressing the Apply buttons first is optional. The window
+   stays usable meanwhile and the Log tab shows Geant4's progress; **New
+   session** stops an initialisation that takes too long.
 5. **Beam/Physics**: particle, energy, angle and beam size. **Apply beam**.
    For a heavy ion choose `ion` and fill Z, A and charge (-1 for a bare
    nucleus).

@@ -110,11 +110,16 @@ type
     FStampFile: String;              // the file FDiskStamp belongs to
     FDiskStamp: String;              // its time and size when last read or written
     FCheckingDisk: Boolean;          // the reload question is showing
+    FPending: TStrataMacroCommand;   // the command the engine is busy with
+    FPendingActive: Boolean;         // FPending is still running
     procedure DoStatus(const AText: String);
     procedure DoLog(const AText: String);
     procedure DoDocumentChanged;
     procedure DoStateChanged;
     procedure ContinueRun;
+    procedure ContinueLater(Data: PtrInt);
+    function StartCommand(const ACommand: TStrataMacroCommand): Boolean;
+    function CommandDone(const ACommand: TStrataMacroCommand; AStatus: Integer): Boolean;
     function StartSession: Boolean;
     procedure Resume(AToSend, AStopLine: Integer);
     procedure PauseAt(const ACommand: TStrataMacroCommand);
@@ -155,6 +160,8 @@ type
     function OpenFile(const AFileName: String; AAskFirst: Boolean = True): Boolean;
     procedure LoadText(const AText, AProposedName: String);
     procedure RunFinished(AStatus: Integer);
+    procedure CommandFinished(AStatus: Integer);
+    procedure EngineStopped;
     procedure StopAfterRun;
     procedure EndPause;
     property Paused: Boolean read FPaused;
@@ -813,13 +820,56 @@ begin
 end;
 
 // Sends commands until the macro ends, one is refused, or a run starts
+// Starts a command in the engine; False, with the line marked, if it was refused
+function TEditorFrame.StartCommand(const ACommand: TStrataMacroCommand): Boolean;
+begin
+  Result := False;
+  try
+    if ACommand.Kind = mkInitialize then
+      FEngine.StartInitialize
+    else
+      FEngine.StartApply(ACommand.Command);
+  except
+    on E: Exception do
+    begin
+      StopAt(ACommand, E.Message);
+      Exit;
+    end;
+  end;
+  Result := True;
+end;
+
+// What a finished command means for the macro; False when it stops here
+function TEditorFrame.CommandDone(const ACommand: TStrataMacroCommand; AStatus: Integer): Boolean;
+begin
+  Result := False;
+  if AStatus < STRATA_OK then
+  begin
+    StopAt(ACommand, FEngine.LastError);
+    Exit;
+  end;
+  if (ACommand.Kind = mkInitialize) and Assigned(FOnKernelBuilt) then FOnKernelBuilt(Self);
+  Result := True;
+end;
+
 procedure TEditorFrame.ContinueRun;
+const
+  // Commands that end within this are followed at once; the window gets a
+  // turn after this much sending
+  QuickMs = 50;
+  SliceMs = 100;
 var
   cmd: TStrataMacroCommand;
-  err: String;
+  started: QWord;
 begin
+  started := GetTickCount64;
   while FNext <= High(FCommands) do
   begin
+    if GetTickCount64 - started > SliceMs then
+    begin
+      Application.QueueAsyncCall(@ContinueLater, 0);
+      Exit;
+    end;
     cmd := FCommands[FNext];
     if (FToSend = 0) or ((FStopLine > 0) and (cmd.Line >= FStopLine)) then
     begin
@@ -834,24 +884,6 @@ begin
       Exit;
     end;
     case cmd.Kind of
-      mkInitialize:
-        begin
-          Screen.Cursor := crHourGlass;
-          try
-            try
-              FEngine.Initialize;
-              if Assigned(FOnKernelBuilt) then FOnKernelBuilt(Self);
-            except
-              on E: Exception do
-              begin
-                StopAt(cmd, E.Message);
-                Exit;
-              end;
-            end;
-          finally
-            Screen.Cursor := crDefault;
-          end;
-        end;
       mkBeamOn:
         begin
           // The spectra are read now, while the engine can still answer
@@ -873,14 +905,55 @@ begin
           Exit;   // RunFinished goes on from the next command
         end;
     else
-      if not FEngine.TryApply(cmd.Command, err) then
+      if not StartCommand(cmd) then Exit;
+      if not FEngine.WaitCommand(QuickMs) then
       begin
-        StopAt(cmd, err);
+        // Still going: the window stays live and CommandFinished goes on
+        FPending := cmd;
+        FPendingActive := True;
+        FRunLine := cmd.Line;
+        synMacro.Invalidate;
+        DoStatus(Format('Line %d: %s...', [cmd.Line, cmd.Command]));
+        DoStateChanged;
         Exit;
       end;
+      if not CommandDone(cmd, FEngine.CommandStatus) then Exit;
     end;
   end;
   FinishRun('Macro finished');
+end;
+
+procedure TEditorFrame.ContinueLater(Data: PtrInt);
+begin
+  if FBusy and (not FPaused) and (not FPendingActive) and (FRunLine = 0) then
+    ContinueRun;
+end;
+
+// The engine finished the command the macro was waiting for
+procedure TEditorFrame.CommandFinished(AStatus: Integer);
+begin
+  if not FPendingActive then Exit;
+  FPendingActive := False;
+  FRunLine := 0;
+  synMacro.Invalidate;
+  if not FBusy then Exit;
+  if not CommandDone(FPending, AStatus) then Exit;
+  if FStopRequested then
+    FinishRun('Stopped, the rest of the macro was not sent')
+  else
+    ContinueRun;
+end;
+
+// The engine was closed under the macro
+procedure TEditorFrame.EngineStopped;
+begin
+  FPendingActive := False;
+  if FBusy then
+  begin
+    FRunLine := 0;
+    synMacro.Invalidate;
+    FinishRun('Engine stopped, the rest of the macro was not sent');
+  end;
 end;
 
 procedure TEditorFrame.RunFinished(AStatus: Integer);

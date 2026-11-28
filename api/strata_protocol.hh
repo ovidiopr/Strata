@@ -80,6 +80,11 @@ enum Op : std::uint32_t {
     kLastError,
     kExitProcess,
     kGetCommandTree,
+    kInitializeStart,
+    kApplyStart,
+    kBusy,
+    kCommandStatus,
+    kCommandWait,
     kOpCount
 };
 

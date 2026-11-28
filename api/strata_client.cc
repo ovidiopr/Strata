@@ -250,8 +250,11 @@ extern "C" StrataSession* strata_create(int nThreads) {
 
 extern "C" void strata_destroy(StrataSession* s) {
     if (!Valid(s)) return;
-    std::vector<unsigned char> reply;
-    Call(kDestroy, Writer(), reply);
+    // An engine busy with a command would only answer when it is done
+    if (CallInt(kBusy, Writer()) != 1) {
+        std::vector<unsigned char> reply;
+        Call(kDestroy, Writer(), reply);
+    }
     Reap();
 }
 
@@ -277,6 +280,35 @@ extern "C" int strata_execute_macro(StrataSession* s, const char* path) {
     Writer w;
     w.Str(path);
     return CallInt(kExecuteMacro, w);
+}
+
+extern "C" int strata_initialize_start(StrataSession* s) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    return CallInt(kInitializeStart, Writer());
+}
+
+extern "C" int strata_apply_start(StrataSession* s, const char* command) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    Writer w;
+    w.Str(command);
+    return CallInt(kApplyStart, w);
+}
+
+extern "C" int strata_busy(StrataSession* s) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    return CallInt(kBusy, Writer());
+}
+
+extern "C" int strata_command_status(StrataSession* s) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    return CallInt(kCommandStatus, Writer());
+}
+
+extern "C" int strata_command_wait(StrataSession* s, int timeoutMs) {
+    if (!Valid(s)) return STRATA_ERR_HANDLE;
+    Writer w;
+    w.I32(timeoutMs);
+    return CallInt(kCommandWait, w);
 }
 
 extern "C" int strata_beam_on(StrataSession* s, long nEvents) {
